@@ -139,6 +139,8 @@ class LoginPage extends StatelessWidget {
                           await _dbHelper.getUser(_usernameController.text);
                       if (user != null &&
                           user['contrasena_hash'] == _passwordController.text) {
+                        print(
+                            'Login exitoso. Usuario: ${_usernameController.text}, Contraseña: ${_passwordController.text}');
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -148,7 +150,8 @@ class LoginPage extends StatelessWidget {
                           ),
                         );
                       } else {
-                        print('Login failed');
+                        print(
+                            'Login fallido. Usuario: ${_usernameController.text}, Contraseña: ${_passwordController.text}');
                       }
                     },
                     style: ElevatedButton.styleFrom(

@@ -196,7 +196,7 @@ class RegisterPage extends StatelessWidget {
                           };
                           final id = await _dbHelper.insertUser(row);
                           print('Registro exitoso. ID: $id. Datos: $row');
-                          Navigator.pushReplacementNamed(context, '/main');
+                          Navigator.pushReplacementNamed(context, '/login');
                         } else {
                           print('Por favor llena todos los campos');
                         }
