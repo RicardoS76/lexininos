@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SecurityDialog extends StatelessWidget {
+class SecurityDialog extends StatefulWidget {
   final Function onPasswordAccepted;
   final String title;
   final String currentPassword;
@@ -11,9 +11,27 @@ class SecurityDialog extends StatelessWidget {
       required this.currentPassword});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController passwordController = TextEditingController();
+  _SecurityDialogState createState() => _SecurityDialogState();
+}
 
+class _SecurityDialogState extends State<SecurityDialog> {
+  late TextEditingController passwordController;
+  bool _obscureText = true;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -37,7 +55,7 @@ class SecurityDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              title,
+              widget.title,
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -63,8 +81,20 @@ class SecurityDialog extends StatelessWidget {
             Text('Ingrese su contraseña', style: TextStyle(fontSize: 20.0)),
             TextField(
               controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(hintText: 'Contraseña'),
+              obscureText: _obscureText,
+              decoration: InputDecoration(
+                hintText: 'Contraseña',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                ),
+              ),
             ),
             SizedBox(height: 20.0),
             Row(
@@ -82,9 +112,9 @@ class SecurityDialog extends StatelessWidget {
                       ElevatedButton.styleFrom(backgroundColor: Colors.green),
                   child: Text('Aceptar', style: TextStyle(fontSize: 20.0)),
                   onPressed: () {
-                    if (passwordController.text == currentPassword) {
+                    if (passwordController.text == widget.currentPassword) {
                       Navigator.of(context).pop();
-                      onPasswordAccepted();
+                      widget.onPasswordAccepted();
                     } else {
                       print('Contraseña incorrecta');
                     }

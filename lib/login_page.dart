@@ -4,10 +4,16 @@ import 'baseDatos/database_helper.dart';
 import 'main_page.dart';
 import 'user/shared_preferences.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final DatabaseHelper _dbHelper = DatabaseHelper();
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +119,7 @@ class LoginPage extends StatelessWidget {
                   SizedBox(height: 20.0),
                   TextField(
                     controller: _passwordController,
-                    obscureText: true,
+                    obscureText: _obscureText,
                     decoration: InputDecoration(
                       hintText: 'Contraseña',
                       filled: true,
@@ -122,15 +128,31 @@ class LoginPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none,
                       ),
-                      suffixIcon: Icon(Icons.visibility_off),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(height: 20.0),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      'Forgot password?',
-                      style: TextStyle(color: Colors.grey.shade600),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/reset_password');
+                      },
+                      child: Text(
+                        'Forgot password?',
+                        style: TextStyle(color: Colors.grey.shade600),
+                      ),
                     ),
                   ),
                   SizedBox(height: 20.0),

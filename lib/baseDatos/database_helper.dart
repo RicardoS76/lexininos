@@ -58,4 +58,21 @@ class DatabaseHelper {
     }
     return null;
   }
+
+  Future<Map<String, dynamic>?> getUserByEmail(String email) async {
+    Database db = await database;
+    List<Map> results = await db.query('usuarios',
+        columns: [
+          'id_usuario',
+          'nombre_usuario',
+          'contrasena_hash',
+          'correo_electronico'
+        ],
+        where: 'correo_electronico = ?',
+        whereArgs: [email]);
+    if (results.isNotEmpty) {
+      return Map<String, dynamic>.from(results.first);
+    }
+    return null;
+  }
 }

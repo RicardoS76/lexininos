@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'baseDatos/database_helper.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final DatabaseHelper _dbHelper = DatabaseHelper();
   final _formKey = GlobalKey<FormState>();
+
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +149,7 @@ class RegisterPage extends StatelessWidget {
                     SizedBox(height: 20.0),
                     TextFormField(
                       controller: _passwordController,
-                      obscureText: true,
+                      obscureText: _obscurePassword,
                       decoration: InputDecoration(
                         hintText: 'Contraseña',
                         filled: true,
@@ -151,7 +158,16 @@ class RegisterPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none,
                         ),
-                        suffixIcon: Icon(Icons.visibility_off),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -163,7 +179,7 @@ class RegisterPage extends StatelessWidget {
                     SizedBox(height: 20.0),
                     TextFormField(
                       controller: _confirmPasswordController,
-                      obscureText: true,
+                      obscureText: _obscureConfirmPassword,
                       decoration: InputDecoration(
                         hintText: 'Confirmar contraseña',
                         filled: true,
@@ -172,7 +188,16 @@ class RegisterPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none,
                         ),
-                        suffixIcon: Icon(Icons.visibility_off),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                            });
+                          },
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -190,8 +215,7 @@ class RegisterPage extends StatelessWidget {
                         if (_formKey.currentState!.validate()) {
                           Map<String, dynamic> row = {
                             'nombre_usuario': _usernameController.text,
-                            'contrasena_hash': _passwordController
-                                .text, // En producción, asegura de hacer hashing de la contraseña
+                            'contrasena_hash': _passwordController.text, // En producción, asegura de hacer hashing de la contraseña
                             'correo_electronico': _emailController.text,
                           };
                           final id = await _dbHelper.insertUser(row);
@@ -203,8 +227,7 @@ class RegisterPage extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.pink.shade100,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                         textStyle: TextStyle(fontSize: 20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),

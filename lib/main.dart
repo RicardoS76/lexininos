@@ -22,6 +22,7 @@ import 'user/shared_preferences.dart';
 import 'user/user_data_page.dart';
 import 'user_page.dart';
 import 'welcome_page.dart';
+import 'reset_password_page.dart';  // Añadir esta línea
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
         '/image_word_match': (context) => ImageWordMatchGame(),
         '/interactive_story': (context) => InteractiveStoryGame(),
         '/welcome': (context) => WelcomePage(),
+        '/reset_password': (context) => ResetPasswordPage(),  // Añadir esta línea
       },
     );
   }
