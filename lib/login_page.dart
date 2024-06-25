@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
+
+import 'baseDatos/database_helper.dart';
+import 'main_page.dart';
 
 class LoginPage extends StatelessWidget {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final DatabaseHelper _dbHelper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +31,7 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/logo.png', height: 200.0), // Asegúrate de que el logo esté en assets
+                  Image.asset('assets/logo.png', height: 200.0),
                   SizedBox(height: 20.0),
                   RichText(
                     text: TextSpan(
@@ -42,20 +48,57 @@ class LoginPage extends StatelessWidget {
                         ],
                       ),
                       children: [
-                        TextSpan(text: 'L', style: TextStyle(color: Color(0xFFF7941E), shadows: _createShadows())),
-                        TextSpan(text: 'E', style: TextStyle(color: Color(0xFF19B5FE), shadows: _createShadows())),
-                        TextSpan(text: 'X', style: TextStyle(color: Color(0xFF34C759), shadows: _createShadows())),
-                        TextSpan(text: 'I', style: TextStyle(color: Color(0xFFFF3B30), shadows: _createShadows())),
-                        TextSpan(text: 'N', style: TextStyle(color: Color(0xFF5856D6), shadows: _createShadows())),
-                        TextSpan(text: 'I', style: TextStyle(color: Color(0xFFFFCC00), shadows: _createShadows())),
-                        TextSpan(text: 'Ñ', style: TextStyle(color: Color(0xFF5AC8FA), shadows: _createShadows())),
-                        TextSpan(text: 'O', style: TextStyle(color: Color(0xFF34C759), shadows: _createShadows())),
-                        TextSpan(text: 'S', style: TextStyle(color: Color(0xFFF7941E), shadows: _createShadows())),
+                        TextSpan(
+                            text: 'L',
+                            style: TextStyle(
+                                color: Color(0xFFF7941E),
+                                shadows: _createShadows())),
+                        TextSpan(
+                            text: 'E',
+                            style: TextStyle(
+                                color: Color(0xFF19B5FE),
+                                shadows: _createShadows())),
+                        TextSpan(
+                            text: 'X',
+                            style: TextStyle(
+                                color: Color(0xFF34C759),
+                                shadows: _createShadows())),
+                        TextSpan(
+                            text: 'I',
+                            style: TextStyle(
+                                color: Color(0xFFFF3B30),
+                                shadows: _createShadows())),
+                        TextSpan(
+                            text: 'N',
+                            style: TextStyle(
+                                color: Color(0xFF5856D6),
+                                shadows: _createShadows())),
+                        TextSpan(
+                            text: 'I',
+                            style: TextStyle(
+                                color: Color(0xFFFFCC00),
+                                shadows: _createShadows())),
+                        TextSpan(
+                            text: 'Ñ',
+                            style: TextStyle(
+                                color: Color(0xFF5AC8FA),
+                                shadows: _createShadows())),
+                        TextSpan(
+                            text: 'O',
+                            style: TextStyle(
+                                color: Color(0xFF34C759),
+                                shadows: _createShadows())),
+                        TextSpan(
+                            text: 'S',
+                            style: TextStyle(
+                                color: Color(0xFFF7941E),
+                                shadows: _createShadows())),
                       ],
                     ),
                   ),
                   SizedBox(height: 20.0),
                   TextField(
+                    controller: _usernameController,
                     decoration: InputDecoration(
                       hintText: 'Nombre de usuario',
                       filled: true,
@@ -68,6 +111,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   SizedBox(height: 20.0),
                   TextField(
+                    controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Contraseña',
@@ -90,12 +134,27 @@ class LoginPage extends StatelessWidget {
                   ),
                   SizedBox(height: 20.0),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/main');
+                    onPressed: () async {
+                      Map<String, dynamic>? user =
+                          await _dbHelper.getUser(_usernameController.text);
+                      if (user != null &&
+                          user['contrasena_hash'] == _passwordController.text) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MainPage(
+                                authenticatedUserPassword:
+                                    _passwordController.text),
+                          ),
+                        );
+                      } else {
+                        print('Login failed');
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.pink.shade100,
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                       textStyle: TextStyle(fontSize: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),

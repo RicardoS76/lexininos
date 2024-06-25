@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+
+import 'activities/image_word_match_game.dart';
+import 'activities/initial_final_sounds_game.dart';
+import 'activities/interactive_story_game.dart';
+import 'activities/letter_puzzle_game.dart';
+import 'activities/letter_tracing_game.dart';
+import 'activities/rhyme_game.dart';
+import 'activities/sound_sequence_game.dart';
+import 'activities/word_hunt_game.dart';
+import 'activities/word_memory_game.dart';
+import 'activities/word_search_game.dart';
 import 'login_page.dart';
 import 'main_page.dart';
-import 'welcome_page.dart';
 import 'register_page.dart';
 import 'settings_page.dart';
-import 'user_page.dart';
 import 'user/account_info_page.dart';
-import 'user/user_data_page.dart';
 import 'user/help_page.dart';
 import 'user/info_page.dart';
 import 'user/results_page.dart';
-import 'activities/rhyme_game.dart';
-import 'activities/initial_final_sounds_game.dart';
-import 'activities/word_memory_game.dart';
-import 'activities/sound_sequence_game.dart';
-import 'activities/letter_tracing_game.dart';
-import 'activities/letter_puzzle_game.dart';
-import 'activities/word_hunt_game.dart';
-import 'activities/word_search_game.dart';
-import 'activities/image_word_match_game.dart';
-import 'activities/interactive_story_game.dart';
-
+import 'user/user_data_page.dart';
+import 'user_page.dart';
+import 'welcome_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,7 +36,9 @@ class MyApp extends StatelessWidget {
       ),
       home: WelcomePage(),
       routes: {
-        '/main': (context) => MainPage(),
+        '/main': (context) => MainPage(
+            authenticatedUserPassword:
+                ''), // Debes pasar un valor adecuado aquí
         '/settings': (context) => SettingsPage(),
         '/user': (context) => UserPage(),
         '/account_info': (context) => AccountInfoPage(),

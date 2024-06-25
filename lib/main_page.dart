@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'security_dialog.dart';
 
 class MainPage extends StatelessWidget {
+  final String authenticatedUserPassword;
+
+  MainPage({required this.authenticatedUserPassword});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +38,18 @@ class MainPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.settings, size: 40.0, color: Colors.white), // Icono de configuración
-                      onPressed: () => _showSecurityDialog(context, 'Ajuste', '/settings'),
+                      icon: Icon(Icons.settings,
+                          size: 40.0,
+                          color: Colors.white), // Icono de configuración
+                      onPressed: () => _showSecurityDialog(context, 'Ajuste',
+                          '/settings', authenticatedUserPassword),
                     ),
                     IconButton(
-                      icon: Icon(Icons.person, size: 40.0, color: Colors.white), // Icono más grande y blanco
-                      onPressed: () => _showSecurityDialog(context, 'Usuario', '/user'),
+                      icon: Icon(Icons.person,
+                          size: 40.0,
+                          color: Colors.white), // Icono más grande y blanco
+                      onPressed: () => _showSecurityDialog(context, 'Usuario',
+                          '/user', authenticatedUserPassword),
                     ),
                   ],
                 ),
@@ -60,12 +71,15 @@ class MainPage extends StatelessWidget {
                       ],
                     ),
                     children: [
-                      TextSpan(text: 'HOLA, BIENVENIDO(A)', style: TextStyle(color: Colors.white)),
+                      TextSpan(
+                          text: 'HOLA, BIENVENIDO(A)',
+                          style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 60.0), // Espacio adicional para bajar los elementos
+              SizedBox(
+                  height: 60.0), // Espacio adicional para bajar los elementos
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: RichText(
@@ -83,7 +97,9 @@ class MainPage extends StatelessWidget {
                       ],
                     ),
                     children: [
-                      TextSpan(text: 'ACTIVIDADES', style: TextStyle(color: Colors.white)),
+                      TextSpan(
+                          text: 'ACTIVIDADES',
+                          style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ),
@@ -95,16 +111,25 @@ class MainPage extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    _buildActivityCard(context, 'Rimas', 'assets/icon1.jpg', '/rhyme'),
-                    _buildActivityCard(context, 'Sonidos', 'assets/icon2.jpg', '/initial_final_sounds'),
-                    _buildActivityCard(context, 'Memoria Visual', 'assets/icon3.jpg', '/word_memory'),
-                    _buildActivityCard(context, 'Secuencias', 'assets/icon4.jpg', '/sound_sequence'),
-                    _buildActivityCard(context, 'Trazado', '', '/letter_tracing'),
+                    _buildActivityCard(
+                        context, 'Rimas', 'assets/icon1.jpg', '/rhyme'),
+                    _buildActivityCard(context, 'Sonidos', 'assets/icon2.jpg',
+                        '/initial_final_sounds'),
+                    _buildActivityCard(context, 'Memoria Visual',
+                        'assets/icon3.jpg', '/word_memory'),
+                    _buildActivityCard(context, 'Secuencias',
+                        'assets/icon4.jpg', '/sound_sequence'),
+                    _buildActivityCard(
+                        context, 'Trazado', '', '/letter_tracing'),
                     _buildActivityCard(context, 'Letras', '', '/letter_puzzle'),
-                    _buildActivityCard(context, 'Caza Palabras', '', '/word_hunt'),
-                    _buildActivityCard(context, 'Palabras Ocultas', '', '/word_search'),
-                    _buildActivityCard(context, 'Vocabulario', '', '/image_word_match'),
-                    _buildActivityCard(context, 'Historias', '', '/interactive_story'),
+                    _buildActivityCard(
+                        context, 'Caza Palabras', '', '/word_hunt'),
+                    _buildActivityCard(
+                        context, 'Palabras Ocultas', '', '/word_search'),
+                    _buildActivityCard(
+                        context, 'Vocabulario', '', '/image_word_match'),
+                    _buildActivityCard(
+                        context, 'Historias', '', '/interactive_story'),
                   ],
                 ),
               ),
@@ -127,9 +152,18 @@ class MainPage extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    _buildExerciseCard(context, icon: Icons.book, color: Colors.red, text: 'Ejercicio 1'),
-                    _buildExerciseCard(context, icon: Icons.book, color: Colors.blue, text: 'Ejercicio 2'),
-                    _buildExerciseCard(context, icon: Icons.book, color: Colors.teal, text: 'Ejercicio 3'),
+                    _buildExerciseCard(context,
+                        icon: Icons.book,
+                        color: Colors.red,
+                        text: 'Ejercicio 1'),
+                    _buildExerciseCard(context,
+                        icon: Icons.book,
+                        color: Colors.blue,
+                        text: 'Ejercicio 2'),
+                    _buildExerciseCard(context,
+                        icon: Icons.book,
+                        color: Colors.teal,
+                        text: 'Ejercicio 3'),
                   ],
                 ),
               ),
@@ -140,12 +174,14 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  void _showSecurityDialog(BuildContext context, String title, String route) {
+  void _showSecurityDialog(BuildContext context, String title, String route,
+      String currentPassword) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return SecurityDialog(
           title: title,
+          currentPassword: currentPassword,
           onPasswordAccepted: () {
             Navigator.pushNamed(context, route);
           },
@@ -154,7 +190,8 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildActivityCard(BuildContext context, String text, String assetPath, String route) {
+  Widget _buildActivityCard(
+      BuildContext context, String text, String assetPath, String route) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, route);
@@ -176,7 +213,9 @@ class MainPage extends StatelessWidget {
                   ),
                 ],
                 image: DecorationImage(
-                  image: assetPath.isNotEmpty ? AssetImage(assetPath) : AssetImage('assets/placeholder.png'),
+                  image: assetPath.isNotEmpty
+                      ? AssetImage(assetPath)
+                      : AssetImage('assets/placeholder.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -197,7 +236,8 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildExerciseCard(BuildContext context, {required IconData icon, required Color color, required String text}) {
+  Widget _buildExerciseCard(BuildContext context,
+      {required IconData icon, required Color color, required String text}) {
     return Container(
       width: 160.0,
       margin: EdgeInsets.symmetric(horizontal: 10.0),

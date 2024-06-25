@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 class SecurityDialog extends StatelessWidget {
   final Function onPasswordAccepted;
   final String title;
+  final String currentPassword;
 
-  SecurityDialog({required this.onPasswordAccepted, required this.title});
+  SecurityDialog({
+    required this.onPasswordAccepted,
+    required this.title,
+    required this.currentPassword,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +79,16 @@ class SecurityDialog extends StatelessWidget {
                   },
                 ),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
                   child: Text('Aceptar', style: TextStyle(fontSize: 20.0)),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    onPasswordAccepted();
+                    if (passwordController.text == currentPassword) {
+                      Navigator.of(context).pop();
+                      onPasswordAccepted();
+                    } else {
+                      print('Contraseña incorrecta');
+                    }
                   },
                 ),
               ],

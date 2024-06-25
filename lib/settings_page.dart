@@ -55,7 +55,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: ListView(
                       children: [
                         _buildLanguageTile(context),
-                        _buildInfoTile('Cerrar sesión', Icons.logout, context),
+                        _buildInfoTile('Cerrar sesión', Icons.logout, context,
+                            onTap: () {
+                          Navigator.pushReplacementNamed(context, '/login');
+                        }),
                       ],
                     ),
                   ),
@@ -128,13 +131,10 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildInfoTile(String title, IconData icon, BuildContext context, {String? route}) {
+  Widget _buildInfoTile(String title, IconData icon, BuildContext context,
+      {required VoidCallback onTap}) {
     return GestureDetector(
-      onTap: route != null
-          ? () {
-              Navigator.pushNamed(context, route);
-            }
-          : null,
+      onTap: onTap,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10.0),
         padding: EdgeInsets.all(16.0),
