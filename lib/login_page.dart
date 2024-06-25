@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'baseDatos/database_helper.dart';
 import 'main_page.dart';
+import 'user/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
@@ -139,8 +140,9 @@ class LoginPage extends StatelessWidget {
                           await _dbHelper.getUser(_usernameController.text);
                       if (user != null &&
                           user['contrasena_hash'] == _passwordController.text) {
-                        print(
-                            'Login exitoso. Usuario: ${_usernameController.text}, Contraseña: ${_passwordController.text}');
+                        // Guardar las credenciales
+                        await SharedPreferencesHelper.saveUserCredentials(
+                            _usernameController.text, _passwordController.text);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -149,9 +151,9 @@ class LoginPage extends StatelessWidget {
                                     _passwordController.text),
                           ),
                         );
+                        print('Inicio de sesión exitoso. Datos: $user');
                       } else {
-                        print(
-                            'Login fallido. Usuario: ${_usernameController.text}, Contraseña: ${_passwordController.text}');
+                        print('Error de inicio de sesión');
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -164,6 +166,19 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     child: Text('Iniciar Sesión'),
+                  ),
+                  SizedBox(height: 20.0),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                    child: Text(
+                      '¿No tienes cuenta?, Registrate aqui!',
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -18,15 +18,28 @@ import 'user/account_info_page.dart';
 import 'user/help_page.dart';
 import 'user/info_page.dart';
 import 'user/results_page.dart';
+import 'user/shared_preferences.dart';
 import 'user/user_data_page.dart';
 import 'user_page.dart';
 import 'welcome_page.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final credentials = await SharedPreferencesHelper.getUserCredentials();
+  final isFirstRun = await SharedPreferencesHelper.isFirstRun();
+  runApp(MyApp(
+      isLoggedIn: credentials != null,
+      isFirstRun: isFirstRun,
+      password: credentials?['password']));
 }
 
 class MyApp extends StatelessWidget {
+  final bool isLoggedIn;
+  final bool isFirstRun;
+  final String? password;
+
+  MyApp({required this.isLoggedIn, required this.isFirstRun, this.password});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,11 +47,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: WelcomePage(),
+      home: isFirstRun
+          ? WelcomePage()
+          : (isLoggedIn
+              ? MainPage(authenticatedUserPassword: password!)
+              : LoginPage()),
       routes: {
-        '/main': (context) => MainPage(
-            authenticatedUserPassword:
-                ''), // Debes pasar un valor adecuado aquí
+        '/main': (context) => MainPage(authenticatedUserPassword: password!),
         '/settings': (context) => SettingsPage(),
         '/user': (context) => UserPage(),
         '/account_info': (context) => AccountInfoPage(),
@@ -58,6 +73,7 @@ class MyApp extends StatelessWidget {
         '/word_search': (context) => WordSearchGame(),
         '/image_word_match': (context) => ImageWordMatchGame(),
         '/interactive_story': (context) => InteractiveStoryGame(),
+        '/welcome': (context) => WelcomePage(),
       },
     );
   }

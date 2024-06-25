@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'user/shared_preferences.dart';
+
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -55,10 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: ListView(
                       children: [
                         _buildLanguageTile(context),
-                        _buildInfoTile('Cerrar sesión', Icons.logout, context,
-                            onTap: () {
-                          Navigator.pushReplacementNamed(context, '/login');
-                        }),
+                        _buildInfoTile('Cerrar sesión', Icons.logout, context),
                       ],
                     ),
                   ),
@@ -131,10 +130,14 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildInfoTile(String title, IconData icon, BuildContext context,
-      {required VoidCallback onTap}) {
+  Widget _buildInfoTile(String title, IconData icon, BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () async {
+        if (title == 'Cerrar sesión') {
+          await SharedPreferencesHelper.clearUserCredentials();
+          Navigator.pushReplacementNamed(context, '/login');
+        }
+      },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10.0),
         padding: EdgeInsets.all(16.0),

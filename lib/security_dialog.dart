@@ -5,11 +5,10 @@ class SecurityDialog extends StatelessWidget {
   final String title;
   final String currentPassword;
 
-  SecurityDialog({
-    required this.onPasswordAccepted,
-    required this.title,
-    required this.currentPassword,
-  });
+  SecurityDialog(
+      {required this.onPasswordAccepted,
+      required this.title,
+      required this.currentPassword});
 
   @override
   Widget build(BuildContext context) {

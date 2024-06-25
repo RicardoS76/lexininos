@@ -212,6 +212,19 @@ class RegisterPage extends StatelessWidget {
                       ),
                       child: Text('Registrarse'),
                     ),
+                    SizedBox(height: 20.0),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: Text(
+                        'Ya tengo cuenta',
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
