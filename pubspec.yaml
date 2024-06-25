@@ -1,0 +1,43 @@
+name: lexininos
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logo.png
+    - assets/logo.png
+    - assets/msg.png
+    - assets/ajuste.png
+    - assets/confi.png
+    - assets/señal.png
+    - assets/background.jpg
+    - assets/icon1.jpg
+    - assets/icon2.jpg
+    - assets/icon3.jpg
+    - assets/icon4.jpg
+    - assets/niño.png
+    - assets/fonts/Cocogoose-Pro-Bold-trial.ttf
+
+  fonts:
+    - family: Cocogoose
+      fonts:
+        - asset: assets/fonts/Cocogoose-Pro-Bold-trial.ttf
