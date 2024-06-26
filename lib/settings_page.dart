@@ -41,11 +41,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       Icon(Icons.settings, color: Colors.purple, size: 40.0),
                       SizedBox(width: 10),
                       Text(
-                        'Ajuste',
+                        'Ajustes',
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.purple,
+                          fontFamily: 'Cocogoose',
                         ),
                       ),
                     ],
@@ -98,6 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.purple,
+                    fontFamily: 'Cocogoose',
                   ),
                 ),
               ),
@@ -112,7 +114,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   value: value,
                   child: Text(
                     value,
-                    style: TextStyle(fontSize: 18.0, color: Colors.purple),
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.purple,
+                      fontFamily: 'Cocogoose',
+                    ),
                   ),
                 );
               }).toList(),
@@ -162,6 +168,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.purple,
+                  fontFamily: 'Cocogoose',
                 ),
               ),
             ),

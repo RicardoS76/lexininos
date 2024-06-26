@@ -13,6 +13,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final DatabaseHelper _dbHelper = DatabaseHelper();
   bool _obscureText = true;
+  String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +175,16 @@ class _LoginPageState extends State<LoginPage> {
                         );
                         print('Inicio de sesión exitoso. Datos: $user');
                       } else {
+                        setState(() {
+                          _errorMessage = 'Nombre de usuario o contraseña incorrectos';
+                          _usernameController.clear();
+                          _passwordController.clear();
+                        });
+                        Future.delayed(Duration(seconds: 2), () {
+                          setState(() {
+                            _errorMessage = '';
+                          });
+                        });
                         print('Error de inicio de sesión');
                       }
                     },
@@ -188,6 +199,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Text('Iniciar Sesión'),
                   ),
+                  if (_errorMessage.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Text(
+                        _errorMessage,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
                   SizedBox(height: 20.0),
                   GestureDetector(
                     onTap: () {

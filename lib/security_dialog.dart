@@ -17,6 +17,7 @@ class SecurityDialog extends StatefulWidget {
 class _SecurityDialogState extends State<SecurityDialog> {
   late TextEditingController passwordController;
   bool _obscureText = true;
+  String _errorMessage = '';
 
   @override
   void initState() {
@@ -96,6 +97,14 @@ class _SecurityDialogState extends State<SecurityDialog> {
                 ),
               ),
             ),
+            if (_errorMessage.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(
+                  _errorMessage,
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
             SizedBox(height: 20.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -116,7 +125,15 @@ class _SecurityDialogState extends State<SecurityDialog> {
                       Navigator.of(context).pop();
                       widget.onPasswordAccepted();
                     } else {
-                      print('Contraseña incorrecta');
+                      setState(() {
+                        _errorMessage = 'Contraseña incorrecta';
+                        passwordController.clear();
+                      });
+                      Future.delayed(Duration(seconds: 2), () {
+                        setState(() {
+                          _errorMessage = '';
+                        });
+                      });
                     }
                   },
                 ),

@@ -35,9 +35,10 @@ class UserPage extends StatelessWidget {
                       Text(
                         'Usuario',
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.purple,
+                          fontFamily: 'Cocogoose',
                         ),
                       ),
                     ],
@@ -109,6 +110,7 @@ class UserPage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.purple,
+                  fontFamily: 'Cocogoose',
                 ),
               ),
             ),

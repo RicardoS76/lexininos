@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../baseDatos/database_helper.dart';
 import '../security_dialog.dart';
 
@@ -63,9 +62,10 @@ class _ManageAccountsPageState extends State<ManageAccountsPage> {
                       Text(
                         'Cuentas del dispositivo',
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.purple,
+                          fontFamily: 'Cocogoose',
                         ),
                       ),
                     ],
@@ -91,29 +91,69 @@ class _ManageAccountsPageState extends State<ManageAccountsPage> {
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               final user = snapshot.data![index];
-                              return ListTile(
-                                title: Text(user['nombre_usuario']),
-                                subtitle: Text(user['correo_electronico']),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.edit, color: Colors.white),
-                                  onPressed: () {
-                                    _showSecurityDialog(
-                                      context,
-                                      'Editar cuenta',
-                                      widget.authenticatedUserPassword,
-                                      () async {
-                                        final result =
-                                            await Navigator.pushNamed(
+                              return Container(
+                                margin: EdgeInsets.symmetric(vertical: 10.0),
+                                padding: EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 5.0,
+                                      spreadRadius: 1.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            user['nombre_usuario'],
+                                            style: TextStyle(
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.purple,
+                                              fontFamily: 'Cocogoose',
+                                            ),
+                                          ),
+                                          Text(
+                                            user['correo_electronico'],
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              color: Colors.purple.shade700,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.edit,
+                                          color: Colors.purple),
+                                      onPressed: () {
+                                        _showSecurityDialog(
                                           context,
-                                          '/edit_account',
-                                          arguments: user,
+                                          'Editar cuenta',
+                                          widget.authenticatedUserPassword,
+                                          () async {
+                                            final result =
+                                                await Navigator.pushNamed(
+                                              context,
+                                              '/edit_account',
+                                              arguments: user,
+                                            );
+                                            if (result == true) {
+                                              _loadUsers();
+                                            }
+                                          },
                                         );
-                                        if (result == true) {
-                                          _loadUsers();
-                                        }
                                       },
-                                    );
-                                  },
+                                    ),
+                                  ],
                                 ),
                               );
                             },

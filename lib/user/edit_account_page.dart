@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../baseDatos/database_helper.dart';
 
 class EditAccountPage extends StatelessWidget {
@@ -48,9 +47,10 @@ class EditAccountPage extends StatelessWidget {
                       Text(
                         'Editar Cuenta',
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.purple,
+                          fontFamily: 'Cocogoose',
                         ),
                       ),
                     ],
@@ -121,7 +121,10 @@ class EditAccountPage extends StatelessWidget {
                                   backgroundColor: Colors.pink.shade100,
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 50, vertical: 15),
-                                  textStyle: TextStyle(fontSize: 20),
+                                  textStyle: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'Cocogoose',
+                                  ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30.0),
                                   ),

@@ -26,16 +26,22 @@ class HelpPage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  // Encabezado con título
-                  Center(
-                    child: Text(
-                      'Ayuda Especializada',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.purple,
+                  // Encabezado con icono de ayuda y título
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.help, color: Colors.purple, size: 40.0),
+                      SizedBox(width: 10),
+                      Text(
+                        'Ayuda Especializada',
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.purple,
+                          fontFamily: 'Cocogoose',
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                   SizedBox(height: 20),
                   // Descripción sobre la dislexia
@@ -100,6 +106,7 @@ class HelpPage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.purple,
+                  fontFamily: 'Cocogoose',
                 ),
               ),
             ),
