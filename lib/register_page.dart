@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'baseDatos/database_helper.dart';
 
 class RegisterPage extends StatefulWidget {

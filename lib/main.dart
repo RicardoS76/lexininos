@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lexininos/user/edit_account_page.dart';
 
 import 'activities/image_word_match_game.dart';
 import 'activities/initial_final_sounds_game.dart';
