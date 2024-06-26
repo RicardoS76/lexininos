@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lexininos/user/edit_account_page.dart';
 
 import 'activities/image_word_match_game.dart';
 import 'activities/initial_final_sounds_game.dart';
@@ -13,16 +14,17 @@ import 'activities/word_search_game.dart';
 import 'login_page.dart';
 import 'main_page.dart';
 import 'register_page.dart';
+import 'reset_password_page.dart'; // Añadir esta línea
 import 'settings_page.dart';
 import 'user/account_info_page.dart';
 import 'user/help_page.dart';
 import 'user/info_page.dart';
+import 'user/manage_accounts_page.dart';
 import 'user/results_page.dart';
 import 'user/shared_preferences.dart';
 import 'user/user_data_page.dart';
 import 'user_page.dart';
 import 'welcome_page.dart';
-import 'reset_password_page.dart';  // Añadir esta línea
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,7 +77,10 @@ class MyApp extends StatelessWidget {
         '/image_word_match': (context) => ImageWordMatchGame(),
         '/interactive_story': (context) => InteractiveStoryGame(),
         '/welcome': (context) => WelcomePage(),
-        '/reset_password': (context) => ResetPasswordPage(),  // Añadir esta línea
+        '/reset_password': (context) => ResetPasswordPage(),
+        '/manage_accounts': (context) =>
+            ManageAccountsPage(authenticatedUserPassword: password ?? ''),
+        '/edit_account': (context) => EditAccountPage(), // Añadir esta línea
       },
     );
   }

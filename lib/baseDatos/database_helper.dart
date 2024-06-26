@@ -75,4 +75,22 @@ class DatabaseHelper {
     }
     return null;
   }
+
+  Future<List<Map<String, dynamic>>> getAllUsers() async {
+    Database db = await database;
+    return await db.query('usuarios');
+  }
+
+  Future<int> deleteUser(int id) async {
+    Database db = await database;
+    return await db
+        .delete('usuarios', where: 'id_usuario = ?', whereArgs: [id]);
+  }
+
+  Future<int> updateUser(Map<String, dynamic> row) async {
+    Database db = await database;
+    int id = row['id_usuario'];
+    return await db
+        .update('usuarios', row, where: 'id_usuario = ?', whereArgs: [id]);
+  }
 }

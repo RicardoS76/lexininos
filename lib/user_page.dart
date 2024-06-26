@@ -47,11 +47,23 @@ class UserPage extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       children: [
-                        _buildInfoTile('Información de la cuenta', Icons.account_box, context, route: '/account_info'),
-                        _buildInfoTile('Datos de usuario', Icons.perm_identity, context, route: '/user_data'),
-                        _buildInfoTile('Más ayuda', Icons.help_outline, context, route: '/help'),
-                        _buildInfoTile('Información', Icons.info_outline, context, route: '/info'),
-                        _buildInfoTile('Ver Resultados', Icons.assessment, context, route: '/results'),
+                        _buildInfoTile('Información de la cuenta',
+                            Icons.account_box, context,
+                            route: '/account_info'),
+                        _buildInfoTile(
+                            'Datos de usuario', Icons.perm_identity, context,
+                            route: '/user_data'),
+                        _buildInfoTile('Más ayuda', Icons.help_outline, context,
+                            route: '/help'),
+                        _buildInfoTile(
+                            'Información', Icons.info_outline, context,
+                            route: '/info'),
+                        _buildInfoTile(
+                            'Ver Resultados', Icons.assessment, context,
+                            route: '/results'),
+                        _buildInfoTile('Cuentas del dispositivo',
+                            Icons.account_circle, context,
+                            route: '/manage_accounts'),
                       ],
                     ),
                   ),
@@ -64,7 +76,8 @@ class UserPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoTile(String title, IconData icon, BuildContext context, {String? route}) {
+  Widget _buildInfoTile(String title, IconData icon, BuildContext context,
+      {String? route}) {
     return GestureDetector(
       onTap: route != null
           ? () {

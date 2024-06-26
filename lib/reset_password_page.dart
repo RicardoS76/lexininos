@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'baseDatos/database_helper.dart';
 
 class ResetPasswordPage extends StatelessWidget {
@@ -56,19 +57,32 @@ class ResetPasswordPage extends StatelessWidget {
                     onPressed: () async {
                       String email = _emailController.text;
                       if (email.isNotEmpty) {
-                        Map<String, dynamic>? user = await _dbHelper.getUserByEmail(email);
+                        Map<String, dynamic>? user =
+                            await _dbHelper.getUserByEmail(email);
                         if (user != null) {
-                          // Aquí podrías enviar un correo electrónico con las instrucciones para recuperar la contraseña
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Se ha enviado un correo para recuperar la contraseña.'),
-                              backgroundColor: Colors.green,
-                            ),
+                          String password = user['contrasena_hash'];
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Contraseña Recuperada'),
+                                content: Text('Tu contraseña es: $password'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Cerrar'),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Correo electrónico no encontrado.'),
+                              content:
+                                  Text('Correo electrónico no encontrado.'),
                               backgroundColor: Colors.red,
                             ),
                           );
@@ -77,7 +91,8 @@ class ResetPasswordPage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.pink.shade100,
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                       textStyle: TextStyle(fontSize: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
