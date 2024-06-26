@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'security_dialog.dart';
 
 class MainPage extends StatelessWidget {
