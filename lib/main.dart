@@ -16,6 +16,7 @@ import 'register_page.dart';
 import 'reset_password_page.dart'; // Añadir esta línea
 import 'settings_page.dart';
 import 'user/account_info_page.dart';
+import 'user/edit_account_page.dart';
 import 'user/help_page.dart';
 import 'user/info_page.dart';
 import 'user/manage_accounts_page.dart';
