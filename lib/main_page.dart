@@ -4,8 +4,9 @@ import 'security_dialog.dart'; // Asegúrate de que la ruta sea correcta
 
 class MainPage extends StatelessWidget {
   final String authenticatedUserPassword;
+  final String userName;
 
-  MainPage({required this.authenticatedUserPassword});
+  MainPage({required this.authenticatedUserPassword, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class MainPage extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                              text: 'HOLA, BIENVENIDO(A)',
+                              text: 'HOLA $userName',
                               style: TextStyle(color: Colors.white)),
                         ],
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../baseDatos/database_helper.dart';
 import '../security_dialog.dart';
 
@@ -59,13 +60,18 @@ class _ManageAccountsPageState extends State<ManageAccountsPage> {
                       Icon(Icons.manage_accounts,
                           color: Colors.purple, size: 40.0),
                       SizedBox(width: 10),
-                      Text(
-                        'Cuentas del dispositivo',
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple,
-                          fontFamily: 'Cocogoose',
+                      Flexible(
+                        child: Text(
+                          'Cuentas del dispositivo',
+                          style: TextStyle(
+                            fontSize:
+                                24.0, // Ajuste de tamaño para evitar desbordamiento
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                            fontFamily: 'Cocogoose',
+                          ),
+                          overflow: TextOverflow
+                              .ellipsis, // Para manejar textos largos
                         ),
                       ),
                     ],

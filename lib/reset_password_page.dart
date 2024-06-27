@@ -4,6 +4,9 @@ import 'baseDatos/database_helper.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
   @override
@@ -53,36 +56,82 @@ class ResetPasswordPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20.0),
+                  TextField(
+                    controller: _newPasswordController,
+                    decoration: InputDecoration(
+                      hintText: 'Nueva contraseña',
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(0.3),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 20.0),
+                  TextField(
+                    controller: _confirmPasswordController,
+                    decoration: InputDecoration(
+                      hintText: 'Confirmar nueva contraseña',
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(0.3),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () async {
                       String email = _emailController.text;
-                      if (email.isNotEmpty) {
-                        Map<String, dynamic>? user =
-                            await _dbHelper.getUserByEmail(email);
-                        if (user != null) {
-                          String password = user['contrasena_hash'];
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Contraseña Recuperada'),
-                                content: Text('Tu contraseña es: $password'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('Cerrar'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                      String newPassword = _newPasswordController.text;
+                      String confirmPassword = _confirmPasswordController.text;
+
+                      if (email.isNotEmpty &&
+                          newPassword.isNotEmpty &&
+                          confirmPassword.isNotEmpty) {
+                        if (newPassword == confirmPassword) {
+                          Map<String, dynamic>? user =
+                              await _dbHelper.getUserByEmail(email);
+                          if (user != null) {
+                            user['contrasena_hash'] = newPassword;
+                            await _dbHelper.updateUser(user);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Contraseña Actualizada'),
+                                  content: Text(
+                                      'Tu contraseña ha sido actualizada correctamente.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context)
+                                            .pushReplacementNamed('/login');
+                                      },
+                                      child: Text('Cerrar'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text('Correo electrónico no encontrado.'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content:
-                                  Text('Correo electrónico no encontrado.'),
+                              content: Text('Las contraseñas no coinciden.'),
                               backgroundColor: Colors.red,
                             ),
                           );
@@ -98,7 +147,7 @@ class ResetPasswordPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
-                    child: Text('Recuperar'),
+                    child: Text('Actualizar Contraseña'),
                   ),
                 ],
               ),

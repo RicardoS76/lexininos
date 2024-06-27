@@ -53,10 +53,16 @@ class MyApp extends StatelessWidget {
       home: isFirstRun
           ? WelcomePage()
           : (isLoggedIn
-              ? MainPage(authenticatedUserPassword: password!)
+              ? MainPage(
+                  authenticatedUserPassword: password!,
+                  userName: '',
+                )
               : LoginPage()),
       routes: {
-        '/main': (context) => MainPage(authenticatedUserPassword: password!),
+        '/main': (context) => MainPage(
+              authenticatedUserPassword: password!,
+              userName: '',
+            ),
         '/settings': (context) => SettingsPage(),
         '/user': (context) => UserPage(),
         '/account_info': (context) => AccountInfoPage(),

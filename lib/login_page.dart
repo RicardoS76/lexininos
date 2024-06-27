@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'baseDatos/database_helper.dart';
 import 'main_page.dart';
 import 'user/shared_preferences.dart';
@@ -150,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.pushNamed(context, '/reset_password');
                       },
                       child: Text(
-                        'Forgot password?',
+                        '¿Olvidaste tu contraseña?',
                         style: TextStyle(color: Colors.grey.shade600),
                       ),
                     ),
@@ -169,14 +170,17 @@ class _LoginPageState extends State<LoginPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => MainPage(
-                                authenticatedUserPassword:
-                                    _passwordController.text),
+                              authenticatedUserPassword:
+                                  _passwordController.text,
+                              userName: user['nombre_usuario'],
+                            ),
                           ),
                         );
                         print('Inicio de sesión exitoso. Datos: $user');
                       } else {
                         setState(() {
-                          _errorMessage = 'Nombre de usuario o contraseña incorrectos';
+                          _errorMessage =
+                              'Nombre de usuario o contraseña incorrectos';
                           _usernameController.clear();
                           _passwordController.clear();
                         });
