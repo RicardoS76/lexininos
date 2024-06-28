@@ -32,36 +32,45 @@ class HelpPage extends StatelessWidget {
                     children: [
                       Icon(Icons.help, color: Colors.purple, size: 40.0),
                       SizedBox(width: 10),
-                      Text(
-                        'Ayuda Especializada',
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple,
-                          fontFamily: 'Cocogoose',
+                      Flexible(
+                        child: Text(
+                          'Ayuda Especializada',
+                          style: TextStyle(
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                            fontFamily: 'Cocogoose',
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 20),
                   // Descripción sobre la dislexia
-                  Text(
-                    'La dislexia es una dificultad de aprendizaje de la lectura que afecta la decodificación, el reconocimiento de palabras y la ortografía. Es importante buscar la ayuda de profesionales para proporcionar el apoyo adecuado y estrategias personalizadas que ayuden a los niños a superar estos desafíos y a alcanzar su máximo potencial académico y personal.',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontStyle: FontStyle.italic,
-                      color: Colors.purple.shade700,
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        'La dislexia es una dificultad de aprendizaje de la lectura que afecta la decodificación, el reconocimiento de palabras y la ortografía. Es importante buscar la ayuda de profesionales para proporcionar el apoyo adecuado y estrategias personalizadas que ayuden a los niños a superar estos desafíos y a alcanzar su máximo potencial académico y personal.',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.purple.shade700,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 40),
                   // Secciones de ayuda
                   Expanded(
                     child: ListView(
                       children: [
-                        _buildInfoTile('Centro 1: Dirección 1', Icons.location_on, context),
-                        _buildInfoTile('Centro 2: Dirección 2', Icons.location_on, context),
-                        _buildInfoTile('Centro 3: Dirección 3', Icons.location_on, context),
+                        _buildInfoTile('UBR DE Tepexi de Rodríguez', Icons.location_on, context, route: '/tepexi_de_rodriguez'),
+                        _buildInfoTile('UBR DE Zacapala', Icons.location_on, context, route: '/zacapala'),
+                        _buildInfoTile('UBR DE Molcaxac', Icons.location_on, context, route: '/molcaxac'),
+                        _buildInfoTile('UBR DE Juan N. Méndez', Icons.location_on, context, route: '/juan_n_mendez'),
                       ],
                     ),
                   ),

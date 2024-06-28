@@ -25,6 +25,10 @@ import 'user/shared_preferences.dart';
 import 'user/user_data_page.dart';
 import 'user_page.dart';
 import 'welcome_page.dart';
+import 'centers/tepexi_de_rodriguez_page.dart'; // Añadir esta línea
+import 'centers/zacapala_page.dart'; // Añadir esta línea
+import 'centers/molcaxac_page.dart'; // Añadir esta línea
+import 'centers/juan_n_mendez_page.dart'; // Añadir esta línea
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,6 +91,10 @@ class MyApp extends StatelessWidget {
         '/manage_accounts': (context) =>
             ManageAccountsPage(authenticatedUserPassword: password ?? ''),
         '/edit_account': (context) => EditAccountPage(), // Añadir esta línea
+        '/tepexi_de_rodriguez': (context) => TepexiDeRodriguezPage(), // Añadir esta línea
+        '/zacapala': (context) => ZacapalaPage(), // Añadir esta línea
+        '/molcaxac': (context) => MolcaxacPage(), // Añadir esta línea
+        '/juan_n_mendez': (context) => JuanNMendezPage(), // Añadir esta línea
       },
     );
   }
