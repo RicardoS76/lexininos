@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class JuanNMendezPage extends StatefulWidget {
+class AtoyatempanPage extends StatefulWidget {
   @override
-  _JuanNMendezPageState createState() => _JuanNMendezPageState();
+  _AtoyatempanPageState createState() => _AtoyatempanPageState();
 }
 
-class _JuanNMendezPageState extends State<JuanNMendezPage> {
+class _AtoyatempanPageState extends State<AtoyatempanPage> {
   bool isExpanded1 = false;
   bool isExpanded2 = false;
   bool isExpanded3 = false;
@@ -38,7 +38,7 @@ class _JuanNMendezPageState extends State<JuanNMendezPage> {
                   children: [
                     Center(
                       child: Text(
-                        'UBR DE Juan N. Méndez',
+                        'UBR DE Atoyatempan',
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
@@ -53,11 +53,11 @@ class _JuanNMendezPageState extends State<JuanNMendezPage> {
                     _buildExpandableInfoRow(
                       'Domicilio',
                       '''
-Tipo de Vialidad: Avenida
-Nombre de Vialidad: 3 Oriente
+Tipo de Vialidad: Calle
+Nombre de Vialidad: Agustín Rojas
 Número Exterior e Interior: S/N
-Nombre del Asentamiento: Atenayuca
-Código Postal: 75690
+Nombre del Asentamiento: Centro
+Código Postal: 75620
 ''',
                       context,
                       isExpanded1,
@@ -67,14 +67,14 @@ Código Postal: 75690
                         });
                       },
                     ),
-                    _buildInfoRow('Correo Electrónico UBR', 'connycruz3014@gmail.com', context, isCustomFont: true),
-                    _buildInfoRow('Teléfono UBR', '5567782511', context, isCustomFont: true),
+                    _buildInfoRow('Correo Electrónico UBR', 'difatoyatempan2021.2024@gmail.com', context, isCustomFont: true),
+                    _buildInfoRow('Teléfono UBR', '2241158693', context, isCustomFont: true),
                     _buildExpandableInfoRow(
                       'Horario de Servicio',
                       '''
 Matutino (lunes a viernes): 9:00 a 14:00
-Vespertino (lunes a viernes): 15:00 a 17:00
-Sabatino: 00:00 a 00:00
+Vespertino (lunes a viernes): 16:00 a 18:00
+Sabatino: No aplica
 ''',
                       context,
                       isExpanded2,
@@ -87,10 +87,10 @@ Sabatino: 00:00 a 00:00
                     _buildExpandableInfoRow(
                       'Responsable de la UBR',
                       '''
-Nombre: Dulce Maria Sanchez Ramirez
-Cargo: Auxiliar DIF
-Correo Electrónico: dm990912@gmail.com
-Teléfono Móvil: 2241153294
+Nombre: Mónica Marcela Nuñez Iturbide
+Cargo: Encargada de la Unidad y Fisioterapeuta
+Correo Electrónico: marcenun27@gmail.com
+Teléfono Móvil: 2228466596
 ''',
                       context,
                       isExpanded3,

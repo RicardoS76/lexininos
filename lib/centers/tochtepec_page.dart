@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TepexiDeRodriguezPage extends StatefulWidget {
+class TochtepecPage extends StatefulWidget {
   @override
-  _TepexiDeRodriguezPageState createState() => _TepexiDeRodriguezPageState();
+  _TochtepecPageState createState() => _TochtepecPageState();
 }
 
-class _TepexiDeRodriguezPageState extends State<TepexiDeRodriguezPage> {
+class _TochtepecPageState extends State<TochtepecPage> {
   bool isExpanded1 = false;
   bool isExpanded2 = false;
   bool isExpanded3 = false;
@@ -38,7 +38,7 @@ class _TepexiDeRodriguezPageState extends State<TepexiDeRodriguezPage> {
                   children: [
                     Center(
                       child: Text(
-                        'UBR DE Tepexi de Rodríguez',
+                        'UBR DE Tochtepec',
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
@@ -53,11 +53,11 @@ class _TepexiDeRodriguezPageState extends State<TepexiDeRodriguezPage> {
                     _buildExpandableInfoRow(
                       'Domicilio',
                       '''
-Tipo de Vialidad: Avenida
-Nombre de Vialidad: Avenida Tecnológico
-Número Exterior e Interior: 15
-Nombre del Asentamiento: San Sebastián
-Código Postal: 74690
+Tipo de Vialidad: Calle
+Nombre de Vialidad: 3 Poniente
+Número Exterior e Interior: 7
+Nombre del Asentamiento: Barrio de Jesús
+Código Postal: 75610
 ''',
                       context,
                       isExpanded1,
@@ -67,14 +67,14 @@ Código Postal: 74690
                         });
                       },
                     ),
-                    _buildInfoRow('Correo Electrónico UBR', 'Sin correo', context, isCustomFont: true),
-                    _buildInfoRow('Teléfono UBR', 'Sin teléfono', context, isCustomFont: true),
+                    _buildInfoRow('Correo Electrónico UBR', 'diftochtepec21.23@gmail.com', context, isCustomFont: true),
+                    _buildInfoRow('Teléfono UBR', '2231014844', context, isCustomFont: true),
                     _buildExpandableInfoRow(
                       'Horario de Servicio',
                       '''
-Matutino (lunes a viernes): 9:00 AM a 14:00 HRS
-Vespertino (lunes a viernes): 0
-Sabatino: 9:00 AM a 12:00 HRS
+Matutino (lunes a viernes): 9:00 AM a 4:00 PM
+Vespertino (lunes a viernes): No se labora
+Sabatino: No se labora
 ''',
                       context,
                       isExpanded2,
@@ -87,10 +87,10 @@ Sabatino: 9:00 AM a 12:00 HRS
                     _buildExpandableInfoRow(
                       'Responsable de la UBR',
                       '''
-Nombre: LTFR. Karen Rojas Zapata
-Cargo: Responsable de UBR
-Correo Electrónico: krn.r17@hotmail.com
-Teléfono Móvil: 2381787953
+Nombre: Jose Alfredo Garcia Jimenez
+Cargo: Coordinador de UBR y Terapeuta Titular
+Correo Electrónico: garciajimenez371@gmail.com
+Teléfono Móvil: 2231014844
 ''',
                       context,
                       isExpanded3,
@@ -290,7 +290,7 @@ Teléfono Móvil: 2381787953
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    child: Image.asset('assets/UBR4.jpg'),
+                    child: Image.asset('assets/UBR2.jpg'),
                   ),
                   IconButton(
                     icon: Icon(Icons.close, color: Colors.purple),
