@@ -49,7 +49,8 @@ class _ZacapalaPageState extends State<ZacapalaPage> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    _buildInfoRow('Tipo de Unidad', 'UBR (Unidad Básica de Rehabilitación)', context),
+                    _buildInfoRow('Tipo de Unidad',
+                        'UBR (Unidad Básica de Rehabilitación)', context),
                     _buildExpandableInfoRow(
                       'Domicilio',
                       '''
@@ -67,8 +68,11 @@ Código Postal: 74680
                         });
                       },
                     ),
-                    _buildInfoRow('Correo Electrónico UBR', 'sgs_26_1@hotmail.com', context, isCustomFont: true),
-                    _buildInfoRow('Teléfono UBR', '2221585832', context, isCustomFont: true),
+                    _buildInfoRow('Correo Electrónico UBR',
+                        'sgs_26_1@hotmail.com', context,
+                        isCustomFont: true),
+                    _buildInfoRow('Teléfono UBR', '2221585832', context,
+                        isCustomFont: true),
                     _buildExpandableInfoRow(
                       'Horario de Servicio',
                       '''
@@ -111,7 +115,8 @@ Teléfono Móvil: 2221585832
     );
   }
 
-  Widget _buildInfoRow(String title, String value, BuildContext context, {bool isCustomFont = false}) {
+  Widget _buildInfoRow(String title, String value, BuildContext context,
+      {bool isCustomFont = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0),
       padding: EdgeInsets.all(16.0),
@@ -155,7 +160,8 @@ Teléfono Móvil: 2221585832
     );
   }
 
-  Widget _buildExpandableInfoRow(String title, String value, BuildContext context, bool isExpanded, VoidCallback onTap) {
+  Widget _buildExpandableInfoRow(String title, String value,
+      BuildContext context, bool isExpanded, VoidCallback onTap) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0),
       padding: EdgeInsets.all(16.0),
@@ -194,7 +200,9 @@ Teléfono Móvil: 2221585832
                       style: TextStyle(color: Colors.purple),
                     ),
                     Icon(
-                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
                       color: Colors.purple,
                     ),
                   ],
@@ -290,7 +298,7 @@ Teléfono Móvil: 2221585832
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    child: Image.asset('assets/UBR4.jpg'),
+                    child: Image.asset('assets/UBR2.jpg'),
                   ),
                   IconButton(
                     icon: Icon(Icons.close, color: Colors.purple),
