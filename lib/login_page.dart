@@ -165,14 +165,16 @@ class _LoginPageState extends State<LoginPage> {
                           user['contrasena_hash'] == _passwordController.text) {
                         // Guardar las credenciales
                         await SharedPreferencesHelper.saveUserCredentials(
-                            _usernameController.text, _passwordController.text);
+                            _usernameController.text,
+                            _passwordController.text,
+                            user['nombre']);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => MainPage(
                               authenticatedUserPassword:
                                   _passwordController.text,
-                              userName: user['nombre_usuario'],
+                              name: user['nombre'],
                             ),
                           ),
                         );

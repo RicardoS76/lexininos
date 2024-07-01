@@ -10,10 +10,13 @@ import 'activities/sound_sequence_game.dart';
 import 'activities/word_hunt_game.dart';
 import 'activities/word_memory_game.dart';
 import 'activities/word_search_game.dart';
+import 'centers/atoyatempan_page.dart';
+import 'centers/molcaxac_page.dart';
+import 'centers/tochtepec_page.dart';
 import 'login_page.dart';
 import 'main_page.dart';
 import 'register_page.dart';
-import 'reset_password_page.dart'; // Añadir esta línea
+import 'reset_password_page.dart';
 import 'settings_page.dart';
 import 'user/account_info_page.dart';
 import 'user/edit_account_page.dart';
@@ -25,9 +28,6 @@ import 'user/shared_preferences.dart';
 import 'user/user_data_page.dart';
 import 'user_page.dart';
 import 'welcome_page.dart';
-import 'centers/atoyatempan_page.dart'; // Añadir esta línea
-import 'centers/tochtepec_page.dart'; // Añadir esta línea
-import 'centers/molcaxac_page.dart'; // Añadir esta línea
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,15 +36,21 @@ void main() async {
   runApp(MyApp(
       isLoggedIn: credentials != null,
       isFirstRun: isFirstRun,
-      password: credentials?['password']));
+      password: credentials?['password'],
+      name: credentials?['name']));
 }
 
 class MyApp extends StatelessWidget {
   final bool isLoggedIn;
   final bool isFirstRun;
   final String? password;
+  final String? name;
 
-  MyApp({required this.isLoggedIn, required this.isFirstRun, this.password});
+  MyApp(
+      {required this.isLoggedIn,
+      required this.isFirstRun,
+      this.password,
+      this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +61,16 @@ class MyApp extends StatelessWidget {
       ),
       home: isFirstRun
           ? WelcomePage()
-          : (isLoggedIn
+          : (isLoggedIn && password != null && name != null
               ? MainPage(
                   authenticatedUserPassword: password!,
-                  userName: '',
+                  name: name!,
                 )
               : LoginPage()),
       routes: {
         '/main': (context) => MainPage(
               authenticatedUserPassword: password!,
-              userName: '',
+              name: name!,
             ),
         '/settings': (context) => SettingsPage(),
         '/user': (context) => UserPage(),
@@ -89,10 +95,10 @@ class MyApp extends StatelessWidget {
         '/reset_password': (context) => ResetPasswordPage(),
         '/manage_accounts': (context) =>
             ManageAccountsPage(authenticatedUserPassword: password ?? ''),
-        '/edit_account': (context) => EditAccountPage(), // Añadir esta línea
-        '/atoyatempan': (context) => AtoyatempanPage(), // Añadir esta línea
-        '/tochtepec': (context) => TochtepecPage(), // Añadir esta línea
-        '/molcaxac': (context) => MolcaxacPage(), // Añadir esta línea
+        '/edit_account': (context) => EditAccountPage(),
+        '/atoyatempan': (context) => ZacapalaPage(),
+        '/tochtepec': (context) => TochtepecPage(),
+        '/molcaxac': (context) => MolcaxacPage(),
       },
     );
   }

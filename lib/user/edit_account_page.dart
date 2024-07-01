@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../baseDatos/database_helper.dart';
 
 class EditAccountPage extends StatelessWidget {
@@ -9,6 +10,8 @@ class EditAccountPage extends StatelessWidget {
 
     final TextEditingController _usernameController =
         TextEditingController(text: user['nombre_usuario']);
+    final TextEditingController _nameController =
+        TextEditingController(text: user['nombre']);
     final TextEditingController _emailController =
         TextEditingController(text: user['correo_electronico']);
     final TextEditingController _passwordController =
@@ -68,6 +71,8 @@ class EditAccountPage extends StatelessWidget {
                               _buildTextField(
                                   _usernameController, 'Nombre de usuario'),
                               SizedBox(height: 20),
+                              _buildTextField(_nameController, 'Nombre'),
+                              SizedBox(height: 20),
                               _buildTextField(
                                   _emailController, 'Correo electrónico'),
                               SizedBox(height: 20),
@@ -107,6 +112,7 @@ class EditAccountPage extends StatelessWidget {
                                   final updatedUser = {
                                     'id_usuario': user['id_usuario'],
                                     'nombre_usuario': _usernameController.text,
+                                    'nombre': _nameController.text,
                                     'correo_electronico': _emailController.text,
                                     'contrasena_hash': _passwordController.text,
                                   };

@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {
   static Future<void> saveUserCredentials(
-      String username, String password) async {
+      String username, String password, user) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', username);
     await prefs.setString('password', password);

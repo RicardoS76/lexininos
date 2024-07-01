@@ -1,12 +1,13 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'security_dialog.dart'; // Asegúrate de que la ruta sea correcta
 
 class MainPage extends StatelessWidget {
   final String authenticatedUserPassword;
-  final String userName;
+  final String name;
 
-  MainPage({required this.authenticatedUserPassword, required this.userName});
+  MainPage({required this.authenticatedUserPassword, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -59,26 +60,24 @@ class MainPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: RichText(
-                      text: TextSpan(
-                        style: TextStyle(
-                          fontSize: 36.0, // Aumentar tamaño de fuente
-                          fontFamily: 'Cocogoose',
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(2.0, 2.0),
-                              blurRadius: 3.0,
-                              color: Colors.black,
-                            ),
-                          ],
-                        ),
-                        children: [
-                          TextSpan(
-                              text: 'HOLA $userName',
-                              style: TextStyle(color: Colors.white)),
+                    child: AutoSizeText(
+                      'HOLA $name',
+                      style: TextStyle(
+                        fontSize: 36.0,
+                        fontFamily: 'Cocogoose',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 3.0,
+                            color: Colors.black,
+                          ),
                         ],
                       ),
+                      maxLines: 1,
+                      minFontSize: 10.0,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   SizedBox(

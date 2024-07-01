@@ -21,8 +21,9 @@ class DatabaseHelper {
     String path = join(await getDatabasesPath(), 'users.db');
     return await openDatabase(
       path,
-      version: 1,
+      version: 2, // Asegúrate de que la versión sea 2
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -31,10 +32,23 @@ class DatabaseHelper {
       CREATE TABLE usuarios (
         id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre_usuario TEXT NOT NULL UNIQUE,
+        nombre TEXT NOT NULL,
         contrasena_hash TEXT NOT NULL,
         correo_electronico TEXT NOT NULL UNIQUE
       )
     ''');
+  }
+
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      // Verifica si la columna 'nombre' ya existe antes de agregarla
+      var tableInfo = await db.rawQuery('PRAGMA table_info(usuarios)');
+      var columnExists = tableInfo.any((column) => column['name'] == 'nombre');
+      if (!columnExists) {
+        await db
+            .execute('ALTER TABLE usuarios ADD COLUMN nombre TEXT NOT NULL');
+      }
+    }
   }
 
   Future<int> insertUser(Map<String, dynamic> row) async {
@@ -48,6 +62,7 @@ class DatabaseHelper {
         columns: [
           'id_usuario',
           'nombre_usuario',
+          'nombre',
           'contrasena_hash',
           'correo_electronico'
         ],
@@ -65,6 +80,7 @@ class DatabaseHelper {
         columns: [
           'id_usuario',
           'nombre_usuario',
+          'nombre',
           'contrasena_hash',
           'correo_electronico'
         ],

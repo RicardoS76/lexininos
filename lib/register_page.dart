@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'baseDatos/database_helper.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -8,9 +9,11 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final DatabaseHelper _dbHelper = DatabaseHelper();
   final _formKey = GlobalKey<FormState>();
 
@@ -128,6 +131,25 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        hintText: 'Nombre',
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.3),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa un nombre';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 20.0),
+                    TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
                         hintText: 'Correo electrónico',
@@ -159,7 +181,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                           onPressed: () {
                             setState(() {
@@ -189,11 +213,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                            _obscureConfirmPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                              _obscureConfirmPassword =
+                                  !_obscureConfirmPassword;
                             });
                           },
                         ),
@@ -214,7 +241,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (_formKey.currentState!.validate()) {
                           Map<String, dynamic> row = {
                             'nombre_usuario': _usernameController.text,
-                            'contrasena_hash': _passwordController.text, // En producción, asegura de hacer hashing de la contraseña
+                            'nombre': _nameController.text,
+                            'contrasena_hash': _passwordController
+                                .text, // En producción, asegura de hacer hashing de la contraseña
                             'correo_electronico': _emailController.text,
                           };
                           final id = await _dbHelper.insertUser(row);
@@ -226,7 +255,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.pink.shade100,
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                         textStyle: TextStyle(fontSize: 20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
