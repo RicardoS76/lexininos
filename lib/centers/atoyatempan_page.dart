@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class JuanNMendezPage extends StatefulWidget {
+class ZacapalaPage extends StatefulWidget {
   @override
-  _JuanNMendezPageState createState() => _JuanNMendezPageState();
+  _ZacapalaPageState createState() => _ZacapalaPageState();
 }
 
-class _JuanNMendezPageState extends State<JuanNMendezPage> {
+class _ZacapalaPageState extends State<ZacapalaPage> {
   bool isExpanded1 = false;
   bool isExpanded2 = false;
   bool isExpanded3 = false;
@@ -38,7 +38,7 @@ class _JuanNMendezPageState extends State<JuanNMendezPage> {
                   children: [
                     Center(
                       child: Text(
-                        'UBR DE Juan N. Méndez',
+                        'UBR DE Zacapala',
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
@@ -49,15 +49,16 @@ class _JuanNMendezPageState extends State<JuanNMendezPage> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    _buildInfoRow('Tipo de Unidad', 'UBR (Unidad Básica de Rehabilitación)', context),
+                    _buildInfoRow('Tipo de Unidad',
+                        'UBR (Unidad Básica de Rehabilitación)', context),
                     _buildExpandableInfoRow(
                       'Domicilio',
                       '''
-Tipo de Vialidad: Avenida
-Nombre de Vialidad: 3 Oriente
+Tipo de Vialidad: Boulevard
+Nombre de Vialidad: Carretera Intermixteca
 Número Exterior e Interior: S/N
-Nombre del Asentamiento: Atenayuca
-Código Postal: 75690
+Nombre del Asentamiento: Localidad
+Código Postal: 74680
 ''',
                       context,
                       isExpanded1,
@@ -67,14 +68,17 @@ Código Postal: 75690
                         });
                       },
                     ),
-                    _buildInfoRow('Correo Electrónico UBR', 'connycruz3014@gmail.com', context, isCustomFont: true),
-                    _buildInfoRow('Teléfono UBR', '5567782511', context, isCustomFont: true),
+                    _buildInfoRow('Correo Electrónico UBR',
+                        'sgs_26_1@hotmail.com', context,
+                        isCustomFont: true),
+                    _buildInfoRow('Teléfono UBR', '2221585832', context,
+                        isCustomFont: true),
                     _buildExpandableInfoRow(
                       'Horario de Servicio',
                       '''
-Matutino (lunes a viernes): 9:00 a 14:00
-Vespertino (lunes a viernes): 15:00 a 17:00
-Sabatino: 00:00 a 00:00
+Matutino (lunes a viernes): 9:00 a 16:00
+Vespertino (lunes a viernes): No hay
+Sabatino: No se labora
 ''',
                       context,
                       isExpanded2,
@@ -87,10 +91,10 @@ Sabatino: 00:00 a 00:00
                     _buildExpandableInfoRow(
                       'Responsable de la UBR',
                       '''
-Nombre: Dulce Maria Sanchez Ramirez
-Cargo: Auxiliar DIF
-Correo Electrónico: dm990912@gmail.com
-Teléfono Móvil: 2241153294
+Nombre: Saturnino Garcia Saldaña
+Cargo: Fisioterapeuta
+Correo Electrónico: sgs_26_1@hotmail.com
+Teléfono Móvil: 2221585832
 ''',
                       context,
                       isExpanded3,
@@ -111,7 +115,8 @@ Teléfono Móvil: 2241153294
     );
   }
 
-  Widget _buildInfoRow(String title, String value, BuildContext context, {bool isCustomFont = false}) {
+  Widget _buildInfoRow(String title, String value, BuildContext context,
+      {bool isCustomFont = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0),
       padding: EdgeInsets.all(16.0),
@@ -155,7 +160,8 @@ Teléfono Móvil: 2241153294
     );
   }
 
-  Widget _buildExpandableInfoRow(String title, String value, BuildContext context, bool isExpanded, VoidCallback onTap) {
+  Widget _buildExpandableInfoRow(String title, String value,
+      BuildContext context, bool isExpanded, VoidCallback onTap) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0),
       padding: EdgeInsets.all(16.0),
@@ -194,7 +200,9 @@ Teléfono Móvil: 2241153294
                       style: TextStyle(color: Colors.purple),
                     ),
                     Icon(
-                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
                       color: Colors.purple,
                     ),
                   ],
@@ -290,7 +298,7 @@ Teléfono Móvil: 2241153294
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    child: Image.asset('assets/UBR1.jpg'),
+                    child: Image.asset('assets/UBR4.jpg'),
                   ),
                   IconButton(
                     icon: Icon(Icons.close, color: Colors.purple),

@@ -67,10 +67,9 @@ class HelpPage extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       children: [
-                        _buildInfoTile('UBR DE Tepexi de Rodríguez', Icons.location_on, context, route: '/tepexi_de_rodriguez'),
-                        _buildInfoTile('UBR DE Zacapala', Icons.location_on, context, route: '/zacapala'),
+                        _buildInfoTile('UBR DE Atoyatempan', Icons.location_on, context, route: '/atoyatempan'),
+                        _buildInfoTile('UBR DE Tochtepec', Icons.location_on, context, route: '/tochtepec'),
                         _buildInfoTile('UBR DE Molcaxac', Icons.location_on, context, route: '/molcaxac'),
-                        _buildInfoTile('UBR DE Juan N. Méndez', Icons.location_on, context, route: '/juan_n_mendez'),
                       ],
                     ),
                   ),

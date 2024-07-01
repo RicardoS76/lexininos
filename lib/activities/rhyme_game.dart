@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RhymeGame extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class _RhymeGameState extends State<RhymeGame> {
   bool showLevelComplete = false;
   bool showFeedback = false;
   bool allLevelsComplete = false;
+  DateTime startTime = DateTime.now();
 
   final List<List<String>> topWordsLevels = [
     ['casa', 'gato', 'mesa', 'balón'],
@@ -59,6 +61,7 @@ class _RhymeGameState extends State<RhymeGame> {
       showLevelComplete = false;
       showFeedback = false;
       allLevelsComplete = false;
+      startTime = DateTime.now();
     });
   }
 
@@ -86,12 +89,34 @@ class _RhymeGameState extends State<RhymeGame> {
         if (correctCount == correctPairs.length) {
           if (currentLevel < 4) {
             showLevelComplete = true;
+            _saveLevelTime();
           } else {
+            _saveLevelTime();
             allLevelsComplete = true;
           }
         }
       });
     });
+  }
+
+  void _saveLevelTime() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int endTime = DateTime.now().difference(startTime).inSeconds;
+
+    switch (currentLevel) {
+      case 1:
+        prefs.setInt('level1_time', endTime);
+        break;
+      case 2:
+        prefs.setInt('level2_time', endTime);
+        break;
+      case 3:
+        prefs.setInt('level3_time', endTime);
+        break;
+      case 4:
+        prefs.setInt('level4_time', endTime);
+        break;
+    }
   }
 
   void startGame() {
