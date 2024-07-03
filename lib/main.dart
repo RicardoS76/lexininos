@@ -26,6 +26,7 @@ import 'user/manage_accounts_page.dart';
 import 'user/results_page.dart';
 import 'user/shared_preferences.dart';
 import 'user/user_data_page.dart';
+import 'user/contacts_page.dart';
 import 'user_page.dart';
 import 'welcome_page.dart';
 
@@ -99,6 +100,7 @@ class MyApp extends StatelessWidget {
         '/atoyatempan': (context) => ZacapalaPage(),
         '/tochtepec': (context) => TochtepecPage(),
         '/molcaxac': (context) => MolcaxacPage(),
+        '/contacts': (context) => ContactsPage(),
       },
     );
   }

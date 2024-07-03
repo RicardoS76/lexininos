@@ -65,6 +65,8 @@ class UserPage extends StatelessWidget {
                         _buildInfoTile('Cuentas del dispositivo',
                             Icons.account_circle, context,
                             route: '/manage_accounts'),
+                        _buildInfoTile('Contacto', Icons.contact_mail, context,
+                            route: '/contacts'),
                       ],
                     ),
                   ),
