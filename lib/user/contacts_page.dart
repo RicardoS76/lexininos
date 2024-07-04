@@ -5,7 +5,7 @@ class ContactsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contacto'),
+        title: Text('Contactanos'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -23,7 +23,7 @@ class ContactsPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              'Puedes contactarnos a través de los siguientes medios:',
+              'Puedes contactarnos a través del siguiente correo electronico:',
               style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.black,
@@ -32,15 +32,7 @@ class ContactsPage extends StatelessWidget {
             SizedBox(height: 10),
             ListTile(
               leading: Icon(Icons.email, color: Colors.purple),
-              title: Text('Email: contacto@ejemplo.com'),
-            ),
-            ListTile(
-              leading: Icon(Icons.phone, color: Colors.purple),
-              title: Text('Teléfono: +52 123 456 7890'),
-            ),
-            ListTile(
-              leading: Icon(Icons.location_on, color: Colors.purple),
-              title: Text('Dirección: Calle Ejemplo 123, Ciudad, País'),
+              title: Text('Gmail: lexiayuda@gmail.com'),
             ),
           ],
         ),

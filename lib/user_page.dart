@@ -54,7 +54,7 @@ class UserPage extends StatelessWidget {
                         _buildInfoTile(
                             'Datos de usuario', Icons.perm_identity, context,
                             route: '/user_data'),
-                        _buildInfoTile('Más ayuda', Icons.help_outline, context,
+                        _buildInfoTile('Ayuda especializada', Icons.help_outline, context,
                             route: '/help'),
                         _buildInfoTile(
                             'Información', Icons.info_outline, context,
