@@ -16,6 +16,8 @@ dependencies:
   shared_preferences: ^2.0.9
   auto_size_text: ^3.0.0
   clipboard: ^0.1.3
+ 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -36,12 +38,25 @@ flutter:
     - assets/confi.png
     - assets/señal.png
     - assets/background.jpg
-    - assets/icon1.jpg
-    - assets/icon2.jpg
-    - assets/icon3.jpg
-    - assets/icon4.jpg
     - assets/niño.png
     - assets/fonts/Cocogoose-Pro-Bold-trial.ttf
+    #iconos de las pruebas
+    - assets/sopa.png
+    - assets/palabras.jpg
+    - assets/rima.jpg
+    - assets/figuras.jpg
+    #conecta y aprende
+  
+    - assets/animales/buho.jpg
+    - assets/animales/canguro.jpg
+    - assets/animales/cebra.jpg
+    - assets/animales/delfin.jpg
+    - assets/animales/elefante.jpg
+    - assets/animales/jirafa.jpg
+    - assets/animales/leon.jpg
+    - assets/animales/mono.jpg
+    - assets/animales/panda.jpg
+    - assets/animales/tigre.jpg
 
   fonts:
     - family: Cocogoose

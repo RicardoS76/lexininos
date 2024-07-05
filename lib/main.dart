@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'activities/image_word_match_game.dart';
-import 'activities/initial_final_sounds_game.dart';
-import 'activities/interactive_story_game.dart';
-import 'activities/letter_puzzle_game.dart';
-import 'activities/letter_tracing_game.dart';
 import 'activities/rhyme_game.dart';
-import 'activities/sound_sequence_game.dart';
-import 'activities/word_hunt_game.dart';
-import 'activities/word_memory_game.dart';
-import 'activities/word_search_game.dart';
-import 'centers/atoyatempan_page.dart';
-import 'centers/molcaxac_page.dart';
-import 'centers/tochtepec_page.dart';
-import 'login_page.dart';
+import 'activities/connect_learn_page.dart'; // Nueva página
+import 'activities/hidden_words_page.dart'; // Nueva página
+import 'activities/visual_challenge_page.dart'; // Nueva página
 import 'main_page.dart';
+import 'login_page.dart';
 import 'register_page.dart';
 import 'reset_password_page.dart';
 import 'settings_page.dart';
@@ -83,23 +74,14 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/rhyme': (context) => RhymeGame(),
-        '/initial_final_sounds': (context) => InitialFinalSoundsGame(),
-        '/word_memory': (context) => WordMemoryGame(),
-        '/sound_sequence': (context) => SoundSequenceGame(),
-        '/letter_tracing': (context) => LetterTracingGame(),
-        '/letter_puzzle': (context) => LetterPuzzleGame(),
-        '/word_hunt': (context) => WordHuntGame(),
-        '/word_search': (context) => WordSearchGame(),
-        '/image_word_match': (context) => ImageWordMatchGame(),
-        '/interactive_story': (context) => InteractiveStoryGame(),
+        '/connect_learn': (context) => ConnectLearnPage(),
+        '/hidden_words': (context) => HiddenWordsPage(),
+        '/visual_challenge': (context) => VisualChallengePage(),
         '/welcome': (context) => WelcomePage(),
         '/reset_password': (context) => ResetPasswordPage(),
         '/manage_accounts': (context) =>
             ManageAccountsPage(authenticatedUserPassword: password ?? ''),
         '/edit_account': (context) => EditAccountPage(),
-        '/atoyatempan': (context) => ZacapalaPage(),
-        '/tochtepec': (context) => TochtepecPage(),
-        '/molcaxac': (context) => MolcaxacPage(),
         '/contacts': (context) => ContactsPage(),
       },
     );

@@ -9,8 +9,14 @@ class MainPage extends StatelessWidget {
 
   MainPage({required this.authenticatedUserPassword, required this.name});
 
+  final PageController _pageController = PageController(viewportFraction: 0.8);
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final containerWidth = screenWidth * 0.7; // Ajusta el ancho
+    final containerHeight = containerWidth * 1.2; // Ajusta la altura
+
     return Scaffold(
       body: Stack(
         children: [
@@ -33,7 +39,7 @@ class MainPage extends StatelessWidget {
           SafeArea(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center, // Centra los elementos
                 children: [
                   SizedBox(height: 40.0), // Espacio desde la parte superior
                   Padding(
@@ -58,8 +64,8 @@ class MainPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  SizedBox(height: 20.0),
+                  Center(
                     child: AutoSizeText(
                       'HOLA $name',
                       style: TextStyle(
@@ -80,17 +86,19 @@ class MainPage extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  SizedBox(
-                      height:
-                          60.0), // Espacio adicional para bajar los elementos
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: RichText(
-                      text: TextSpan(
+                  SizedBox(height: 20.0), // Espacio adicional
+                  Center(
+                    child: ShaderMask(
+                      shaderCallback: (bounds) => LinearGradient(
+                        colors: [Colors.red, Colors.green, Colors.blue, Colors.yellow],
+                      ).createShader(bounds),
+                      child: Text(
+                        '¡¡A JUGAR!!',
                         style: TextStyle(
-                          fontSize: 28.0,
+                          fontSize: 40.0, // Tamaño de fuente más grande
                           fontFamily: 'Cocogoose',
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                           shadows: [
                             Shadow(
                               offset: Offset(2.0, 2.0),
@@ -99,76 +107,23 @@ class MainPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        children: [
-                          TextSpan(
-                              text: 'ACTIVIDADES',
-                              style: TextStyle(color: Colors.white)),
-                        ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  // Carrusel de actividades
-                  Container(
-                    height: 220.0,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        _buildActivityCard(
-                            context, 'Rimas', 'assets/icon1.jpg', '/rhyme'),
-                        _buildActivityCard(context, 'Sonidos',
-                            'assets/icon2.jpg', '/initial_final_sounds'),
-                        _buildActivityCard(context, 'Memoria Visual',
-                            'assets/icon3.jpg', '/word_memory'),
-                        _buildActivityCard(context, 'Secuencias',
-                            'assets/icon4.jpg', '/sound_sequence'),
-                        _buildActivityCard(
-                            context, 'Trazado', '', '/letter_tracing'),
-                        _buildActivityCard(
-                            context, 'Letras', '', '/letter_puzzle'),
-                        _buildActivityCard(
-                            context, 'Caza Palabras', '', '/word_hunt'),
-                        _buildActivityCard(
-                            context, 'Palabras Ocultas', '', '/word_search'),
-                        _buildActivityCard(
-                            context, 'Vocabulario', '', '/image_word_match'),
-                        _buildActivityCard(
-                            context, 'Historias', '', '/interactive_story'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
+                  SizedBox(height: 40.0), // Espacio adicional para bajar los elementos
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      'Ejercicios',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    child: SizedBox(
+                      height: containerHeight + 60, // Ajusta el tamaño del carrusel
+                      child: PageView(
+                        controller: _pageController,
+                        children: [
+                          _buildFeatureContainer(context, 'Rimas', '/rhyme', 'assets/rima.jpg', containerWidth, containerHeight),
+                          _buildFeatureContainer(context, 'Conecta y Aprende', '/connect_learn', 'assets/sopa.png', containerWidth, containerHeight),
+                          _buildFeatureContainer(context, 'Palabras Escondidas', '/hidden_words', 'assets/palabras.jpg', containerWidth, containerHeight),
+                          _buildFeatureContainer(context, 'Desafío Visual: Figuras', '/visual_challenge', 'assets/figuras.jpg', containerWidth, containerHeight),
+                        ],
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  // Carrusel de ejercicios
-                  Container(
-                    height: 200.0,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        _buildExerciseCard(context,
-                            icon: Icons.book,
-                            color: Colors.red,
-                            text: 'Ejercicio 1'),
-                        _buildExerciseCard(context,
-                            icon: Icons.book,
-                            color: Colors.blue,
-                            text: 'Ejercicio 2'),
-                        _buildExerciseCard(context,
-                            icon: Icons.book,
-                            color: Colors.teal,
-                            text: 'Ejercicio 3'),
-                      ],
                     ),
                   ),
                 ],
@@ -196,80 +151,43 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildActivityCard(
-      BuildContext context, String text, String assetPath, String route) {
+  Widget _buildFeatureContainer(
+      BuildContext context, String title, String route, String imagePath, double width, double height) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, route);
       },
-      child: Container(
-        width: 160.0,
-        margin: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          children: [
-            Container(
-              height: 150.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 5.0,
-                    spreadRadius: 1.0,
-                  ),
-                ],
-                image: DecorationImage(
-                  image: assetPath.isNotEmpty
-                      ? AssetImage(assetPath)
-                      : AssetImage('assets/placeholder.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildExerciseCard(BuildContext context,
-      {required IconData icon, required Color color, required String text}) {
-    return Container(
-      width: 160.0,
-      margin: EdgeInsets.symmetric(horizontal: 10.0),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 5.0,
-            spreadRadius: 1.0,
-          ),
-        ],
-      ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 64, color: Colors.white),
+          Container(
+            height: height,
+            width: width,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 5.0,
+                  spreadRadius: 1.0,
+                ),
+              ],
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           SizedBox(height: 10.0),
           Text(
-            text,
+            title,
             style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.white,
+              fontSize: 22.0, // Tamaño de fuente más grande
               fontWeight: FontWeight.bold,
+              color: Colors.purple,
+              fontFamily: 'Cocogoose', // Aplicar la fuente Cocogoose
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
