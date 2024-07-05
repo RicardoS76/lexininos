@@ -119,8 +119,8 @@ class MainPage extends StatelessWidget {
                         controller: _pageController,
                         children: [
                           _buildFeatureContainer(context, 'Rimas', '/rhyme', 'assets/rima.jpg', containerWidth, containerHeight),
-                          _buildFeatureContainer(context, 'Conecta y Aprende', '/connect_learn', 'assets/sopa.png', containerWidth, containerHeight),
-                          _buildFeatureContainer(context, 'Palabras Escondidas', '/hidden_words', 'assets/palabras.jpg', containerWidth, containerHeight),
+                          _buildFeatureContainer(context, 'Conecta y Aprende', '/test2', 'assets/palabras.jpg', containerWidth, containerHeight),
+                          _buildFeatureContainer(context, 'Palabras Escondidas', '/hidden_words', 'assets/sopa.png', containerWidth, containerHeight),
                           _buildFeatureContainer(context, 'Desafío Visual: Figuras', '/visual_challenge', 'assets/figuras.jpg', containerWidth, containerHeight),
                         ],
                       ),

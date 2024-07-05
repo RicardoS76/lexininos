@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'activities/rhyme_game.dart';
-import 'activities/connect_learn_page.dart'; // Nueva página
-import 'activities/hidden_words_page.dart'; // Nueva página
-import 'activities/visual_challenge_page.dart'; // Nueva página
+import 'activities/test1/rhyme_game.dart';
+import 'activities/test2/test2.dart';
+import 'activities/test2/connect_learn_page.dart';
+import 'activities/test2/fruits_page.dart';
+import 'activities/test2/objects_page.dart';
+import 'activities/test3/hidden_words_page.dart';
+import 'activities/test4/visual_challenge_page.dart';
 import 'main_page.dart';
 import 'login_page.dart';
 import 'register_page.dart';
@@ -74,7 +77,10 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/rhyme': (context) => RhymeGame(),
+        '/test2': (context) => Test2Page(),
         '/connect_learn': (context) => ConnectLearnPage(),
+        '/fruits': (context) => FruitsPage(),
+        '/objects': (context) => ObjectsPage(),
         '/hidden_words': (context) => HiddenWordsPage(),
         '/visual_challenge': (context) => VisualChallengePage(),
         '/welcome': (context) => WelcomePage(),

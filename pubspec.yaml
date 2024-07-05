@@ -45,8 +45,12 @@ flutter:
     - assets/palabras.jpg
     - assets/rima.jpg
     - assets/figuras.jpg
+    #iconos de test2
+    - assets/animales.jpg
+    - assets/objetos.jpg
+    - assets/frutas.jpg
     #conecta y aprende
-  
+    #animales
     - assets/animales/buho.jpg
     - assets/animales/canguro.jpg
     - assets/animales/cebra.jpg
@@ -57,6 +61,29 @@ flutter:
     - assets/animales/mono.jpg
     - assets/animales/panda.jpg
     - assets/animales/tigre.jpg
+    #frutas
+    - assets/frutas/cereza.jpg
+    - assets/frutas/fresa.jpg
+    - assets/frutas/kiwi.jpg
+    - assets/frutas/limon.jpg
+    - assets/frutas/mango.jpg
+    - assets/frutas/manzana.jpg
+    - assets/frutas/naranja.jpg
+    - assets/frutas/platano.jpg
+    - assets/frutas/sandia.jpg
+    - assets/frutas/uva.jpg
+    #objetos
+    - assets/objetos/bolsa.jpg
+    - assets/objetos/gafas.jpg
+    - assets/objetos/gorra.jpg
+    - assets/objetos/lapiz.jpg
+    - assets/objetos/libro.jpg
+    - assets/objetos/mesa.jpg
+    - assets/objetos/pelota.jpg
+    - assets/objetos/reloj.jpg
+    - assets/objetos/silla.jpg
+    - assets/objetos/zapato.jpg
+
 
   fonts:
     - family: Cocogoose
