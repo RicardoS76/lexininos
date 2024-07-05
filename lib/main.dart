@@ -23,6 +23,11 @@ import 'user/user_data_page.dart';
 import 'user/contacts_page.dart';
 import 'user_page.dart';
 import 'welcome_page.dart';
+import 'resultados/results_test1_page.dart';
+import 'resultados/results_test2_page.dart';
+import 'resultados/results_test3_page.dart';
+import 'resultados/results_test4_page.dart';
+import 'resultados/results_total_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -74,6 +79,11 @@ class MyApp extends StatelessWidget {
         '/help': (context) => HelpPage(),
         '/info': (context) => InfoPage(),
         '/results': (context) => ResultsPage(),
+        '/results/test1': (context) => ResultsTest1Page(),
+        '/results/test2': (context) => ResultsTest2Page(),
+        '/results/test3': (context) => ResultsTest3Page(),
+        '/results/test4': (context) => ResultsTest4Page(),
+        '/results/total': (context) => ResultsTotalPage(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/rhyme': (context) => RhymeGame(),

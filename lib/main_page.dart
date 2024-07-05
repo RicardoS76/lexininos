@@ -14,8 +14,6 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final containerWidth = screenWidth * 0.7; // Ajusta el ancho
-    final containerHeight = containerWidth * 1.2; // Ajusta la altura
 
     return Scaffold(
       body: Stack(
@@ -69,7 +67,7 @@ class MainPage extends StatelessWidget {
                     child: AutoSizeText(
                       'HOLA $name',
                       style: TextStyle(
-                        fontSize: 36.0,
+                        fontSize: screenWidth * 0.09, // Ajuste dinámico del tamaño de fuente
                         fontFamily: 'Cocogoose',
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -95,7 +93,7 @@ class MainPage extends StatelessWidget {
                       child: Text(
                         '¡¡A JUGAR!!',
                         style: TextStyle(
-                          fontSize: 40.0, // Tamaño de fuente más grande
+                          fontSize: screenWidth * 0.1, // Tamaño de fuente más grande ajustado dinámicamente
                           fontFamily: 'Cocogoose',
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -113,17 +111,24 @@ class MainPage extends StatelessWidget {
                   SizedBox(height: 40.0), // Espacio adicional para bajar los elementos
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: SizedBox(
-                      height: containerHeight + 60, // Ajusta el tamaño del carrusel
-                      child: PageView(
-                        controller: _pageController,
-                        children: [
-                          _buildFeatureContainer(context, 'Rimas', '/rhyme', 'assets/rima.jpg', containerWidth, containerHeight),
-                          _buildFeatureContainer(context, 'Conecta y Aprende', '/test2', 'assets/palabras.jpg', containerWidth, containerHeight),
-                          _buildFeatureContainer(context, 'Palabras Escondidas', '/hidden_words', 'assets/sopa.png', containerWidth, containerHeight),
-                          _buildFeatureContainer(context, 'Desafío Visual: Figuras', '/visual_challenge', 'assets/figuras.jpg', containerWidth, containerHeight),
-                        ],
-                      ),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final containerWidth = constraints.maxWidth * 0.7;
+                        final containerHeight = containerWidth * 1.2;
+
+                        return SizedBox(
+                          height: containerHeight + 60, // Ajusta el tamaño del carrusel
+                          child: PageView(
+                            controller: _pageController,
+                            children: [
+                              _buildFeatureContainer(context, 'Rimas', '/rhyme', 'assets/rima.jpg', containerWidth, containerHeight),
+                              _buildFeatureContainer(context, 'Conecta y Aprende', '/test2', 'assets/palabras.jpg', containerWidth, containerHeight),
+                              _buildFeatureContainer(context, 'Palabras Escondidas', '/hidden_words', 'assets/sopa.png', containerWidth, containerHeight),
+                              _buildFeatureContainer(context, 'Desafío Visual: Figuras', '/visual_challenge', 'assets/figuras.jpg', containerWidth, containerHeight),
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -182,7 +187,7 @@ class MainPage extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              fontSize: 22.0, // Tamaño de fuente más grande
+              fontSize: width * 0.06, // Ajuste dinámico del tamaño de fuente
               fontWeight: FontWeight.bold,
               color: Colors.purple,
               fontFamily: 'Cocogoose', // Aplicar la fuente Cocogoose
