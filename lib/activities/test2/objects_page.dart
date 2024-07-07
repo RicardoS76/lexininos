@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 class ObjectsPage extends StatefulWidget {
   @override
@@ -115,11 +114,16 @@ class _ObjectsPageState extends State<ObjectsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Correcto!',
-              style: TextStyle(fontFamily: 'Cocogoose', fontSize: 24, color: Colors.green, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontFamily: 'Cocogoose',
+                  fontSize: 24,
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           content: SingleChildScrollView(
@@ -128,14 +132,20 @@ class _ObjectsPageState extends State<ObjectsPage> {
                 Center(
                   child: Text(
                     _objectData[_currentIndex]['feedback'].split('\n\n')[0],
-                    style: TextStyle(fontFamily: 'Arial', fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
                 Center(
                   child: Text(
                     _objectData[_currentIndex]['feedback'].split('\n\n')[1],
-                    style: TextStyle(fontFamily: 'Cocogoose', fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Cocogoose',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -143,7 +153,10 @@ class _ObjectsPageState extends State<ObjectsPage> {
                 Center(
                   child: Text(
                     _objectData[_currentIndex]['description'],
-                    style: TextStyle(fontFamily: 'Arial', fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Arial',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -165,7 +178,11 @@ class _ObjectsPageState extends State<ObjectsPage> {
                   ),
                   child: Text(
                     'Continuar',
-                    style: TextStyle(fontFamily: 'Cocogoose', fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: TextStyle(
+                        fontFamily: 'Cocogoose',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -185,11 +202,16 @@ class _ObjectsPageState extends State<ObjectsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Incorrecto!',
-              style: TextStyle(fontFamily: 'Cocogoose', fontSize: 24, color: Colors.red, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontFamily: 'Cocogoose',
+                  fontSize: 24,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           content: SingleChildScrollView(
@@ -198,7 +220,10 @@ class _ObjectsPageState extends State<ObjectsPage> {
                 Center(
                   child: Text(
                     'Inténtalo de nuevo',
-                    style: TextStyle(fontFamily: 'Arial', fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -210,7 +235,10 @@ class _ObjectsPageState extends State<ObjectsPage> {
               child: TextButton(
                 child: Text(
                   'OK',
-                  style: TextStyle(fontFamily: 'Cocogoose', fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontFamily: 'Cocogoose',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -319,7 +347,8 @@ class _ObjectsPageState extends State<ObjectsPage> {
                       children: _shuffledOptions.map<Widget>((option) {
                         return Container(
                           margin: EdgeInsets.symmetric(vertical: 10.0),
-                          width: MediaQuery.of(context).size.width * 0.8, // Contenedor menos largo
+                          width: MediaQuery.of(context).size.width *
+                              0.8, // Contenedor menos largo
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -334,7 +363,9 @@ class _ObjectsPageState extends State<ObjectsPage> {
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontFamily: 'Cocogoose',
-                                color: _showResult && option == _selectedOption ? Colors.white : Colors.black,
+                                color: _showResult && option == _selectedOption
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                             ),
                           ),
