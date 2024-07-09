@@ -15,68 +15,24 @@ class _RhymeGameState extends State<RhymeGame> {
   DateTime startTime = DateTime.now();
 
   final List<List<String>> topWordsLevels = [
-    ['casa', 'gato', 'mesa', 'balón'],
-    ['ventana', 'ratón', 'silla', 'perro', 'barco'],
-    [
-      'mariposa',
-      'biblioteca',
-      'elefante',
-      'hospital',
-      'universo',
-      'helicóptero'
-    ],
-    [
-      'programación',
-      'descubrimiento',
-      'descomposición',
-      'establecimiento',
-      'autorización',
-      'telecomunicación',
-      'administración'
-    ]
+    ['pan', 'rey', 'mar', 'voz'],
+    ['flor', 'sol', 'nube', 'luz', 'tren'],
+    ['casa', 'gato', 'mesa', 'balón', 'ventana', 'ratón'],
+    ['silla', 'perro', 'barco', 'noche', 'día', 'río']
   ];
 
   final List<List<String>> bottomWordsLevels = [
-    ['masa', 'pato', 'pesa', 'pelón'],
-    ['antena', 'camión', 'villa', 'cerro', 'charco'],
-    ['hermosa', 'estética', 'cantante', 'vital', 'diverso', 'monedero'],
-    [
-      'investigación',
-      'conocimiento',
-      'recomposición',
-      'entendimiento',
-      'capacitación',
-      'radiodifusión',
-      'edificación'
-    ]
+    ['plan', 'ley', 'par', 'dos'],
+    ['amor', 'rol', 'sube', 'cruz', 'bien'],
+    ['masa', 'pato', 'pesa', 'pelón', 'antena', 'camión'],
+    ['villa', 'cerro', 'charco', 'roche', 'fría', 'tío']
   ];
 
   final List<Map<String, String>> correctPairsLevels = [
-    {'casa': 'masa', 'gato': 'pato', 'mesa': 'pesa', 'balón': 'pelón'},
-    {
-      'ventana': 'antena',
-      'ratón': 'camión',
-      'silla': 'villa',
-      'perro': 'cerro',
-      'barco': 'charco'
-    },
-    {
-      'mariposa': 'hermosa',
-      'biblioteca': 'estética',
-      'elefante': 'cantante',
-      'hospital': 'vital',
-      'universo': 'diverso',
-      'helicóptero': 'monedero'
-    },
-    {
-      'programación': 'investigación',
-      'descubrimiento': 'conocimiento',
-      'descomposición': 'recomposición',
-      'establecimiento': 'entendimiento',
-      'autorización': 'capacitación',
-      'telecomunicación': 'radiodifusión',
-      'administración': 'edificación'
-    }
+    {'pan': 'plan', 'rey': 'ley', 'mar': 'par', 'voz': 'dos'},
+    {'flor': 'amor', 'sol': 'rol', 'nube': 'sube', 'luz': 'cruz', 'tren': 'bien'},
+    {'casa': 'masa', 'gato': 'pato', 'mesa': 'pesa', 'balón': 'pelón', 'ventana': 'antena', 'ratón': 'camión'},
+    {'silla': 'villa', 'perro': 'cerro', 'barco': 'charco', 'noche': 'roche', 'día': 'fría', 'río': 'tío'}
   ];
 
   List<String> topWords = [];
@@ -97,6 +53,8 @@ class _RhymeGameState extends State<RhymeGame> {
       currentLevel = level;
       topWords = List.from(topWordsLevels[level - 1]);
       bottomWords = List.from(bottomWordsLevels[level - 1]);
+      topWords.shuffle();
+      bottomWords.shuffle();
       correctPairs = Map.from(correctPairsLevels[level - 1]);
       correctCount = 0;
       feedbackMessage = '';
@@ -389,7 +347,6 @@ class _RhymeGameState extends State<RhymeGame> {
   Widget buildGame(BuildContext context) {
     return Stack(
       children: [
-        // Fondo difuminado
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -552,7 +509,6 @@ class _RhymeGameState extends State<RhymeGame> {
         } else {
           return DragTarget<String>(
             onWillAccept: (receivedWord) {
-              // Ampliar área de aceptación
               return true;
             },
             onAccept: (receivedWord) {
@@ -571,7 +527,7 @@ class _RhymeGameState extends State<RhymeGame> {
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.8,
-        height: 150.0, // Hacer la notificación más alta
+        height: 150.0,
         padding: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: feedbackColor,
@@ -592,7 +548,7 @@ class _RhymeGameState extends State<RhymeGame> {
               style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'Cocogoose', // Estilo Cocogoose
+                fontFamily: 'Cocogoose',
                 color: Colors.white,
               ),
               textAlign: TextAlign.center,
