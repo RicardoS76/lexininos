@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'baseDatos/database_helper.dart';
+import 'privacy_policy_page.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -12,13 +12,13 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final DatabaseHelper _dbHelper = DatabaseHelper();
   final _formKey = GlobalKey<FormState>();
 
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -219,8 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscureConfirmPassword =
-                                  !_obscureConfirmPassword;
+                              _obscureConfirmPassword = !_obscureConfirmPassword;
                             });
                           },
                         ),
@@ -236,23 +235,55 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                     ),
                     SizedBox(height: 20.0),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _isChecked,
+                          onChanged: (value) {
+                            setState(() {
+                              _isChecked = value!;
+                            });
+                          },
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PrivacyPolicyPage(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Acepto la Política de Privacidad',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          Map<String, dynamic> row = {
-                            'nombre_usuario': _usernameController.text,
-                            'nombre': _nameController.text,
-                            'contrasena_hash': _passwordController
-                                .text, // En producción, asegura de hacer hashing de la contraseña
-                            'correo_electronico': _emailController.text,
-                          };
-                          final id = await _dbHelper.insertUser(row);
-                          print('Registro exitoso. ID: $id. Datos: $row');
-                          Navigator.pushReplacementNamed(context, '/login');
-                        } else {
-                          print('Por favor llena todos los campos');
-                        }
-                      },
+                      onPressed: _isChecked
+                          ? () async {
+                              if (_formKey.currentState!.validate()) {
+                                Map<String, dynamic> row = {
+                                  'nombre_usuario': _usernameController.text,
+                                  'nombre': _nameController.text,
+                                  'contrasena_hash': _passwordController
+                                      .text, // En producción, asegura de hacer hashing de la contraseña
+                                  'correo_electronico': _emailController.text,
+                                };
+                                final id = await _dbHelper.insertUser(row);
+                                print('Registro exitoso. ID: $id. Datos: $row');
+                                Navigator.pushReplacementNamed(
+                                    context, '/login');
+                              } else {
+                                print('Por favor llena todos los campos');
+                              }
+                            }
+                          : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.pink.shade100,
                         padding:

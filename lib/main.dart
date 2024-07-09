@@ -28,6 +28,7 @@ import 'resultados/results_test2_page.dart';
 import 'resultados/results_test3_page.dart';
 import 'resultados/results_test4_page.dart';
 import 'resultados/results_total_page.dart';
+import 'privacy_policy_page.dart'; // Importa la nueva página de política de privacidad
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -99,6 +100,7 @@ class MyApp extends StatelessWidget {
             ManageAccountsPage(authenticatedUserPassword: password ?? ''),
         '/edit_account': (context) => EditAccountPage(),
         '/contacts': (context) => ContactsPage(),
+        '/privacy_policy': (context) => PrivacyPolicyPage(), // Nueva ruta para la política de privacidad
       },
     );
   }
