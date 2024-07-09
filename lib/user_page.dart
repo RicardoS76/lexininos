@@ -30,14 +30,14 @@ class UserPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.person, color: Colors.purple, size: 40.0),
+                      Icon(Icons.person, color: Colors.deepPurple, size: 40.0),
                       SizedBox(width: 10),
                       Text(
                         'Usuario',
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.purple,
+                          color: Colors.deepPurple,
                           fontFamily: 'Cocogoose',
                         ),
                       ),
@@ -48,25 +48,9 @@ class UserPage extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       children: [
-                        _buildInfoTile('Información de la cuenta',
-                            Icons.account_box, context,
-                            route: '/account_info'),
-                        _buildInfoTile(
-                            'Datos de usuario', Icons.perm_identity, context,
-                            route: '/user_data'),
-                        _buildInfoTile('Ayuda especializada', Icons.help_outline, context,
-                            route: '/help'),
-                        _buildInfoTile(
-                            'Información', Icons.info_outline, context,
-                            route: '/info'),
-                        _buildInfoTile(
-                            'Ver Resultados', Icons.assessment, context,
-                            route: '/results'),
-                        _buildInfoTile('Cuentas del dispositivo',
-                            Icons.account_circle, context,
-                            route: '/manage_accounts'),
-                        _buildInfoTile('Contacto', Icons.contact_mail, context,
-                            route: '/contacts'),
+                        _buildInfoTile('Ayuda especializada', Icons.help_outline, context, route: '/help', color: Colors.blue),
+                        _buildInfoTile('Información', Icons.info_outline, context, route: '/info', color: Colors.green),
+                        _buildInfoTile('Ver Resultados', Icons.assessment, context, route: '/results', color: Colors.orange),
                       ],
                     ),
                   ),
@@ -79,8 +63,7 @@ class UserPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoTile(String title, IconData icon, BuildContext context,
-      {String? route}) {
+  Widget _buildInfoTile(String title, IconData icon, BuildContext context, {String? route, required Color color}) {
     return GestureDetector(
       onTap: route != null
           ? () {
@@ -103,7 +86,7 @@ class UserPage extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, color: Colors.purple, size: 30.0),
+            Icon(icon, color: color, size: 30.0),
             SizedBox(width: 20),
             Expanded(
               child: Text(
@@ -111,12 +94,12 @@ class UserPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: color,
                   fontFamily: 'Cocogoose',
                 ),
               ),
             ),
-            Icon(Icons.arrow_forward_ios, color: Colors.purple, size: 20.0),
+            Icon(Icons.arrow_forward_ios, color: color, size: 20.0),
           ],
         ),
       ),

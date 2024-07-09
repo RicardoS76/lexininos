@@ -19,10 +19,8 @@ class _TochtepecPageState extends State<TochtepecPage> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.pink.shade100,
-                  Colors.blue.shade100,
-                  Colors.green.shade100,
-                  Colors.yellow.shade100,
+                  Colors.lightBlue.shade100,
+                  Colors.lightGreen.shade100,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -40,9 +38,9 @@ class _TochtepecPageState extends State<TochtepecPage> {
                       child: Text(
                         'UBR DE Tochtepec',
                         style: TextStyle(
-                          fontSize: 30.0,
+                          fontSize: 28.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.purple,
+                          color: Colors.teal.shade700,
                           fontFamily: 'Cocogoose',
                         ),
                         textAlign: TextAlign.center,
@@ -113,11 +111,11 @@ Teléfono Móvil: 2231014844
 
   Widget _buildInfoRow(String title, String value, BuildContext context, {bool isCustomFont = false}) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(16.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -133,9 +131,9 @@ Teléfono Móvil: 2231014844
               text: TextSpan(
                 text: '$title: ',
                 style: TextStyle(
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: Colors.teal.shade700,
                   fontFamily: 'Cocogoose',
                 ),
                 children: <TextSpan>[
@@ -144,6 +142,7 @@ Teléfono Móvil: 2231014844
                     style: TextStyle(
                       fontFamily: isCustomFont ? 'Arial' : 'Cocogoose',
                       fontWeight: FontWeight.normal,
+                      color: Colors.black87,
                     ),
                   ),
                 ],
@@ -157,11 +156,11 @@ Teléfono Móvil: 2231014844
 
   Widget _buildExpandableInfoRow(String title, String value, BuildContext context, bool isExpanded, VoidCallback onTap) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(16.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -178,9 +177,9 @@ Teléfono Móvil: 2231014844
                 child: Text(
                   title,
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.purple,
+                    color: Colors.teal.shade700,
                     fontFamily: 'Cocogoose',
                   ),
                 ),
@@ -191,11 +190,11 @@ Teléfono Móvil: 2231014844
                   children: [
                     Text(
                       isExpanded ? 'Ver menos' : 'Ver más',
-                      style: TextStyle(color: Colors.purple),
+                      style: TextStyle(color: Colors.teal.shade700),
                     ),
                     Icon(
                       isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                      color: Colors.purple,
+                      color: Colors.teal.shade700,
                     ),
                   ],
                 ),
@@ -206,8 +205,8 @@ Teléfono Móvil: 2231014844
             Text(
               value,
               style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.purple.shade700,
+                fontSize: 14.0,
+                color: Colors.black87,
                 fontFamily: 'Arial',
               ),
               textAlign: TextAlign.left,
@@ -219,11 +218,11 @@ Teléfono Móvil: 2231014844
 
   Widget _buildImageReferenceRow(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(16.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -238,9 +237,9 @@ Teléfono Móvil: 2231014844
             child: Text(
               'Imagen de referencia',
               style: TextStyle(
-                fontSize: 18.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.purple,
+                color: Colors.teal.shade700,
                 fontFamily: 'Cocogoose',
               ),
             ),
@@ -253,11 +252,11 @@ Teléfono Móvil: 2231014844
               children: [
                 Text(
                   'Ver imagen',
-                  style: TextStyle(color: Colors.purple),
+                  style: TextStyle(color: Colors.teal.shade700),
                 ),
                 Icon(
                   Icons.image,
-                  color: Colors.purple,
+                  color: Colors.teal.shade700,
                 ),
               ],
             ),
@@ -293,7 +292,7 @@ Teléfono Móvil: 2231014844
                     child: Image.asset('assets/UBR2.jpg'),
                   ),
                   IconButton(
-                    icon: Icon(Icons.close, color: Colors.purple),
+                    icon: Icon(Icons.close, color: Colors.teal.shade700),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

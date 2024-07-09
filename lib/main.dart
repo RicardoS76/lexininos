@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Importaciones de otras páginas
 import 'activities/test1/rhyme_game.dart';
 import 'activities/test2/test2.dart';
 import 'activities/test2/connect_learn_page.dart';
@@ -11,17 +12,15 @@ import 'main_page.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 import 'reset_password_page.dart';
-import 'settings_page.dart';
-import 'user/account_info_page.dart';
-import 'user/edit_account_page.dart';
+import 'settings_page.dart'; // SettingsPage está directamente en lib
+import 'settings/edit_account_page.dart';
+import 'settings/manage_accounts_page.dart';
+import 'settings/contacts_page.dart';
 import 'user/help_page.dart';
 import 'user/info_page.dart';
-import 'user/manage_accounts_page.dart';
 import 'user/results_page.dart';
 import 'user/shared_preferences.dart';
-import 'user/user_data_page.dart';
-import 'user/contacts_page.dart';
-import 'user_page.dart';
+import 'user_page.dart'; // UserPage está directamente en lib
 import 'welcome_page.dart';
 import 'resultados/results_test1_page.dart';
 import 'resultados/results_test2_page.dart';
@@ -29,6 +28,11 @@ import 'resultados/results_test3_page.dart';
 import 'resultados/results_test4_page.dart';
 import 'resultados/results_total_page.dart';
 import 'privacy_policy_page.dart'; // Importa la nueva página de política de privacidad
+
+// Importaciones de las páginas de UBR desde la carpeta centers
+import 'centers/atoyatempan_page.dart';
+import 'centers/tochtepec_page.dart';
+import 'centers/molcaxac_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,10 +77,8 @@ class MyApp extends StatelessWidget {
               authenticatedUserPassword: password!,
               name: name!,
             ),
-        '/settings': (context) => SettingsPage(),
-        '/user': (context) => UserPage(),
-        '/account_info': (context) => AccountInfoPage(),
-        '/user_data': (context) => UserDataPage(),
+        '/settings': (context) => SettingsPage(), // SettingsPage en lib
+        '/user': (context) => UserPage(), // UserPage en lib
         '/help': (context) => HelpPage(),
         '/info': (context) => InfoPage(),
         '/results': (context) => ResultsPage(),
@@ -96,11 +98,14 @@ class MyApp extends StatelessWidget {
         '/visual_challenge': (context) => VisualChallengePage(),
         '/welcome': (context) => WelcomePage(),
         '/reset_password': (context) => ResetPasswordPage(),
-        '/manage_accounts': (context) =>
-            ManageAccountsPage(authenticatedUserPassword: password ?? ''),
+        '/manage_accounts': (context) => ManageAccountsPage(authenticatedUserPassword: password ?? ''),
         '/edit_account': (context) => EditAccountPage(),
         '/contacts': (context) => ContactsPage(),
         '/privacy_policy': (context) => PrivacyPolicyPage(), // Nueva ruta para la política de privacidad
+        // Rutas de las páginas de UBR
+        '/atoyatempan': (context) => AtoyatempanPage(),
+        '/tochtepec': (context) => TochtepecPage(),
+        '/molcaxac': (context) => MolcaxacPage(),
       },
     );
   }

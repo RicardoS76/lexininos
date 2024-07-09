@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ZacapalaPage extends StatefulWidget {
+class AtoyatempanPage extends StatefulWidget {
   @override
-  _ZacapalaPageState createState() => _ZacapalaPageState();
+  _AtoyatempanPageState createState() => _AtoyatempanPageState();
 }
 
-class _ZacapalaPageState extends State<ZacapalaPage> {
+class _AtoyatempanPageState extends State<AtoyatempanPage> {
   bool isExpanded1 = false;
   bool isExpanded2 = false;
   bool isExpanded3 = false;
@@ -19,10 +19,8 @@ class _ZacapalaPageState extends State<ZacapalaPage> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.pink.shade100,
-                  Colors.blue.shade100,
-                  Colors.green.shade100,
-                  Colors.yellow.shade100,
+                  Colors.lightBlue.shade100,
+                  Colors.lightGreen.shade100,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -38,27 +36,27 @@ class _ZacapalaPageState extends State<ZacapalaPage> {
                   children: [
                     Center(
                       child: Text(
-                        'UBR DE Zacapala',
+                        'UBR DE Atoyatempan',
                         style: TextStyle(
-                          fontSize: 30.0,
+                          fontSize: 28.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.purple,
+                          color: Colors.teal.shade700,
                           fontFamily: 'Cocogoose',
                         ),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     SizedBox(height: 20),
-                    _buildInfoRow('Tipo de Unidad',
-                        'UBR (Unidad Básica de Rehabilitación)', context),
+                    _buildInfoRow('Municipio', 'Atoyatempan', context),
+                    _buildInfoRow('Tipo de Unidad', 'UBR (Unidad Básica de Rehabilitación)', context),
                     _buildExpandableInfoRow(
                       'Domicilio',
                       '''
-Tipo de Vialidad: Boulevard
-Nombre de Vialidad: Carretera Intermixteca
+Tipo de Vialidad: Calle
+Nombre de Vialidad: Agustín Rojas
 Número Exterior e Interior: S/N
-Nombre del Asentamiento: Localidad
-Código Postal: 74680
+Nombre del Asentamiento: Centro
+Código Postal: 75620
 ''',
                       context,
                       isExpanded1,
@@ -68,17 +66,14 @@ Código Postal: 74680
                         });
                       },
                     ),
-                    _buildInfoRow('Correo Electrónico UBR',
-                        'sgs_26_1@hotmail.com', context,
-                        isCustomFont: true),
-                    _buildInfoRow('Teléfono UBR', '2221585832', context,
-                        isCustomFont: true),
+                    _buildInfoRow('Correo Electrónico UBR', 'difatoyatempan2021.2024@gmail.com', context, isCustomFont: true),
+                    _buildInfoRow('Teléfono UBR', '2241158693', context, isCustomFont: true),
                     _buildExpandableInfoRow(
                       'Horario de Servicio',
                       '''
-Matutino (lunes a viernes): 9:00 a 16:00
-Vespertino (lunes a viernes): No hay
-Sabatino: No se labora
+Matutino (lunes a viernes): 9:00 a 14:00
+Vespertino (lunes a viernes): 16:00 a 18:00
+Sabatino: No aplica
 ''',
                       context,
                       isExpanded2,
@@ -91,10 +86,10 @@ Sabatino: No se labora
                     _buildExpandableInfoRow(
                       'Responsable de la UBR',
                       '''
-Nombre: Saturnino Garcia Saldaña
-Cargo: Fisioterapeuta
-Correo Electrónico: sgs_26_1@hotmail.com
-Teléfono Móvil: 2221585832
+Nombre: Monica Marcela Nuñez Iturbide
+Cargo: Encargada de la Unidad y Fisioterapeuta
+Correo Electrónico: marcenun27@gmail.com
+Teléfono Móvil: 2228466596
 ''',
                       context,
                       isExpanded3,
@@ -115,14 +110,13 @@ Teléfono Móvil: 2221585832
     );
   }
 
-  Widget _buildInfoRow(String title, String value, BuildContext context,
-      {bool isCustomFont = false}) {
+  Widget _buildInfoRow(String title, String value, BuildContext context, {bool isCustomFont = false}) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(16.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -138,9 +132,9 @@ Teléfono Móvil: 2221585832
               text: TextSpan(
                 text: '$title: ',
                 style: TextStyle(
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: Colors.teal.shade700,
                   fontFamily: 'Cocogoose',
                 ),
                 children: <TextSpan>[
@@ -149,6 +143,7 @@ Teléfono Móvil: 2221585832
                     style: TextStyle(
                       fontFamily: isCustomFont ? 'Arial' : 'Cocogoose',
                       fontWeight: FontWeight.normal,
+                      color: Colors.black87,
                     ),
                   ),
                 ],
@@ -160,14 +155,13 @@ Teléfono Móvil: 2221585832
     );
   }
 
-  Widget _buildExpandableInfoRow(String title, String value,
-      BuildContext context, bool isExpanded, VoidCallback onTap) {
+  Widget _buildExpandableInfoRow(String title, String value, BuildContext context, bool isExpanded, VoidCallback onTap) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(16.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -184,9 +178,9 @@ Teléfono Móvil: 2221585832
                 child: Text(
                   title,
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.purple,
+                    color: Colors.teal.shade700,
                     fontFamily: 'Cocogoose',
                   ),
                 ),
@@ -197,13 +191,11 @@ Teléfono Móvil: 2221585832
                   children: [
                     Text(
                       isExpanded ? 'Ver menos' : 'Ver más',
-                      style: TextStyle(color: Colors.purple),
+                      style: TextStyle(color: Colors.teal.shade700),
                     ),
                     Icon(
-                      isExpanded
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                      color: Colors.purple,
+                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      color: Colors.teal.shade700,
                     ),
                   ],
                 ),
@@ -214,8 +206,8 @@ Teléfono Móvil: 2221585832
             Text(
               value,
               style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.purple.shade700,
+                fontSize: 14.0,
+                color: Colors.black87,
                 fontFamily: 'Arial',
               ),
               textAlign: TextAlign.left,
@@ -227,11 +219,11 @@ Teléfono Móvil: 2221585832
 
   Widget _buildImageReferenceRow(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(16.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -246,9 +238,9 @@ Teléfono Móvil: 2221585832
             child: Text(
               'Imagen de referencia',
               style: TextStyle(
-                fontSize: 18.0,
+                fontSize: 16.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.purple,
+                color: Colors.teal.shade700,
                 fontFamily: 'Cocogoose',
               ),
             ),
@@ -261,11 +253,11 @@ Teléfono Móvil: 2221585832
               children: [
                 Text(
                   'Ver imagen',
-                  style: TextStyle(color: Colors.purple),
+                  style: TextStyle(color: Colors.teal.shade700),
                 ),
                 Icon(
                   Icons.image,
-                  color: Colors.purple,
+                  color: Colors.teal.shade700,
                 ),
               ],
             ),
@@ -298,10 +290,10 @@ Teléfono Móvil: 2221585832
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                    child: Image.asset('assets/UBR4.jpg'),
+                    child: Image.asset('assets/UBR1.jpg'),
                   ),
                   IconButton(
-                    icon: Icon(Icons.close, color: Colors.purple),
+                    icon: Icon(Icons.close, color: Colors.teal.shade700),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

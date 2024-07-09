@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../baseDatos/database_helper.dart';
 import '../security_dialog.dart';
 
@@ -62,16 +61,14 @@ class _ManageAccountsPageState extends State<ManageAccountsPage> {
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'Cuentas del dispositivo',
+                          'Seguridad',
                           style: TextStyle(
-                            fontSize:
-                                24.0, // Ajuste de tamaño para evitar desbordamiento
+                            fontSize: 24.0, // Ajuste de tamaño para evitar desbordamiento
                             fontWeight: FontWeight.bold,
                             color: Colors.purple,
                             fontFamily: 'Cocogoose',
                           ),
-                          overflow: TextOverflow
-                              .ellipsis, // Para manejar textos largos
+                          overflow: TextOverflow.ellipsis, // Para manejar textos largos
                         ),
                       ),
                     ],
@@ -82,16 +79,12 @@ class _ManageAccountsPageState extends State<ManageAccountsPage> {
                     child: FutureBuilder<List<Map<String, dynamic>>>(
                       future: _usersFuture,
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Center(
-                              child: Text('Error al cargar las cuentas'));
-                        } else if (!snapshot.hasData ||
-                            snapshot.data!.isEmpty) {
-                          return Center(
-                              child: Text('No hay cuentas registradas'));
+                          return Center(child: Text('Error al cargar las cuentas'));
+                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return Center(child: Text('No hay cuentas registradas'));
                         } else {
                           return ListView.builder(
                             itemCount: snapshot.data!.length,
@@ -115,8 +108,7 @@ class _ManageAccountsPageState extends State<ManageAccountsPage> {
                                   children: [
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             user['nombre_usuario'],
@@ -138,16 +130,14 @@ class _ManageAccountsPageState extends State<ManageAccountsPage> {
                                       ),
                                     ),
                                     IconButton(
-                                      icon: Icon(Icons.edit,
-                                          color: Colors.purple),
+                                      icon: Icon(Icons.edit, color: Colors.purple),
                                       onPressed: () {
                                         _showSecurityDialog(
                                           context,
                                           'Editar cuenta',
                                           widget.authenticatedUserPassword,
                                           () async {
-                                            final result =
-                                                await Navigator.pushNamed(
+                                            final result = await Navigator.pushNamed(
                                               context,
                                               '/edit_account',
                                               arguments: user,
@@ -177,8 +167,7 @@ class _ManageAccountsPageState extends State<ManageAccountsPage> {
     );
   }
 
-  void _showSecurityDialog(BuildContext context, String title,
-      String currentPassword, Function onPasswordAccepted) {
+  void _showSecurityDialog(BuildContext context, String title, String currentPassword, Function onPasswordAccepted) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

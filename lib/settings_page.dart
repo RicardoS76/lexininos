@@ -7,8 +7,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  String selectedLanguage = 'Español';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,14 +36,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.settings, color: Colors.purple, size: 40.0),
+                      Icon(Icons.settings, color: Colors.deepPurple, size: 40.0),
                       SizedBox(width: 10),
                       Text(
                         'Ajustes',
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.purple,
+                          color: Colors.deepPurple,
                           fontFamily: 'Cocogoose',
                         ),
                       ),
@@ -56,8 +54,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: ListView(
                       children: [
-                        _buildLanguageTile(context),
-                        _buildInfoTile('Cerrar sesión', Icons.logout, context),
+                        _buildInfoTile('Seguridad', Icons.security, context, route: '/manage_accounts', color: Colors.blue),
+                        _buildInfoTile('Ayuda y soporte', Icons.contact_support, context, route: '/contacts', color: Colors.green),
+                        _buildInfoTile('Cerrar sesión', Icons.logout, context, onTap: _logout, color: Colors.red),
                       ],
                     ),
                   ),
@@ -70,77 +69,16 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildLanguageTile(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 5.0,
-            spreadRadius: 1.0,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.language, color: Colors.purple, size: 30.0),
-              SizedBox(width: 20),
-              Expanded(
-                child: Text(
-                  'Cambiar idioma',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.purple,
-                    fontFamily: 'Cocogoose',
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: selectedLanguage,
-              items: <String>['Español', 'Inglés'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.purple,
-                      fontFamily: 'Cocogoose',
-                    ),
-                  ),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedLanguage = newValue!;
-                  // Aquí puedes agregar la lógica para cambiar el idioma de la aplicación.
-                });
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+  void _logout() async {
+    await SharedPreferencesHelper.clearUserCredentials();
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
-  Widget _buildInfoTile(String title, IconData icon, BuildContext context) {
+  Widget _buildInfoTile(String title, IconData icon, BuildContext context, {String? route, Function()? onTap, required Color color}) {
     return GestureDetector(
-      onTap: () async {
-        if (title == 'Cerrar sesión') {
-          await SharedPreferencesHelper.clearUserCredentials();
-          Navigator.pushReplacementNamed(context, '/login');
+      onTap: onTap ?? () {
+        if (route != null) {
+          Navigator.pushNamed(context, route);
         }
       },
       child: Container(
@@ -159,7 +97,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         child: Row(
           children: [
-            Icon(icon, color: Colors.purple, size: 30.0),
+            Icon(icon, color: color, size: 30.0),
             SizedBox(width: 20),
             Expanded(
               child: Text(
@@ -167,12 +105,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: color,
                   fontFamily: 'Cocogoose',
                 ),
               ),
             ),
-            Icon(Icons.arrow_forward_ios, color: Colors.purple, size: 20.0),
+            Icon(Icons.arrow_forward_ios, color: color, size: 20.0),
           ],
         ),
       ),
