@@ -17,22 +17,66 @@ class _RhymeGameState extends State<RhymeGame> {
   final List<List<String>> topWordsLevels = [
     ['casa', 'gato', 'mesa', 'balón'],
     ['ventana', 'ratón', 'silla', 'perro', 'barco'],
-    ['mariposa', 'biblioteca', 'elefante', 'hospital', 'universo', 'helicóptero'],
-    ['programación', 'descubrimiento', 'descomposición', 'establecimiento', 'autorización', 'telecomunicación', 'administración']
+    [
+      'mariposa',
+      'biblioteca',
+      'elefante',
+      'hospital',
+      'universo',
+      'helicóptero'
+    ],
+    [
+      'programación',
+      'descubrimiento',
+      'descomposición',
+      'establecimiento',
+      'autorización',
+      'telecomunicación',
+      'administración'
+    ]
   ];
 
   final List<List<String>> bottomWordsLevels = [
     ['masa', 'pato', 'pesa', 'pelón'],
     ['antena', 'camión', 'villa', 'cerro', 'charco'],
     ['hermosa', 'estética', 'cantante', 'vital', 'diverso', 'monedero'],
-    ['investigación', 'conocimiento', 'recomposición', 'entendimiento', 'capacitación', 'radiodifusión', 'edificación']
+    [
+      'investigación',
+      'conocimiento',
+      'recomposición',
+      'entendimiento',
+      'capacitación',
+      'radiodifusión',
+      'edificación'
+    ]
   ];
 
   final List<Map<String, String>> correctPairsLevels = [
     {'casa': 'masa', 'gato': 'pato', 'mesa': 'pesa', 'balón': 'pelón'},
-    {'ventana': 'antena', 'ratón': 'camión', 'silla': 'villa', 'perro': 'cerro', 'barco': 'charco'},
-    {'mariposa': 'hermosa', 'biblioteca': 'estética', 'elefante': 'cantante', 'hospital': 'vital', 'universo': 'diverso', 'helicóptero': 'monedero'},
-    {'programación': 'investigación', 'descubrimiento': 'conocimiento', 'descomposición': 'recomposición', 'establecimiento': 'entendimiento', 'autorización': 'capacitación', 'telecomunicación': 'radiodifusión', 'administración': 'edificación'}
+    {
+      'ventana': 'antena',
+      'ratón': 'camión',
+      'silla': 'villa',
+      'perro': 'cerro',
+      'barco': 'charco'
+    },
+    {
+      'mariposa': 'hermosa',
+      'biblioteca': 'estética',
+      'elefante': 'cantante',
+      'hospital': 'vital',
+      'universo': 'diverso',
+      'helicóptero': 'monedero'
+    },
+    {
+      'programación': 'investigación',
+      'descubrimiento': 'conocimiento',
+      'descomposición': 'recomposición',
+      'establecimiento': 'entendimiento',
+      'autorización': 'capacitación',
+      'telecomunicación': 'radiodifusión',
+      'administración': 'edificación'
+    }
   ];
 
   List<String> topWords = [];
@@ -251,7 +295,9 @@ class _RhymeGameState extends State<RhymeGame> {
             ),
             SizedBox(height: 20.0),
             Text(
-              currentLevel < 4 ? 'Iniciar nivel ${currentLevel + 1}' : 'Has completado todos los niveles',
+              currentLevel < 4
+                  ? 'Iniciar nivel ${currentLevel + 1}'
+                  : 'Has completado todos los niveles',
               style: TextStyle(fontSize: 24.0),
               textAlign: TextAlign.center,
             ),
@@ -367,7 +413,8 @@ class _RhymeGameState extends State<RhymeGame> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.home, size: 40.0, color: Colors.white),
+                      icon: Icon(Icons.arrow_back,
+                          size: 40.0, color: Colors.white),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -469,7 +516,8 @@ class _RhymeGameState extends State<RhymeGame> {
         if (isTop) {
           return Draggable<String>(
             data: words[index],
-            feedbackOffset: Offset(0, -25), // Centra la palabra arrastrada debajo del dedo
+            feedbackOffset:
+                Offset(0, -25), // Centra la palabra arrastrada debajo del dedo
             child: WordBox(word: words[index]),
             feedback: Material(
               color: Colors.transparent,

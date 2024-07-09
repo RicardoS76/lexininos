@@ -83,8 +83,19 @@ flutter:
     - assets/objetos/reloj.jpg
     - assets/objetos/silla.jpg
     - assets/objetos/zapato.jpg
-
-
+    #test4
+    - assets/test4/test1.png
+    - assets/test4/opcion1.png
+    - assets/test4/opcion3.png
+    - assets/test4/opcion4.png
+    - assets/test4/correcta.png
+    - assets/test4/test1.png
+    
+    - assets/test4/op1.png
+    - assets/test4/op2.png
+    - assets/test4/op2.png
+    - assets/test4/correcto1.png
+    - assets/test4/test2.png
   fonts:
     - family: Cocogoose
       fonts:

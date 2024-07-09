@@ -28,6 +28,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
   List<int> correctCells = [];
   Offset? startPosition;
   Offset? endPosition;
+  bool showInstructions = true;
 
   @override
   void initState() {
@@ -157,6 +158,12 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
     });
   }
 
+  void startGame() {
+    setState(() {
+      showInstructions = false;
+    });
+  }
+
   Widget buildCongratulations(BuildContext context) {
     return Center(
       child: Container(
@@ -233,87 +240,74 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
     ];
   }
 
+  Widget buildInstructions(BuildContext context) {
+    return Center(
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.8,
+        padding: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5),
+              blurRadius: 10.0,
+              spreadRadius: 1.0,
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Instrucciones',
+              style: TextStyle(
+                fontSize: 36.0,
+                fontFamily: 'Cocogoose',
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.0),
+            Text(
+              'Selecciona las letras de las palabras que encuentres. ¡Vamos a jugar!',
+              style: TextStyle(fontSize: 24.0),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.0),
+            Text(
+              '¿Estás listo?',
+              style: TextStyle(fontSize: 24.0),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: startGame,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                textStyle: TextStyle(
+                  fontSize: 24,
+                  fontFamily: 'Cocogoose',
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              child: Text(
+                'Iniciar',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: RichText(
-          text: TextSpan(
-            style: TextStyle(
-              fontSize: 36.0,
-              fontFamily: 'Cocogoose',
-              fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  offset: Offset(2.0, 2.0),
-                  blurRadius: 3.0,
-                  color: Colors.black,
-                ),
-              ],
-            ),
-            children: [
-              TextSpan(
-                  text: 'S',
-                  style:
-                      TextStyle(color: Colors.red, shadows: _createShadows())),
-              TextSpan(
-                  text: 'o',
-                  style: TextStyle(
-                      color: Colors.orange, shadows: _createShadows())),
-              TextSpan(
-                  text: 'p',
-                  style: TextStyle(
-                      color: Colors.yellow, shadows: _createShadows())),
-              TextSpan(
-                  text: 'a',
-                  style: TextStyle(
-                      color: Colors.green, shadows: _createShadows())),
-              TextSpan(
-                  text: ' ',
-                  style:
-                      TextStyle(color: Colors.blue, shadows: _createShadows())),
-              TextSpan(
-                  text: 'd',
-                  style:
-                      TextStyle(color: Colors.red, shadows: _createShadows())),
-              TextSpan(
-                  text: 'e',
-                  style: TextStyle(
-                      color: Colors.orange, shadows: _createShadows())),
-              TextSpan(
-                  text: ' ',
-                  style: TextStyle(
-                      color: Colors.yellow, shadows: _createShadows())),
-              TextSpan(
-                  text: 'L',
-                  style: TextStyle(
-                      color: Colors.green, shadows: _createShadows())),
-              TextSpan(
-                  text: 'e',
-                  style:
-                      TextStyle(color: Colors.blue, shadows: _createShadows())),
-              TextSpan(
-                  text: 't',
-                  style:
-                      TextStyle(color: Colors.red, shadows: _createShadows())),
-              TextSpan(
-                  text: 'r',
-                  style: TextStyle(
-                      color: Colors.orange, shadows: _createShadows())),
-              TextSpan(
-                  text: 'a',
-                  style: TextStyle(
-                      color: Colors.yellow, shadows: _createShadows())),
-              TextSpan(
-                  text: 's',
-                  style: TextStyle(
-                      color: Colors.green, shadows: _createShadows())),
-            ],
-          ),
-        ),
-        backgroundColor: Colors.transparent, // Fondo del título transparente
-        elevation: 0, // Sin sombra para el fondo del título
-      ),
       body: Stack(
         children: [
           Container(
@@ -330,99 +324,209 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
               ),
             ),
           ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Encuentra las siguientes palabras:',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Wrap(
-                  spacing: 8.0,
-                  runSpacing: 4.0,
-                  children: words
-                      .asMap()
-                      .map((index, word) => MapEntry(
-                            index,
-                            Chip(
-                              label: Text(
-                                word,
+          SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back,
+                            size: 36.0, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontSize: 36.0,
+                            fontFamily: 'Cocogoose',
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 3.0,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                          children: [
+                            TextSpan(
+                                text: 'S',
                                 style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.black,
-                                  shadows: foundWords[index]
-                                      ? [
-                                          Shadow(
-                                              color: Colors.green,
-                                              blurRadius: 3)
-                                        ]
-                                      : [
-                                          Shadow(
-                                              color: Colors.red, blurRadius: 3)
-                                        ],
+                                    color: Colors.red,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 'o',
+                                style: TextStyle(
+                                    color: Colors.orange,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 'p',
+                                style: TextStyle(
+                                    color: Colors.yellow,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 'a',
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: ' ',
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 'd',
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 'e',
+                                style: TextStyle(
+                                    color: Colors.orange,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: ' ',
+                                style: TextStyle(
+                                    color: Colors.yellow,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 'L',
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 'e',
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 't',
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 'r',
+                                style: TextStyle(
+                                    color: Colors.orange,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 'a',
+                                style: TextStyle(
+                                    color: Colors.yellow,
+                                    shadows: _createShadows())),
+                            TextSpan(
+                                text: 's',
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    shadows: _createShadows())),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 36.0), // Placeholder to balance the Row
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Encuentra las siguientes palabras:',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Wrap(
+                    spacing: 8.0,
+                    runSpacing: 4.0,
+                    children: words
+                        .asMap()
+                        .map((index, word) => MapEntry(
+                              index,
+                              Chip(
+                                label: Text(
+                                  word,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.black,
+                                    shadows: foundWords[index]
+                                        ? [
+                                            Shadow(
+                                                color: Colors.green,
+                                                blurRadius: 3)
+                                          ]
+                                        : [
+                                            Shadow(
+                                                color: Colors.red,
+                                                blurRadius: 3)
+                                          ],
+                                  ),
+                                ),
+                                backgroundColor: Colors.white,
+                              ),
+                            ))
+                        .values
+                        .toList(),
+                  ),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTapDown: handleTapDown,
+                    onPanUpdate: handlePanUpdate,
+                    onPanEnd: handlePanEnd,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: GridView.builder(
+                        physics:
+                            NeverScrollableScrollPhysics(), // Disable scrolling
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 10,
+                          crossAxisSpacing: 4.0,
+                          mainAxisSpacing: 4.0,
+                        ),
+                        itemCount: 100,
+                        itemBuilder: (context, index) {
+                          bool isSelected = selectedCells.contains(index);
+                          bool isCorrect = correctCells.contains(index);
+                          return Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              color: isCorrect
+                                  ? Colors.green
+                                  : (isSelected ? Colors.yellow : Colors.white),
+                            ),
+                            child: Center(
+                              child: Text(
+                                grid[index ~/ 10][index % 10],
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      isCorrect ? Colors.white : Colors.black,
                                 ),
                               ),
-                              backgroundColor: Colors.white,
                             ),
-                          ))
-                      .values
-                      .toList(),
-                ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTapDown: handleTapDown,
-                  onPanUpdate: handlePanUpdate,
-                  onPanEnd: handlePanEnd,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: GridView.builder(
-                      physics:
-                          NeverScrollableScrollPhysics(), // Disable scrolling
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 10,
-                        crossAxisSpacing: 4.0,
-                        mainAxisSpacing: 4.0,
+                          );
+                        },
                       ),
-                      itemCount: 100,
-                      itemBuilder: (context, index) {
-                        bool isSelected = selectedCells.contains(index);
-                        bool isCorrect = correctCells.contains(index);
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            color: isCorrect
-                                ? Colors.green
-                                : (isSelected ? Colors.yellow : Colors.white),
-                          ),
-                          child: Center(
-                            child: Text(
-                              grid[index ~/ 10][index % 10],
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: isCorrect ? Colors.white : Colors.black,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          if (showInstructions) buildInstructions(context),
         ],
       ),
     );

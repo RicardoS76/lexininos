@@ -22,63 +22,85 @@ class Test2Page extends StatelessWidget {
             ),
           ),
           SafeArea(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Conecta y Aprende',
-                      style: TextStyle(
-                        fontSize: 36.0,
-                        fontFamily: 'Cocogoose',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.purple,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back,
+                            size: 36.0, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      'Elige lo que quieras jugar hoy',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'Cocogoose',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                      Expanded(
+                        child: Text(
+                          'Conecta y Aprende',
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontFamily: 'Cocogoose',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(2.0, 2.0),
+                                blurRadius: 3.0,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 40.0),
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          _buildOptionCard(
-                            context,
-                            title: 'Animales',
-                            imagePath: 'assets/animales.jpg',
-                            route: '/connect_learn',
-                          ),
-                          SizedBox(height: 20.0),
-                          _buildOptionCard(
-                            context,
-                            title: 'Frutas',
-                            imagePath: 'assets/frutas.jpg',
-                            route: '/fruits',
-                          ),
-                          SizedBox(height: 20.0),
-                          _buildOptionCard(
-                            context,
-                            title: 'Objetos',
-                            imagePath: 'assets/objetos.jpg',
-                            route: '/objects',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                      SizedBox(width: 36.0), // Placeholder to balance the Row
+                    ],
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Elige lo que quieras jugar hoy',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontFamily: 'Cocogoose',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    children: [
+                      _buildOptionCard(
+                        context,
+                        title: 'Animales',
+                        imagePath: 'assets/animales.jpg',
+                        route: '/connect_learn',
+                      ),
+                      SizedBox(height: 20.0),
+                      _buildOptionCard(
+                        context,
+                        title: 'Frutas',
+                        imagePath: 'assets/frutas.jpg',
+                        route: '/fruits',
+                      ),
+                      SizedBox(height: 20.0),
+                      _buildOptionCard(
+                        context,
+                        title: 'Objetos',
+                        imagePath: 'assets/objetos.jpg',
+                        route: '/objects',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -86,9 +108,13 @@ class Test2Page extends StatelessWidget {
     );
   }
 
-  Widget _buildOptionCard(BuildContext context, {required String title, required String imagePath, required String route}) {
+  Widget _buildOptionCard(BuildContext context,
+      {required String title,
+      required String imagePath,
+      required String route}) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double containerSize = screenWidth * 0.8; // Ajusta el tamaño del contenedor
+    final double containerSize =
+        screenWidth * 0.8; // Ajusta el tamaño del contenedor
 
     return GestureDetector(
       onTap: () {
