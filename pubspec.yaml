@@ -96,6 +96,24 @@ flutter:
     - assets/test4/op3.png
     - assets/test4/correcto1.png
     - assets/test4/test2.png
+
+    - assets/test4/opc1.png
+    - assets/test4/opc2.png
+    - assets/test4/opc3.png
+    - assets/test4/correcto2.png
+    - assets/test4/test3.png
+
+    - assets/test4/opci1.png
+    - assets/test4/opci2.png
+    - assets/test4/opci3.png
+    - assets/test4/correcto3.png
+    - assets/test4/test4.png
+
+    - assets/test4/opcio1.png
+    - assets/test4/opcio2.png
+    - assets/test4/opcio3.png
+    - assets/test4/correcto4.png
+    - assets/test4/test5.png
   fonts:
     - family: Cocogoose
       fonts:

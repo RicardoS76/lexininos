@@ -20,12 +20,42 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
     {
       'questionImage': 'assets/test4/test2.png',
       'options': [
-        'assets/test4/correcto1.png',
         'assets/test4/op1.png',
+        'assets/test4/correcto1.png',
         'assets/test4/op3.png',
         'assets/test4/op2.png',
       ],
       'correctAnswer': 'assets/test4/correcto1.png',
+    },
+    {
+      'questionImage': 'assets/test4/test3.png',
+      'options': [
+        'assets/test4/correcto2.png',
+        'assets/test4/opc1.png',
+        'assets/test4/opc3.png',
+        'assets/test4/opc2.png',
+      ],
+      'correctAnswer': 'assets/test4/correcto2.png',
+    },
+    {
+      'questionImage': 'assets/test4/test4.png',
+      'options': [
+        'assets/test4/opci1.png',
+        'assets/test4/opci2.png',
+        'assets/test4/correcto3.png',
+        'assets/test4/opci3.png',
+      ],
+      'correctAnswer': 'assets/test4/correcto3.png',
+    },
+    {
+      'questionImage': 'assets/test4/test5.png',
+      'options': [
+        'assets/test4/opcio2.png',
+        'assets/test4/opcio3.png',
+        'assets/test4/opcio1.png',
+        'assets/test4/correcto4.png',
+      ],
+      'correctAnswer': 'assets/test4/correcto4.png',
     },
     // Puedes agregar más pruebas aquí
   ];
@@ -60,6 +90,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
               fontSize: 24,
               color: Colors.green,
               fontWeight: FontWeight.bold,
+              decoration: TextDecoration.none,
             ),
           ),
         ),
@@ -73,6 +104,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                     fontFamily: 'Arial',
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.none,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -100,6 +132,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
+                    decoration: TextDecoration.none,
                   ),
                 ),
                 onPressed: () {
@@ -135,6 +168,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
               fontSize: 24,
               color: Colors.red,
               fontWeight: FontWeight.bold,
+              decoration: TextDecoration.none,
             ),
           ),
         ),
@@ -148,6 +182,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                     fontFamily: 'Arial',
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.none,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -164,6 +199,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                   fontFamily: 'Cocogoose',
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.none,
                 ),
               ),
               onPressed: () {
@@ -192,6 +228,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
               fontSize: 24,
               color: Colors.green,
               fontWeight: FontWeight.bold,
+              decoration: TextDecoration.none,
             ),
           ),
         ),
@@ -205,6 +242,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                     fontFamily: 'Arial',
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.none,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -232,6 +270,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
+                    decoration: TextDecoration.none,
                   ),
                 ),
                 onPressed: () {
@@ -374,87 +413,89 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                           Navigator.pop(context);
                         },
                       ),
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: 36.0,
-                            fontFamily: 'Cocogoose',
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                offset: Offset(2.0, 2.0),
-                                blurRadius: 3.0,
-                                color: Colors.black,
-                              ),
+                      Flexible(
+                        child: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 36.0,
+                              fontFamily: 'Cocogoose',
+                              fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  offset: Offset(2.0, 2.0),
+                                  blurRadius: 3.0,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: 'D',
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'e',
+                                  style: TextStyle(
+                                      color: Colors.orange,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 's',
+                                  style: TextStyle(
+                                      color: Colors.yellow,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'a',
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'f',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'í',
+                                  style: TextStyle(
+                                      color: Colors.purple,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'o ',
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'V',
+                                  style: TextStyle(
+                                      color: Colors.orange,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'i',
+                                  style: TextStyle(
+                                      color: Colors.yellow,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 's',
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'u',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'a',
+                                  style: TextStyle(
+                                      color: Colors.purple,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'l',
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      shadows: _createShadows())),
                             ],
                           ),
-                          children: [
-                            TextSpan(
-                                text: 'D',
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'e',
-                                style: TextStyle(
-                                    color: Colors.orange,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 's',
-                                style: TextStyle(
-                                    color: Colors.yellow,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'a',
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'f',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'í',
-                                style: TextStyle(
-                                    color: Colors.purple,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'o ',
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'V',
-                                style: TextStyle(
-                                    color: Colors.orange,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'i',
-                                style: TextStyle(
-                                    color: Colors.yellow,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 's',
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'u',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'a',
-                                style: TextStyle(
-                                    color: Colors.purple,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'l',
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    shadows: _createShadows())),
-                          ],
                         ),
                       ),
                       SizedBox(width: 36.0), // Placeholder to balance the Row
