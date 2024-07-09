@@ -57,7 +57,6 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
       ],
       'correctAnswer': 'assets/test4/correcto4.png',
     },
-    // Puedes agregar más pruebas aquí
   ];
 
   int currentTestIndex = 0;
@@ -415,6 +414,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                       ),
                       Flexible(
                         child: RichText(
+                          textAlign: TextAlign.center,
                           text: TextSpan(
                             style: TextStyle(
                               fontSize: 36.0,
@@ -528,6 +528,9 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                     ),
                     itemCount: currentTest['options'].length,
                     itemBuilder: (context, index) {
+                      double imageSize = (currentTestIndex == 2)
+                          ? 80.0
+                          : 100.0; // Adjust the size of the images for test3
                       return GestureDetector(
                         onTap: () {
                           checkAnswer(currentTest['options'][index]);
@@ -548,6 +551,8 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                             child: Image.asset(
                               currentTest['options'][index],
                               fit: BoxFit.cover,
+                              width: imageSize,
+                              height: imageSize,
                             ),
                           ),
                         ),

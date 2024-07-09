@@ -23,7 +23,6 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
 
   late List<List<String>> grid;
   late List<bool> foundWords;
-  List<bool> selectedGrid = List.generate(100, (index) => false);
   List<int> selectedCells = [];
   List<int> correctCells = [];
   Offset? startPosition;
@@ -120,7 +119,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
     setState(() {
       startPosition = details.localPosition;
       endPosition = details.localPosition;
-      selectedCells.clear();
+      selectCells();
     });
   }
 
@@ -200,6 +199,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
               style: TextStyle(
                 fontSize: 24.0,
                 color: Colors.black,
+                decoration: TextDecoration.none, // Añade esta línea
               ),
               textAlign: TextAlign.center,
             ),
@@ -340,92 +340,95 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                           Navigator.pop(context);
                         },
                       ),
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: 36.0,
-                            fontFamily: 'Cocogoose',
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                offset: Offset(2.0, 2.0),
-                                blurRadius: 3.0,
-                                color: Colors.black,
-                              ),
+                      Expanded(
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 36.0,
+                              fontFamily: 'Cocogoose',
+                              fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  offset: Offset(2.0, 2.0),
+                                  blurRadius: 3.0,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: 'S',
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'o',
+                                  style: TextStyle(
+                                      color: Colors.orange,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'p',
+                                  style: TextStyle(
+                                      color: Colors.yellow,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'a',
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: ' ',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'd',
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'e',
+                                  style: TextStyle(
+                                      color: Colors.orange,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: ' ',
+                                  style: TextStyle(
+                                      color: Colors.yellow,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'L',
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'e',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 't',
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'r',
+                                  style: TextStyle(
+                                      color: Colors.orange,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 'a',
+                                  style: TextStyle(
+                                      color: Colors.yellow,
+                                      shadows: _createShadows())),
+                              TextSpan(
+                                  text: 's',
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      shadows: _createShadows())),
                             ],
                           ),
-                          children: [
-                            TextSpan(
-                                text: 'S',
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'o',
-                                style: TextStyle(
-                                    color: Colors.orange,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'p',
-                                style: TextStyle(
-                                    color: Colors.yellow,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'a',
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: ' ',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'd',
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'e',
-                                style: TextStyle(
-                                    color: Colors.orange,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: ' ',
-                                style: TextStyle(
-                                    color: Colors.yellow,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'L',
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'e',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 't',
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'r',
-                                style: TextStyle(
-                                    color: Colors.orange,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 'a',
-                                style: TextStyle(
-                                    color: Colors.yellow,
-                                    shadows: _createShadows())),
-                            TextSpan(
-                                text: 's',
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    shadows: _createShadows())),
-                          ],
                         ),
                       ),
                       SizedBox(width: 36.0), // Placeholder to balance the Row
