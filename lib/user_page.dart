@@ -30,14 +30,14 @@ class UserPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.person, color: Colors.deepPurple, size: 40.0),
+                      Icon(Icons.person, color: Colors.purple, size: 40.0),
                       SizedBox(width: 10),
                       Text(
                         'Usuario',
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.deepPurple,
+                          color: Colors.purple,
                           fontFamily: 'Cocogoose',
                         ),
                       ),
@@ -48,9 +48,10 @@ class UserPage extends StatelessWidget {
                   Expanded(
                     child: ListView(
                       children: [
-                        _buildInfoTile('Ayuda especializada', Icons.help_outline, context, route: '/help', color: Colors.blue),
-                        _buildInfoTile('Información', Icons.info_outline, context, route: '/info', color: Colors.green),
-                        _buildInfoTile('Ver Resultados', Icons.assessment, context, route: '/results', color: Colors.orange),
+                        _buildInfoTile('Ayuda especializada', Icons.help_outline, context, route: '/help'),
+                        _buildInfoTile('Información', Icons.info_outline, context, route: '/info'),
+                        _buildInfoTile('Ver Resultados', Icons.assessment, context, route: '/results'),
+                        _buildInfoTile('Datos del Usuario', Icons.perm_identity, context, route: '/user_data'),
                       ],
                     ),
                   ),
@@ -63,7 +64,7 @@ class UserPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoTile(String title, IconData icon, BuildContext context, {String? route, required Color color}) {
+  Widget _buildInfoTile(String title, IconData icon, BuildContext context, {String? route}) {
     return GestureDetector(
       onTap: route != null
           ? () {
@@ -86,7 +87,7 @@ class UserPage extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, color: color, size: 30.0),
+            Icon(icon, color: Colors.purple, size: 30.0),
             SizedBox(width: 20),
             Expanded(
               child: Text(
@@ -94,12 +95,12 @@ class UserPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: color,
+                  color: Colors.purple,
                   fontFamily: 'Cocogoose',
                 ),
               ),
             ),
-            Icon(Icons.arrow_forward_ios, color: color, size: 20.0),
+            Icon(Icons.arrow_forward_ios, color: Colors.purple, size: 20.0),
           ],
         ),
       ),

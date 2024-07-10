@@ -18,6 +18,7 @@ import 'settings/contacts_page.dart';
 import 'user/help_page.dart';
 import 'user/info_page.dart';
 import 'user/results_page.dart';
+import 'user/user_data_page.dart'; // Nueva importación para UserDataPage
 import 'user/shared_preferences.dart';
 import 'user_page.dart'; // UserPage está directamente en lib
 import 'welcome_page.dart';
@@ -101,6 +102,7 @@ class MyApp extends StatelessWidget {
         '/contacts': (context) => ContactsPage(),
         '/privacy_policy': (context) => PrivacyPolicyPage(), // Nueva ruta para la política de privacidad
         '/about_us': (context) => AboutUsPage(), // Nueva ruta para AboutUsPage
+        '/user_data': (context) => UserDataPage(), // Nueva ruta para UserDataPage
         '/atoyatempan': (context) => AtoyatempanPage(),
         '/tochtepec': (context) => TochtepecPage(),
         '/molcaxac': (context) => MolcaxacPage(),
