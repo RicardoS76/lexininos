@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../baseDatos/database_helper.dart';
 import '../user/shared_preferences.dart';
 
@@ -29,17 +28,16 @@ class _UserDataPageState extends State<UserDataPage> {
 
   Future<void> loadUserData() async {
     String? username = await SharedPreferencesHelper.getUserUsername();
-
     if (username != null) {
       DatabaseHelper dbHelper = DatabaseHelper();
       Map<String, dynamic>? userData = await dbHelper.getUser(username);
-
+      String? avatar = await SharedPreferencesHelper.getUserAvatar();
       if (userData != null) {
         setState(() {
           emailController.text = userData['correo_electronico'];
           nameController.text = userData['nombre'];
           usernameController.text = userData['nombre_usuario'];
-          selectedAvatar = userData['avatar'] ?? 'assets/avatares/avatar1.png';
+          selectedAvatar = avatar ?? 'assets/avatares/avatar1.png';
         });
       }
     }
@@ -47,7 +45,6 @@ class _UserDataPageState extends State<UserDataPage> {
 
   Future<void> saveUserData() async {
     String? username = await SharedPreferencesHelper.getUserUsername();
-
     if (username != null) {
       DatabaseHelper dbHelper = DatabaseHelper();
       Map<String, dynamic> userData = {
@@ -56,12 +53,13 @@ class _UserDataPageState extends State<UserDataPage> {
         'correo_electronico': emailController.text,
         'avatar': selectedAvatar,
       };
-
       Map<String, dynamic>? existingUserData = await dbHelper.getUser(username);
       if (existingUserData != null) {
         userData['id_usuario'] = existingUserData['id_usuario'];
         await dbHelper.updateUser(userData);
+        await SharedPreferencesHelper.saveUserAvatar(selectedAvatar);
         print('Usuario actualizado');
+        Navigator.pushReplacementNamed(context, '/main');
       }
     }
   }
@@ -242,12 +240,8 @@ class _UserDataPageState extends State<UserDataPage> {
                                         horizontal: 50, vertical: 15),
                                     textStyle: TextStyle(fontSize: 18),
                                   ),
-                                  child: Text(
-                                    'Guardar',
-                                    style: TextStyle(
-                                        color: Colors
-                                            .white), // Cambia el color del texto a blanco
-                                  ),
+                                  child: Text('Guardar',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
                             ],

@@ -1,15 +1,35 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import 'security_dialog.dart'; // Asegúrate de que la ruta sea correcta
+import 'security_dialog.dart';
+import 'user/shared_preferences.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   final String authenticatedUserPassword;
   final String name;
 
   MainPage({required this.authenticatedUserPassword, required this.name});
 
-  final PageController _pageController = PageController(viewportFraction: 0.8);
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  late String avatarPath =
+      'assets/avatares/avatar1.png'; // Valor predeterminado inicial
+
+  @override
+  void initState() {
+    super.initState();
+    loadAvatar();
+  }
+
+  Future<void> loadAvatar() async {
+    String? avatar = await SharedPreferencesHelper.getUserAvatar();
+    setState(() {
+      avatarPath = avatar ?? 'assets/avatares/avatar1.png';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +57,8 @@ class MainPage extends StatelessWidget {
           SafeArea(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center, // Centra los elementos
+                crossAxisAlignment:
+                    CrossAxisAlignment.center, // Centra los elementos
                 children: [
                   SizedBox(height: 40.0), // Espacio desde la parte superior
                   Padding(
@@ -49,15 +70,19 @@ class MainPage extends StatelessWidget {
                           icon: Icon(Icons.settings,
                               size: 40.0,
                               color: Colors.white), // Icono de configuración
-                          onPressed: () => _showSecurityDialog(context,
-                              'Ajuste', '/settings', authenticatedUserPassword),
+                          onPressed: () => _showSecurityDialog(
+                              context,
+                              'Ajuste',
+                              '/settings',
+                              widget.authenticatedUserPassword),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.person,
-                              size: 40.0,
-                              color: Colors.white), // Icono más grande y blanco
-                          onPressed: () => _showSecurityDialog(context,
-                              'Usuario', '/user', authenticatedUserPassword),
+                        GestureDetector(
+                          onTap: () => _showSecurityDialog(context, 'Usuario',
+                              '/user', widget.authenticatedUserPassword),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage(avatarPath),
+                            radius: 40.0,
+                          ),
                         ),
                       ],
                     ),
@@ -65,9 +90,10 @@ class MainPage extends StatelessWidget {
                   SizedBox(height: 20.0),
                   Center(
                     child: AutoSizeText(
-                      'HOLA $name',
+                      'HOLA ${widget.name}',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.09, // Ajuste dinámico del tamaño de fuente
+                        fontSize: screenWidth *
+                            0.09, // Ajuste dinámico del tamaño de fuente
                         fontFamily: 'Cocogoose',
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -88,12 +114,18 @@ class MainPage extends StatelessWidget {
                   Center(
                     child: ShaderMask(
                       shaderCallback: (bounds) => LinearGradient(
-                        colors: [Colors.red, Colors.green, Colors.blue, Colors.yellow],
+                        colors: [
+                          Colors.red,
+                          Colors.green,
+                          Colors.blue,
+                          Colors.yellow
+                        ],
                       ).createShader(bounds),
                       child: Text(
                         '¡¡A JUGAR!!',
                         style: TextStyle(
-                          fontSize: screenWidth * 0.1, // Tamaño de fuente más grande ajustado dinámicamente
+                          fontSize: screenWidth *
+                              0.1, // Tamaño de fuente más grande ajustado dinámicamente
                           fontFamily: 'Cocogoose',
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -108,7 +140,9 @@ class MainPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 40.0), // Espacio adicional para bajar los elementos
+                  SizedBox(
+                      height:
+                          40.0), // Espacio adicional para bajar los elementos
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: LayoutBuilder(
@@ -117,14 +151,39 @@ class MainPage extends StatelessWidget {
                         final containerHeight = containerWidth * 1.2;
 
                         return SizedBox(
-                          height: containerHeight + 60, // Ajusta el tamaño del carrusel
+                          height: containerHeight +
+                              60, // Ajusta el tamaño del carrusel
                           child: PageView(
-                            controller: _pageController,
+                            controller: PageController(viewportFraction: 0.8),
                             children: [
-                              _buildFeatureContainer(context, 'Rimas', '/rhyme', 'assets/rima.jpg', containerWidth, containerHeight),
-                              _buildFeatureContainer(context, 'Conecta y Aprende', '/test2', 'assets/palabras.jpg', containerWidth, containerHeight),
-                              _buildFeatureContainer(context, 'Palabras Escondidas', '/hidden_words', 'assets/sopa.png', containerWidth, containerHeight),
-                              _buildFeatureContainer(context, 'Desafío Visual: Figuras', '/visual_challenge', 'assets/figuras.jpg', containerWidth, containerHeight),
+                              _buildFeatureContainer(
+                                  context,
+                                  'Rimas',
+                                  '/rhyme',
+                                  'assets/rima.jpg',
+                                  containerWidth,
+                                  containerHeight),
+                              _buildFeatureContainer(
+                                  context,
+                                  'Conecta y Aprende',
+                                  '/test2',
+                                  'assets/palabras.jpg',
+                                  containerWidth,
+                                  containerHeight),
+                              _buildFeatureContainer(
+                                  context,
+                                  'Palabras Escondidas',
+                                  '/hidden_words',
+                                  'assets/sopa.png',
+                                  containerWidth,
+                                  containerHeight),
+                              _buildFeatureContainer(
+                                  context,
+                                  'Desafío Visual: Figuras',
+                                  '/visual_challenge',
+                                  'assets/figuras.jpg',
+                                  containerWidth,
+                                  containerHeight),
                             ],
                           ),
                         );
@@ -149,15 +208,15 @@ class MainPage extends StatelessWidget {
           title: title,
           currentPassword: currentPassword,
           onPasswordAccepted: () {
-            Navigator.pushNamed(context, route);
+            Navigator.pushNamed(context, route).then((_) => loadAvatar());
           },
         );
       },
     );
   }
 
-  Widget _buildFeatureContainer(
-      BuildContext context, String title, String route, String imagePath, double width, double height) {
+  Widget _buildFeatureContainer(BuildContext context, String title,
+      String route, String imagePath, double width, double height) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, route);
