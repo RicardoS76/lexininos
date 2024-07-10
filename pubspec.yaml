@@ -114,6 +114,12 @@ flutter:
     - assets/test4/opcio3.png
     - assets/test4/correcto4.png
     - assets/test4/test5.png
+    #avares
+    - assets/avatares/avatar1.png
+    - assets/avatares/avatar2.png
+    - assets/avatares/avatar3.png
+    - assets/avatares/avatar4.png
+
   fonts:
     - family: Cocogoose
       fonts:

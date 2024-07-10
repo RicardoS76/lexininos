@@ -21,7 +21,7 @@ class DatabaseHelper {
     String path = join(await getDatabasesPath(), 'users.db');
     return await openDatabase(
       path,
-      version: 2, // Asegúrate de que la versión sea 2
+      version: 3, // Asegúrate de que la versión sea 3
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -34,7 +34,8 @@ class DatabaseHelper {
         nombre_usuario TEXT NOT NULL UNIQUE,
         nombre TEXT NOT NULL,
         contrasena_hash TEXT NOT NULL,
-        correo_electronico TEXT NOT NULL UNIQUE
+        correo_electronico TEXT NOT NULL UNIQUE,
+        avatar TEXT DEFAULT 'assets/avatares/avatar1.png' -- Añadir la columna de avatar
       )
     ''');
   }
@@ -48,6 +49,11 @@ class DatabaseHelper {
         await db
             .execute('ALTER TABLE usuarios ADD COLUMN nombre TEXT NOT NULL');
       }
+    }
+    if (oldVersion < 3) {
+      // Añade la columna 'avatar' si no existe
+      await db.execute(
+          'ALTER TABLE usuarios ADD COLUMN avatar TEXT DEFAULT "assets/avatares/avatar1.png"');
     }
   }
 
@@ -64,7 +70,8 @@ class DatabaseHelper {
           'nombre_usuario',
           'nombre',
           'contrasena_hash',
-          'correo_electronico'
+          'correo_electronico',
+          'avatar' // Añadir la columna de avatar
         ],
         where: 'nombre_usuario = ?',
         whereArgs: [username]);
@@ -82,7 +89,8 @@ class DatabaseHelper {
           'nombre_usuario',
           'nombre',
           'contrasena_hash',
-          'correo_electronico'
+          'correo_electronico',
+          'avatar' // Añadir la columna de avatar
         ],
         where: 'correo_electronico = ?',
         whereArgs: [email]);

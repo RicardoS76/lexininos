@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {
   static Future<void> saveUserCredentials(
-      String username, String password, user) async {
+      String username, String password) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', username);
     await prefs.setString('password', password);
@@ -31,5 +31,10 @@ class SharedPreferencesHelper {
       await prefs.setBool('isFirstRun', false);
     }
     return isFirstRun;
+  }
+
+  static Future<String?> getUserUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('username');
   }
 }
