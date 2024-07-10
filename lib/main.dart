@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Importaciones de otras páginas
 import 'activities/test1/rhyme_game.dart';
 import 'activities/test2/test2.dart';
 import 'activities/test2/connect_learn_page.dart';
@@ -28,11 +27,10 @@ import 'resultados/results_test3_page.dart';
 import 'resultados/results_test4_page.dart';
 import 'resultados/results_total_page.dart';
 import 'privacy_policy_page.dart'; // Importa la nueva página de política de privacidad
-
-// Importaciones de las páginas de UBR desde la carpeta centers
 import 'centers/atoyatempan_page.dart';
 import 'centers/tochtepec_page.dart';
 import 'centers/molcaxac_page.dart';
+import 'about_us_page.dart'; // Nueva importación para AboutUsPage
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -102,7 +100,7 @@ class MyApp extends StatelessWidget {
         '/edit_account': (context) => EditAccountPage(),
         '/contacts': (context) => ContactsPage(),
         '/privacy_policy': (context) => PrivacyPolicyPage(), // Nueva ruta para la política de privacidad
-        // Rutas de las páginas de UBR
+        '/about_us': (context) => AboutUsPage(), // Nueva ruta para AboutUsPage
         '/atoyatempan': (context) => AtoyatempanPage(),
         '/tochtepec': (context) => TochtepecPage(),
         '/molcaxac': (context) => MolcaxacPage(),
