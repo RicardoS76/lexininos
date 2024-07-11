@@ -1,6 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '/baseDatos/database_helper.dart';
 
 class HiddenWordsPage extends StatefulWidget {
   @override
@@ -28,12 +29,14 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
   Offset? startPosition;
   Offset? endPosition;
   bool showInstructions = true;
+  DateTime startTime = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     grid = generateGrid();
     foundWords = List.generate(words.length, (index) => false);
+    startTime = DateTime.now();
   }
 
   List<List<String>> generateGrid() {
@@ -103,6 +106,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
       });
 
       if (foundWords.every((found) => found)) {
+        _saveCompletionTime();
         showDialog(
           context: context,
           builder: (context) => buildCongratulations(context),
@@ -160,7 +164,29 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
   void startGame() {
     setState(() {
       showInstructions = false;
+      startTime = DateTime.now();
     });
+  }
+
+  void _saveCompletionTime() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool resultsMode = prefs.getBool('resultsMode') ?? false;
+
+    if (resultsMode) {
+      final dbHelper = DatabaseHelper();
+      int userId = await _getCurrentUserId();
+      int completionTime = DateTime.now().difference(startTime).inSeconds;
+      await dbHelper.insertResult({
+        'id_usuario': userId,
+        'prueba': 1, // Representa la prueba de palabras escondidas
+        'resultado': completionTime.toString()
+      });
+    }
+  }
+
+  Future<int> _getCurrentUserId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('user_id') ?? 0; // Ajustar según sea necesario
   }
 
   Widget buildCongratulations(BuildContext context) {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '/baseDatos/database_helper.dart';
 
 class VisualChallengePage extends StatefulWidget {
   @override
@@ -63,12 +65,15 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
   bool showInstructions = true;
   bool _isCorrect = false;
   String _selectedOption = '';
+  int correctAnswers = 0;
+  DateTime startTime = DateTime.now();
 
   void checkAnswer(String selectedImage) {
     setState(() {
       _isCorrect = selectedImage == tests[currentTestIndex]['correctAnswer'];
       _selectedOption = selectedImage;
       if (_isCorrect) {
+        correctAnswers++;
         _showFeedbackDialog();
       } else {
         _showIncorrectNotification();
@@ -215,6 +220,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
   }
 
   void _showCompletionDialog() {
+    _saveResults();
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -278,6 +284,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                     showInstructions = true;
                     currentTestIndex = 0;
                     _selectedOption = '';
+                    correctAnswers = 0;
                   });
                 },
               ),
@@ -288,19 +295,31 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
     );
   }
 
-  List<Shadow> _createShadows() {
-    return [
-      Shadow(
-        offset: Offset(1.0, 1.0),
-        blurRadius: 2.0,
-        color: Colors.black,
-      ),
-    ];
+  void _saveResults() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool resultsMode = prefs.getBool('resultsMode') ?? false;
+
+    if (resultsMode) {
+      final dbHelper = DatabaseHelper();
+      int userId = await _getCurrentUserId();
+      int completionTime = DateTime.now().difference(startTime).inSeconds;
+      await dbHelper.insertResult({
+        'id_usuario': userId,
+        'prueba': 4, // Representa la prueba de desafío visual
+        'resultado': correctAnswers.toString()
+      });
+    }
+  }
+
+  Future<int> _getCurrentUserId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('user_id') ?? 0; // Ajustar según sea necesario
   }
 
   void startGame() {
     setState(() {
       showInstructions = false;
+      startTime = DateTime.now();
     });
   }
 
@@ -367,6 +386,16 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
         ),
       ),
     );
+  }
+
+  List<Shadow> _createShadows() {
+    return [
+      Shadow(
+        offset: Offset(1.0, 1.0),
+        blurRadius: 2.0,
+        color: Colors.black,
+      ),
+    ];
   }
 
   Color _getButtonColor(String option) {

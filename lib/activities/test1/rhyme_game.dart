@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '/baseDatos/database_helper.dart'; // Asegúrate de importar tu DatabaseHelper
 
 class RhymeGame extends StatefulWidget {
   @override
@@ -119,6 +120,27 @@ class _RhymeGameState extends State<RhymeGame> {
         prefs.setInt('level4_time', endTime);
         break;
     }
+
+    // Verificar si el modo de resultados está activo
+    bool resultsMode = prefs.getBool('resultsMode') ?? false;
+    if (resultsMode) {
+      // Guardar resultados en la base de datos
+      final dbHelper = DatabaseHelper();
+      int userId = await _getCurrentUserId();
+      await dbHelper.insertResult({
+        'id_usuario': userId,
+        'prueba': currentLevel,
+        'resultado': endTime.toString()
+      });
+    }
+  }
+
+  Future<int> _getCurrentUserId() async {
+    // Implementar lógica para obtener el ID del usuario actual
+    // Puede ser de SharedPreferences o de otra fuente
+    // Suponiendo que se almacena en SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('user_id') ?? 0; // Ajustar según sea necesario
   }
 
   void startGame() {

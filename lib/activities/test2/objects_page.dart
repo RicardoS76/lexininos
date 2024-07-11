@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '/baseDatos/database_helper.dart';
 
 class ObjectsPage extends StatefulWidget {
   @override
@@ -84,6 +86,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
   bool _isCorrect = false;
   String _selectedOption = '';
   List<String> _shuffledOptions = [];
+  int _errorCount = 0;
 
   @override
   void initState() {
@@ -105,6 +108,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
     if (_isCorrect) {
       _showFeedbackDialog();
     } else {
+      _errorCount++;
       _showIncorrectNotification();
     }
   }
@@ -114,8 +118,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Correcto!',
@@ -202,8 +205,7 @@ class _ObjectsPageState extends State<ObjectsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Incorrecto!',
@@ -256,12 +258,91 @@ class _ObjectsPageState extends State<ObjectsPage> {
   }
 
   void _nextObject() {
-    setState(() {
-      _currentIndex = (_currentIndex + 1) % _objectData.length;
-      _showResult = false;
-      _selectedOption = '';
-      _shuffleOptions();
-    });
+    if (_currentIndex < _objectData.length - 1) {
+      setState(() {
+        _currentIndex++;
+        _showResult = false;
+        _selectedOption = '';
+        _shuffleOptions();
+      });
+    } else {
+      _saveTestResults();
+      _showCompletionDialog();
+    }
+  }
+
+  void _saveTestResults() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool resultsMode = prefs.getBool('resultsMode') ?? false;
+
+    if (resultsMode) {
+      final dbHelper = DatabaseHelper();
+      int userId = await _getCurrentUserId();
+      await dbHelper.insertResult({
+        'id_usuario': userId,
+        'prueba': 4, // Representa la prueba de objetos
+        'resultado': _errorCount.toString()
+      });
+    }
+  }
+
+  Future<int> _getCurrentUserId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('user_id') ?? 0; // Ajustar según sea necesario
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Center(
+            child: Text(
+              '¡Prueba Completada!',
+              style: TextStyle(
+                  fontFamily: 'Cocogoose',
+                  fontSize: 24,
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    'Has completado todas las preguntas.',
+                    style: TextStyle(
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Center(
+              child: TextButton(
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                      fontFamily: 'Cocogoose',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pop(context); // Volver a la página principal
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Color _getButtonColor(String option) {

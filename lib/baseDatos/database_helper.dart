@@ -21,7 +21,7 @@ class DatabaseHelper {
     String path = join(await getDatabasesPath(), 'users.db');
     return await openDatabase(
       path,
-      version: 3, // Asegúrate de que la versión sea 3
+      version: 4, // Asegúrate de que la versión sea 4
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -35,14 +35,23 @@ class DatabaseHelper {
         nombre TEXT NOT NULL,
         contrasena_hash TEXT NOT NULL,
         correo_electronico TEXT NOT NULL UNIQUE,
-        avatar TEXT DEFAULT 'assets/avatares/avatar1.png' -- Añadir la columna de avatar
+        avatar TEXT DEFAULT 'assets/avatares/avatar1.png'
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE resultados_pruebas (
+        id_resultado INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_usuario INTEGER,
+        prueba INTEGER,
+        resultado TEXT,
+        FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario)
       )
     ''');
   }
 
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
-      // Verifica si la columna 'nombre' ya existe antes de agregarla
       var tableInfo = await db.rawQuery('PRAGMA table_info(usuarios)');
       var columnExists = tableInfo.any((column) => column['name'] == 'nombre');
       if (!columnExists) {
@@ -51,9 +60,19 @@ class DatabaseHelper {
       }
     }
     if (oldVersion < 3) {
-      // Añade la columna 'avatar' si no existe
       await db.execute(
           'ALTER TABLE usuarios ADD COLUMN avatar TEXT DEFAULT "assets/avatares/avatar1.png"');
+    }
+    if (oldVersion < 4) {
+      await db.execute('''
+        CREATE TABLE resultados_pruebas (
+          id_resultado INTEGER PRIMARY KEY AUTOINCREMENT,
+          id_usuario INTEGER,
+          prueba INTEGER,
+          resultado TEXT,
+          FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario)
+        )
+      ''');
     }
   }
 
@@ -71,7 +90,7 @@ class DatabaseHelper {
           'nombre',
           'contrasena_hash',
           'correo_electronico',
-          'avatar' // Añadir la columna de avatar
+          'avatar'
         ],
         where: 'nombre_usuario = ?',
         whereArgs: [username]);
@@ -90,7 +109,7 @@ class DatabaseHelper {
           'nombre',
           'contrasena_hash',
           'correo_electronico',
-          'avatar' // Añadir la columna de avatar
+          'avatar'
         ],
         where: 'correo_electronico = ?',
         whereArgs: [email]);
@@ -116,5 +135,38 @@ class DatabaseHelper {
     int id = row['id_usuario'];
     return await db
         .update('usuarios', row, where: 'id_usuario = ?', whereArgs: [id]);
+  }
+
+  // Métodos para la tabla resultados_pruebas
+  Future<int> insertResult(Map<String, dynamic> row) async {
+    Database db = await database;
+    return await db.insert('resultados_pruebas', row);
+  }
+
+  Future<List<Map<String, dynamic>>> getResultsByUser(int userId) async {
+    Database db = await database;
+    return await db.query('resultados_pruebas', where: 'id_usuario = ?', whereArgs: [userId]);
+  }
+
+  Future<Map<String, dynamic>?> getResult(int userId, int testNumber) async {
+    Database db = await database;
+    List<Map> results = await db.query('resultados_pruebas',
+        where: 'id_usuario = ? AND prueba = ?',
+        whereArgs: [userId, testNumber]);
+    if (results.isNotEmpty) {
+      return Map<String, dynamic>.from(results.first);
+    }
+    return null;
+  }
+
+  Future<int> updateResult(Map<String, dynamic> row) async {
+    Database db = await database;
+    int id = row['id_resultado'];
+    return await db.update('resultados_pruebas', row, where: 'id_resultado = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteResult(int id) async {
+    Database db = await database;
+    return await db.delete('resultados_pruebas', where: 'id_resultado = ?', whereArgs: [id]);
   }
 }
