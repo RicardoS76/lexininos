@@ -178,6 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         );
+
                         print('Inicio de sesión exitoso. Datos: $user');
                       } else {
                         setState(() {

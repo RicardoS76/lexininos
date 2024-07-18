@@ -5,13 +5,14 @@ import 'package:lexininos/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Mock user credentials for testing
-    bool isLoggedIn = false;
     bool isFirstRun = true;
-    String password = '';
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp(
-        isLoggedIn: isLoggedIn, isFirstRun: isFirstRun, password: password));
+      // ignore: dead_code
+      initialRoute: isFirstRun ? '/welcome' : '/main',
+      initialCredentials: null, // Assuming no credentials for this test
+    ));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

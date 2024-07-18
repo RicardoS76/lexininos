@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '/baseDatos/database_helper.dart';
 
 class ConnectLearnPage extends StatefulWidget {
@@ -90,16 +91,18 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
       'feedback': 'Tigre contiene 5 letras:\n\nT, I, G, R, E'
     },
   ];
+
   int _currentIndex = 0;
   bool _showResult = false;
   bool _isCorrect = false;
   String _selectedOption = '';
   List<String> _shuffledOptions = [];
-  int _errorCount = 0;
+  late DateTime _startTime;
 
   @override
   void initState() {
     super.initState();
+    _startTime = DateTime.now();
     _shuffleOptions();
   }
 
@@ -117,7 +120,6 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
     if (_isCorrect) {
       _showFeedbackDialog();
     } else {
-      _errorCount++;
       _showIncorrectNotification();
     }
   }
@@ -127,7 +129,8 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Correcto!',
@@ -214,7 +217,8 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Incorrecto!',
@@ -283,6 +287,7 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
   void _saveTestResults() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     bool resultsMode = prefs.getBool('resultsMode') ?? false;
+    final int endTime = DateTime.now().difference(_startTime).inSeconds;
 
     if (resultsMode) {
       final dbHelper = DatabaseHelper();
@@ -290,7 +295,7 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
       await dbHelper.insertResult({
         'id_usuario': userId,
         'prueba': 2, // Representa la prueba de animales
-        'resultado': _errorCount.toString()
+        'resultado': endTime.toString()
       });
     }
   }
@@ -305,7 +310,8 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Prueba Completada!',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '/baseDatos/database_helper.dart';
 
 class FruitsPage extends StatefulWidget {
@@ -86,11 +87,12 @@ class _FruitsPageState extends State<FruitsPage> {
   bool _isCorrect = false;
   String _selectedOption = '';
   List<String> _shuffledOptions = [];
-  int _errorCount = 0;
+  late DateTime _startTime;
 
   @override
   void initState() {
     super.initState();
+    _startTime = DateTime.now();
     _shuffleOptions();
   }
 
@@ -108,7 +110,6 @@ class _FruitsPageState extends State<FruitsPage> {
     if (_isCorrect) {
       _showFeedbackDialog();
     } else {
-      _errorCount++;
       _showIncorrectNotification();
     }
   }
@@ -118,7 +119,8 @@ class _FruitsPageState extends State<FruitsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Correcto!',
@@ -205,7 +207,8 @@ class _FruitsPageState extends State<FruitsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Incorrecto!',
@@ -274,6 +277,7 @@ class _FruitsPageState extends State<FruitsPage> {
   void _saveTestResults() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     bool resultsMode = prefs.getBool('resultsMode') ?? false;
+    final int endTime = DateTime.now().difference(_startTime).inSeconds;
 
     if (resultsMode) {
       final dbHelper = DatabaseHelper();
@@ -281,7 +285,7 @@ class _FruitsPageState extends State<FruitsPage> {
       await dbHelper.insertResult({
         'id_usuario': userId,
         'prueba': 3, // Representa la prueba de frutas
-        'resultado': _errorCount.toString()
+        'resultado': endTime.toString()
       });
     }
   }
@@ -296,7 +300,8 @@ class _FruitsPageState extends State<FruitsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Center(
             child: Text(
               '¡Prueba Completada!',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '/baseDatos/database_helper.dart'; // Asegúrate de importar tu DatabaseHelper
+
+import '/baseDatos/database_helper.dart';
 
 class RhymeGame extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class _RhymeGameState extends State<RhymeGame> {
   bool showFeedback = false;
   bool allLevelsComplete = false;
   DateTime startTime = DateTime.now();
+  int errores = 0;
 
   final List<List<String>> topWordsLevels = [
     ['pan', 'rey', 'mar', 'voz'],
@@ -31,9 +33,29 @@ class _RhymeGameState extends State<RhymeGame> {
 
   final List<Map<String, String>> correctPairsLevels = [
     {'pan': 'plan', 'rey': 'ley', 'mar': 'par', 'voz': 'dos'},
-    {'flor': 'amor', 'sol': 'rol', 'nube': 'sube', 'luz': 'cruz', 'tren': 'bien'},
-    {'casa': 'masa', 'gato': 'pato', 'mesa': 'pesa', 'balón': 'pelón', 'ventana': 'antena', 'ratón': 'camión'},
-    {'silla': 'villa', 'perro': 'cerro', 'barco': 'charco', 'noche': 'roche', 'día': 'fría', 'río': 'tío'}
+    {
+      'flor': 'amor',
+      'sol': 'rol',
+      'nube': 'sube',
+      'luz': 'cruz',
+      'tren': 'bien'
+    },
+    {
+      'casa': 'masa',
+      'gato': 'pato',
+      'mesa': 'pesa',
+      'balón': 'pelón',
+      'ventana': 'antena',
+      'ratón': 'camión'
+    },
+    {
+      'silla': 'villa',
+      'perro': 'cerro',
+      'barco': 'charco',
+      'noche': 'roche',
+      'día': 'fría',
+      'río': 'tío'
+    }
   ];
 
   List<String> topWords = [];
@@ -65,6 +87,7 @@ class _RhymeGameState extends State<RhymeGame> {
       showFeedback = false;
       allLevelsComplete = false;
       startTime = DateTime.now();
+      errores = 0;
     });
   }
 
@@ -83,6 +106,7 @@ class _RhymeGameState extends State<RhymeGame> {
         feedbackMessage = 'Inténtalo de nuevo';
         feedbackColor = Colors.red;
         showFeedback = true;
+        errores++;
       });
     }
 
@@ -92,9 +116,9 @@ class _RhymeGameState extends State<RhymeGame> {
         if (correctCount == correctPairs.length) {
           if (currentLevel < 4) {
             showLevelComplete = true;
-            _saveLevelTime();
+            _saveLevelResults();
           } else {
-            _saveLevelTime();
+            _saveLevelResults();
             allLevelsComplete = true;
           }
         }
@@ -102,45 +126,23 @@ class _RhymeGameState extends State<RhymeGame> {
     });
   }
 
-  void _saveLevelTime() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  void _saveLevelResults() async {
     final int endTime = DateTime.now().difference(startTime).inSeconds;
+    final int userId = await _getCurrentUserId();
+    final dbHelper = DatabaseHelper();
 
-    switch (currentLevel) {
-      case 1:
-        prefs.setInt('level1_time', endTime);
-        break;
-      case 2:
-        prefs.setInt('level2_time', endTime);
-        break;
-      case 3:
-        prefs.setInt('level3_time', endTime);
-        break;
-      case 4:
-        prefs.setInt('level4_time', endTime);
-        break;
-    }
-
-    // Verificar si el modo de resultados está activo
-    bool resultsMode = prefs.getBool('resultsMode') ?? false;
-    if (resultsMode) {
-      // Guardar resultados en la base de datos
-      final dbHelper = DatabaseHelper();
-      int userId = await _getCurrentUserId();
-      await dbHelper.insertResult({
-        'id_usuario': userId,
-        'prueba': currentLevel,
-        'resultado': endTime.toString()
-      });
-    }
+    // Guardar resultados en la base de datos
+    await dbHelper.insertResult({
+      'id_usuario': userId,
+      'prueba': currentLevel,
+      'tiempo': endTime,
+      'errores': errores,
+    });
   }
 
   Future<int> _getCurrentUserId() async {
-    // Implementar lógica para obtener el ID del usuario actual
-    // Puede ser de SharedPreferences o de otra fuente
-    // Suponiendo que se almacena en SharedPreferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('user_id') ?? 0; // Ajustar según sea necesario
+    return prefs.getInt('user_id') ?? 0;
   }
 
   void startGame() {

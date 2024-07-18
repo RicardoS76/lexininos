@@ -21,7 +21,7 @@ class DatabaseHelper {
     String path = join(await getDatabasesPath(), 'users.db');
     return await openDatabase(
       path,
-      version: 4, // Asegúrate de que la versión sea 4
+      version: 5, // Asegúrate de que la versión sea 5
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -44,7 +44,8 @@ class DatabaseHelper {
         id_resultado INTEGER PRIMARY KEY AUTOINCREMENT,
         id_usuario INTEGER,
         prueba INTEGER,
-        resultado TEXT,
+        tiempo INTEGER,
+        errores INTEGER,
         FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario)
       )
     ''');
@@ -69,10 +70,17 @@ class DatabaseHelper {
           id_resultado INTEGER PRIMARY KEY AUTOINCREMENT,
           id_usuario INTEGER,
           prueba INTEGER,
-          resultado TEXT,
+          tiempo INTEGER,
+          errores INTEGER,
           FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario)
         )
       ''');
+    }
+    if (oldVersion < 5) {
+      await db
+          .execute('ALTER TABLE resultados_pruebas ADD COLUMN tiempo INTEGER');
+      await db
+          .execute('ALTER TABLE resultados_pruebas ADD COLUMN errores INTEGER');
     }
   }
 
@@ -137,7 +145,6 @@ class DatabaseHelper {
         .update('usuarios', row, where: 'id_usuario = ?', whereArgs: [id]);
   }
 
-  // Métodos para la tabla resultados_pruebas
   Future<int> insertResult(Map<String, dynamic> row) async {
     Database db = await database;
     return await db.insert('resultados_pruebas', row);
@@ -145,7 +152,8 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> getResultsByUser(int userId) async {
     Database db = await database;
-    return await db.query('resultados_pruebas', where: 'id_usuario = ?', whereArgs: [userId]);
+    return await db.query('resultados_pruebas',
+        where: 'id_usuario = ?', whereArgs: [userId]);
   }
 
   Future<Map<String, dynamic>?> getResult(int userId, int testNumber) async {
@@ -162,11 +170,25 @@ class DatabaseHelper {
   Future<int> updateResult(Map<String, dynamic> row) async {
     Database db = await database;
     int id = row['id_resultado'];
-    return await db.update('resultados_pruebas', row, where: 'id_resultado = ?', whereArgs: [id]);
+    return await db.update('resultados_pruebas', row,
+        where: 'id_resultado = ?', whereArgs: [id]);
   }
 
   Future<int> deleteResult(int id) async {
     Database db = await database;
-    return await db.delete('resultados_pruebas', where: 'id_resultado = ?', whereArgs: [id]);
+    return await db.delete('resultados_pruebas',
+        where: 'id_resultado = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteResultByTestAndUser(int userId, int testNumber) async {
+    Database db = await database;
+    return await db.delete('resultados_pruebas',
+        where: 'id_usuario = ? AND prueba = ?',
+        whereArgs: [userId, testNumber]);
+  }
+
+  Future<int> deleteAllResults() async {
+    Database db = await database;
+    return await db.delete('resultados_pruebas');
   }
 }
