@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'about_us_page.dart'; //importación para AboutUsPage
-import 'activities/test1/result_page1.dart'; // Importa la nueva página de resultados
 import 'activities/test1/rhyme_game.dart';
 import 'activities/test2/connect_learn_page.dart';
 import 'activities/test2/fruits_page.dart';
@@ -23,6 +22,7 @@ import 'settings/manage_accounts_page.dart';
 import 'settings_page.dart'; // SettingsPage está directamente en lib
 import 'user/help_page.dart';
 import 'user/info_page.dart';
+import 'user/result_page.dart'; // Importa la nueva página de resultados
 import 'user/shared_preferences.dart';
 import 'user/user_data_page.dart'; // Nueva importación para UserDataPage
 import 'user_page.dart'; // UserPage está directamente en lib
@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
         '/atoyatempan': (context) => AtoyatempanPage(),
         '/tochtepec': (context) => TochtepecPage(),
         '/molcaxac': (context) => MolcaxacPage(),
-        '/results': (context) => ResultsPage(), // Nueva ruta
+        '/results': (context) => MenuPage(), // Nueva ruta
       },
     );
   }

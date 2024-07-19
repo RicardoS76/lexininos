@@ -127,17 +127,20 @@ class _RhymeGameState extends State<RhymeGame> {
   }
 
   void _saveLevelResults() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     final int endTime = DateTime.now().difference(startTime).inSeconds;
-    final int userId = await _getCurrentUserId();
-    final dbHelper = DatabaseHelper();
 
-    // Guardar resultados en la base de datos
-    await dbHelper.insertResult({
-      'id_usuario': userId,
-      'prueba': currentLevel,
-      'tiempo': endTime,
-      'errores': errores,
-    });
+    bool resultsMode = prefs.getBool('resultsMode') ?? false;
+    if (resultsMode) {
+      final dbHelper = DatabaseHelper();
+      int userId = await _getCurrentUserId();
+      await dbHelper.insertResult({
+        'id_usuario': userId,
+        'prueba': 1,
+        'tiempo': endTime,
+        'errores': errores,
+      });
+    }
   }
 
   Future<int> _getCurrentUserId() async {

@@ -88,17 +88,22 @@ class _FruitsPageState extends State<FruitsPage> {
   String _selectedOption = '';
   List<String> _shuffledOptions = [];
   late DateTime _startTime;
+  int _errors = 0;
 
   @override
   void initState() {
     super.initState();
-    _startTime = DateTime.now();
-    _shuffleOptions();
+    if (_fruitData.isNotEmpty) {
+      _startTime = DateTime.now();
+      _shuffleOptions();
+    }
   }
 
   void _shuffleOptions() {
-    _shuffledOptions = List.from(_fruitData[_currentIndex]['options']);
-    _shuffledOptions.shuffle();
+    if (_fruitData.isNotEmpty) {
+      _shuffledOptions = List.from(_fruitData[_currentIndex]['options']);
+      _shuffledOptions.shuffle();
+    }
   }
 
   void _checkAnswer(String answer) {
@@ -110,6 +115,7 @@ class _FruitsPageState extends State<FruitsPage> {
     if (_isCorrect) {
       _showFeedbackDialog();
     } else {
+      _errors++;
       _showIncorrectNotification();
     }
   }
@@ -125,10 +131,11 @@ class _FruitsPageState extends State<FruitsPage> {
             child: Text(
               '¡Correcto!',
               style: TextStyle(
-                  fontFamily: 'Cocogoose',
-                  fontSize: 24,
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold),
+                fontFamily: 'Cocogoose',
+                fontSize: 24,
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           content: SingleChildScrollView(
@@ -138,9 +145,10 @@ class _FruitsPageState extends State<FruitsPage> {
                   child: Text(
                     _fruitData[_currentIndex]['feedback'].split('\n\n')[0],
                     style: TextStyle(
-                        fontFamily: 'Arial',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                      fontFamily: 'Arial',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -148,9 +156,10 @@ class _FruitsPageState extends State<FruitsPage> {
                   child: Text(
                     _fruitData[_currentIndex]['feedback'].split('\n\n')[1],
                     style: TextStyle(
-                        fontFamily: 'Cocogoose',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                      fontFamily: 'Cocogoose',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -159,9 +168,10 @@ class _FruitsPageState extends State<FruitsPage> {
                   child: Text(
                     _fruitData[_currentIndex]['description'],
                     style: TextStyle(
-                        fontFamily: 'Arial',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                      fontFamily: 'Arial',
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -184,10 +194,11 @@ class _FruitsPageState extends State<FruitsPage> {
                   child: Text(
                     'Continuar',
                     style: TextStyle(
-                        fontFamily: 'Cocogoose',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      fontFamily: 'Cocogoose',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -213,10 +224,11 @@ class _FruitsPageState extends State<FruitsPage> {
             child: Text(
               '¡Incorrecto!',
               style: TextStyle(
-                  fontFamily: 'Cocogoose',
-                  fontSize: 24,
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold),
+                fontFamily: 'Cocogoose',
+                fontSize: 24,
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           content: SingleChildScrollView(
@@ -226,9 +238,10 @@ class _FruitsPageState extends State<FruitsPage> {
                   child: Text(
                     'Inténtalo de nuevo',
                     style: TextStyle(
-                        fontFamily: 'Arial',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                      fontFamily: 'Arial',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -241,9 +254,10 @@ class _FruitsPageState extends State<FruitsPage> {
                 child: Text(
                   'OK',
                   style: TextStyle(
-                      fontFamily: 'Cocogoose',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                    fontFamily: 'Cocogoose',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -285,7 +299,8 @@ class _FruitsPageState extends State<FruitsPage> {
       await dbHelper.insertResult({
         'id_usuario': userId,
         'prueba': 3, // Representa la prueba de frutas
-        'resultado': endTime.toString()
+        'tiempo': endTime,
+        'errores': _errors
       });
     }
   }
@@ -306,10 +321,11 @@ class _FruitsPageState extends State<FruitsPage> {
             child: Text(
               '¡Prueba Completada!',
               style: TextStyle(
-                  fontFamily: 'Cocogoose',
-                  fontSize: 24,
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold),
+                fontFamily: 'Cocogoose',
+                fontSize: 24,
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           content: SingleChildScrollView(
@@ -319,9 +335,10 @@ class _FruitsPageState extends State<FruitsPage> {
                   child: Text(
                     'Has completado todas las preguntas.',
                     style: TextStyle(
-                        fontFamily: 'Arial',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                      fontFamily: 'Arial',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -334,9 +351,10 @@ class _FruitsPageState extends State<FruitsPage> {
                 child: Text(
                   'OK',
                   style: TextStyle(
-                      fontFamily: 'Cocogoose',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                    fontFamily: 'Cocogoose',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -398,66 +416,81 @@ class _FruitsPageState extends State<FruitsPage> {
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 20.0),
-                    Container(
-                      height: 300.0, // Imagen más grande
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            spreadRadius: 5,
+                    if (_fruitData.isNotEmpty) ...[
+                      Container(
+                        height: 300.0, // Imagen más grande
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 10,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset(
+                            _fruitData[_currentIndex]['image'],
+                            fit: BoxFit.cover,
                           ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          _fruitData[_currentIndex]['image'],
-                          fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text(
-                      '¿Cuál es el nombre correcto de la fruta?',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'Cocogoose',
-                        color: Colors.black87,
+                      SizedBox(height: 20.0),
+                      Text(
+                        '¿Cuál es el nombre correcto de la fruta?',
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontFamily: 'Cocogoose',
+                          color: Colors.black87,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Column(
-                      children: _shuffledOptions.map<Widget>((option) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(vertical: 10.0),
-                          width: MediaQuery.of(context).size.width *
-                              0.8, // Contenedor menos largo
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 20.0),
-                              backgroundColor: _getButtonColor(option),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
+                      SizedBox(height: 20.0),
+                      Column(
+                        children: _shuffledOptions.map<Widget>((option) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 10.0),
+                            width: MediaQuery.of(context).size.width *
+                                0.8, // Contenedor menos largo
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 20.0),
+                                backgroundColor: _getButtonColor(option),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                              ),
+                              onPressed: () => _checkAnswer(option),
+                              child: Text(
+                                option,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'Cocogoose',
+                                  color:
+                                      _showResult && option == _selectedOption
+                                          ? Colors.white
+                                          : Colors.black,
+                                ),
                               ),
                             ),
-                            onPressed: () => _checkAnswer(option),
-                            child: Text(
-                              option,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'Cocogoose',
-                                color: _showResult && option == _selectedOption
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ] else ...[
+                      Center(
+                        child: Text(
+                          'No hay datos de frutas disponibles.',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Cocogoose',
+                            fontWeight: FontWeight.bold,
                           ),
-                        );
-                      }).toList(),
-                    ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

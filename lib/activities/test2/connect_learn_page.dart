@@ -60,8 +60,8 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
     },
     {
       'image': 'assets/animales/leon.jpg',
-      'correctAnswer': 'Leon',
-      'options': ['Leon', 'Lean', 'Leom'],
+      'correctAnswer': 'León',
+      'options': ['León', 'Lean', 'Leom'],
       'description':
           'El león es conocido como el rey de la selva y vive en África.',
       'feedback': 'Leon contiene 4 letras:\n\nL, E, O, N'
@@ -98,6 +98,7 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
   String _selectedOption = '';
   List<String> _shuffledOptions = [];
   late DateTime _startTime;
+  int _errors = 0;
 
   @override
   void initState() {
@@ -120,6 +121,7 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
     if (_isCorrect) {
       _showFeedbackDialog();
     } else {
+      _errors++;
       _showIncorrectNotification();
     }
   }
@@ -295,7 +297,8 @@ class _ConnectLearnPageState extends State<ConnectLearnPage> {
       await dbHelper.insertResult({
         'id_usuario': userId,
         'prueba': 2, // Representa la prueba de animales
-        'resultado': endTime.toString()
+        'tiempo': endTime,
+        'errores': _errors
       });
     }
   }

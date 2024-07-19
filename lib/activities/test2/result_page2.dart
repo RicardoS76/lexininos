@@ -3,21 +3,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '/baseDatos/database_helper.dart';
 
-class ResultsPage1 extends StatefulWidget {
+class ResultsPage2 extends StatefulWidget {
   @override
-  _ResultsPage1State createState() => _ResultsPage1State();
+  _ResultsPage2State createState() => _ResultsPage2State();
 }
 
-class _ResultsPage1State extends State<ResultsPage1> {
+class _ResultsPage2State extends State<ResultsPage2> {
   Future<List<Map<String, dynamic>>> _fetchResults() async {
     final dbHelper = DatabaseHelper();
     final userId = await _getCurrentUserId();
     List<Map<String, dynamic>> results =
         await dbHelper.getResultsByUser(userId);
 
-    // Filtra resultados para la prueba 1
+    // Filtra resultados para las pruebas 2, 3 y 4
     results = results.where((result) {
-      return result['prueba'] == 1;
+      return result['prueba'] == 2 ||
+          result['prueba'] == 3 ||
+          result['prueba'] == 4;
     }).toList();
 
     return results;
@@ -62,7 +64,7 @@ class _ResultsPage1State extends State<ResultsPage1> {
     );
   }
 
-  Widget _buildResultCard(Map<String, dynamic> result, int nivel) {
+  Widget _buildResultCard(Map<String, dynamic> result) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Padding(
@@ -71,7 +73,7 @@ class _ResultsPage1State extends State<ResultsPage1> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Nivel $nivel',
+              'Prueba',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),
@@ -84,19 +86,15 @@ class _ResultsPage1State extends State<ResultsPage1> {
   }
 
   Widget _buildResultsSection(
-      List<Map<String, dynamic>> results, int pruebaNumber) {
+      List<Map<String, dynamic>> results, int pruebaNumber, String title) {
     final filteredResults =
         results.where((result) => result['prueba'] == pruebaNumber).toList();
 
     if (filteredResults.isEmpty) return SizedBox.shrink();
 
     return ExpansionTile(
-      title: Text('Prueba $pruebaNumber'),
-      children: filteredResults
-          .asMap()
-          .entries
-          .map((entry) => _buildResultCard(entry.value, entry.key + 1))
-          .toList(),
+      title: Text(title),
+      children: filteredResults.map(_buildResultCard).toList(),
     );
   }
 
@@ -104,7 +102,7 @@ class _ResultsPage1State extends State<ResultsPage1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Resultados de Prueba 1'),
+        title: Text('Resultados'),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
@@ -125,10 +123,9 @@ class _ResultsPage1State extends State<ResultsPage1> {
             final results = snapshot.data!;
             return ListView(
               children: [
-                _buildResultsSection(results, 1),
-                _buildResultsSection(results, 2),
-                _buildResultsSection(results, 3),
-                _buildResultsSection(results, 4),
+                _buildResultsSection(results, 2, 'Animales'),
+                _buildResultsSection(results, 3, 'Frutas'),
+                _buildResultsSection(results, 4, 'Objetos'),
               ],
             );
           }
