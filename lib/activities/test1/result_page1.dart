@@ -12,20 +12,23 @@ class _ResultsPage1State extends State<ResultsPage1> {
   Future<List<Map<String, dynamic>>> _fetchResults() async {
     final dbHelper = DatabaseHelper();
     final userId = await _getCurrentUserId();
-    List<Map<String, dynamic>> results =
-        await dbHelper.getResultsByUser(userId);
+    print('Fetching results for user ID: $userId');
+    List<Map<String, dynamic>> results = await dbHelper.getResultsByUser(userId);
 
     // Filtra resultados para la prueba 1
     results = results.where((result) {
       return result['prueba'] == 1;
     }).toList();
 
+    print('Fetched results: $results');
     return results;
   }
 
   Future<int> _getCurrentUserId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('user_id') ?? 0;
+    final userId = prefs.getInt('user_id') ?? 0;
+    print('Current User ID: $userId');  // Añadido para depuración
+    return userId;
   }
 
   Future<void> _deleteAllResults() async {

@@ -173,7 +173,9 @@ class DatabaseHelper {
 
   Future<int> insertResult(Map<String, dynamic> row) async {
     Database db = await database;
-    return await db.insert('resultados_pruebas', row);
+    int id = await db.insert('resultados_pruebas', row);
+    print('Inserted result with ID: $id, Data: $row');
+    return id;
   }
 
   Future<List<Map<String, dynamic>>> getResultsByUser(int userId) async {

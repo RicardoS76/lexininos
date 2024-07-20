@@ -131,9 +131,11 @@ class _RhymeGameState extends State<RhymeGame> {
     final int endTime = DateTime.now().difference(startTime).inSeconds;
 
     bool resultsMode = prefs.getBool('resultsMode') ?? false;
+    print('Results Mode: $resultsMode');
     if (resultsMode) {
       final dbHelper = DatabaseHelper();
       int userId = await _getCurrentUserId();
+      print('Saving results for user ID: $userId, Time: $endTime, Errors: $errores');
       await dbHelper.insertResult({
         'id_usuario': userId,
         'prueba': 1,
@@ -145,7 +147,9 @@ class _RhymeGameState extends State<RhymeGame> {
 
   Future<int> _getCurrentUserId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('user_id') ?? 0;
+    final userId = prefs.getInt('user_id') ?? 0;
+    print('Current User ID: $userId');  // Añadido para depuración
+    return userId;
   }
 
   void startGame() {
