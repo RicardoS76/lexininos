@@ -107,10 +107,6 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
 
       if (foundWords.every((found) => found)) {
         _saveCompletionTime();
-        showDialog(
-          context: context,
-          builder: (context) => buildCongratulations(context),
-        );
       }
     } else {
       setState(() {
@@ -178,82 +174,33 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
       int completionTime = DateTime.now().difference(startTime).inSeconds;
       await dbHelper.insertResult({
         'id_usuario': userId,
-        'prueba': 1, // Representa la prueba de palabras escondidas
-        'resultado': completionTime.toString()
+        'prueba': 3, // Representa la prueba de palabras escondidas
+        'tiempo': completionTime,
+        'errores': 0 // No se están rastreando los errores en esta prueba
       });
     }
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('¡Felicidades!'),
+        content: Text('Has completado la prueba. ¡Buen trabajo!'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el diálogo
+              Navigator.of(context).pop(); // Regresa a la página anterior
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<int> _getCurrentUserId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getInt('user_id') ?? 0; // Ajustar según sea necesario
-  }
-
-  Widget buildCongratulations(BuildContext context) {
-    return Center(
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        padding: EdgeInsets.all(20.0),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(20.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              blurRadius: 10.0,
-              spreadRadius: 1.0,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '¡Felicidades!',
-              style: TextStyle(
-                fontSize: 36.0,
-                fontFamily: 'Cocogoose',
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                decoration: TextDecoration.none, // Sin subrayado
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20.0),
-            Text(
-              'Has encontrado todas las palabras.',
-              style: TextStyle(
-                fontSize: 24.0,
-                color: Colors.black,
-                decoration: TextDecoration.none, // Añade esta línea
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-                textStyle: TextStyle(
-                  fontSize: 24,
-                  fontFamily: 'Cocogoose',
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-              ),
-              child: Text(
-                'OK',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   List<Shadow> _createShadows() {
@@ -457,7 +404,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 36.0), // Placeholder to balance the Row
+                      SizedBox(width: 36.0),
                     ],
                   ),
                 ),
@@ -516,8 +463,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: GridView.builder(
-                        physics:
-                            NeverScrollableScrollPhysics(), // Disable scrolling
+                        physics: NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 10,
@@ -541,8 +487,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                                 style: TextStyle(
                                   fontSize: 24.0,
                                   fontWeight: FontWeight.bold,
-                                  color:
-                                      isCorrect ? Colors.white : Colors.black,
+                                  color: isCorrect ? Colors.white : Colors.black,
                                 ),
                               ),
                             ),

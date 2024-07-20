@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lexininos/activities/test1/result_page1.dart';
 import 'package:lexininos/activities/test2/result_page2.dart';
+import 'package:lexininos/activities/test3/results_page3.dart';
 
 class MenuPage extends StatelessWidget {
   @override
@@ -8,7 +9,6 @@ class MenuPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Fondo de colores pasteles
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -28,7 +28,6 @@ class MenuPage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  // Encabezado con icono de menú y título
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -46,7 +45,6 @@ class MenuPage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 40),
-                  // Botones para ver resultados de las pruebas
                   Expanded(
                     child: ListView(
                       children: [
@@ -71,6 +69,17 @@ class MenuPage extends StatelessWidget {
                                 builder: (context) => ResultsPage2()),
                           ),
                           textColor: Colors.blue,
+                        ),
+                        _buildInfoTile(
+                          'Ver Resultados de Prueba 3',
+                          Icons.assessment,
+                          context,
+                          route: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResultsPage3()),
+                          ),
+                          textColor: Colors.green,
                         ),
                       ],
                     ),

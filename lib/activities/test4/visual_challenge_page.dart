@@ -302,7 +302,6 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
     if (resultsMode) {
       final dbHelper = DatabaseHelper();
       int userId = await _getCurrentUserId();
-      int completionTime = DateTime.now().difference(startTime).inSeconds;
       await dbHelper.insertResult({
         'id_usuario': userId,
         'prueba': 4, // Representa la prueba de desafío visual
