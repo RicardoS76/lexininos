@@ -15,9 +15,9 @@ class _ResultsPage3State extends State<ResultsPage3> {
     List<Map<String, dynamic>> results =
         await dbHelper.getResultsByUser(userId);
 
-    // Filtra resultados para la prueba 3
+    // Filtra resultados para la prueba 5
     results = results.where((result) {
-      return result['prueba'] == 3;
+      return result['prueba'] == 5;
     }).toList();
 
     return results;
@@ -86,7 +86,7 @@ class _ResultsPage3State extends State<ResultsPage3> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Resultados de Prueba 3'),
+        title: Text('Resultados de Palabras Escondidas'),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),

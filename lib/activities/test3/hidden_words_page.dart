@@ -174,7 +174,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
       int completionTime = DateTime.now().difference(startTime).inSeconds;
       await dbHelper.insertResult({
         'id_usuario': userId,
-        'prueba': 3, // Representa la prueba de palabras escondidas
+        'prueba': 5, // Representa la prueba de palabras escondidas
         'tiempo': completionTime,
         'errores': 0 // No se están rastreando los errores en esta prueba
       });
