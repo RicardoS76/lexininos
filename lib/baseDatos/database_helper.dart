@@ -77,10 +77,18 @@ class DatabaseHelper {
       ''');
     }
     if (oldVersion < 5) {
-      await db
-          .execute('ALTER TABLE resultados_pruebas ADD COLUMN tiempo INTEGER');
-      await db
-          .execute('ALTER TABLE resultados_pruebas ADD COLUMN errores INTEGER');
+      var tableInfo =
+          await db.rawQuery('PRAGMA table_info(resultados_pruebas)');
+      var columnExists = tableInfo.any((column) => column['name'] == 'tiempo');
+      if (!columnExists) {
+        await db.execute(
+            'ALTER TABLE resultados_pruebas ADD COLUMN tiempo INTEGER');
+      }
+      columnExists = tableInfo.any((column) => column['name'] == 'errores');
+      if (!columnExists) {
+        await db.execute(
+            'ALTER TABLE resultados_pruebas ADD COLUMN errores INTEGER');
+      }
     }
   }
 
@@ -125,6 +133,24 @@ class DatabaseHelper {
       return Map<String, dynamic>.from(results.first);
     }
     return null;
+  }
+
+  Future<bool> isUsernameTaken(String username) async {
+    Database db = await database;
+    List<Map> results = await db.query('usuarios',
+        columns: ['id_usuario'],
+        where: 'nombre_usuario = ?',
+        whereArgs: [username]);
+    return results.isNotEmpty;
+  }
+
+  Future<bool> isEmailTaken(String email) async {
+    Database db = await database;
+    List<Map> results = await db.query('usuarios',
+        columns: ['id_usuario'],
+        where: 'correo_electronico = ?',
+        whereArgs: [email]);
+    return results.isNotEmpty;
   }
 
   Future<List<Map<String, dynamic>>> getAllUsers() async {

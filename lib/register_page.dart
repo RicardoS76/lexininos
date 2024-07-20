@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'baseDatos/database_helper.dart';
 import 'privacy_policy_page.dart';
 
@@ -12,7 +13,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final DatabaseHelper _dbHelper = DatabaseHelper();
   final _formKey = GlobalKey<FormState>();
 
@@ -219,7 +221,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                              _obscureConfirmPassword =
+                                  !_obscureConfirmPassword;
                             });
                           },
                         ),
@@ -268,6 +271,31 @@ class _RegisterPageState extends State<RegisterPage> {
                       onPressed: _isChecked
                           ? () async {
                               if (_formKey.currentState!.validate()) {
+                                bool usernameTaken = await _dbHelper
+                                    .isUsernameTaken(_usernameController.text);
+                                bool emailTaken = await _dbHelper
+                                    .isEmailTaken(_emailController.text);
+
+                                if (usernameTaken) {
+                                  print('Nombre de usuario ya está en uso');
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'Nombre de usuario ya está en uso')),
+                                  );
+                                  return;
+                                }
+
+                                if (emailTaken) {
+                                  print('Correo electrónico ya está en uso');
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'Correo electrónico ya está en uso')),
+                                  );
+                                  return;
+                                }
+
                                 Map<String, dynamic> row = {
                                   'nombre_usuario': _usernameController.text,
                                   'nombre': _nameController.text,
