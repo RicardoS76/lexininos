@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lexininos/activities/test1/result_page1.dart';
 import 'package:lexininos/activities/test2/result_page2.dart';
 import 'package:lexininos/activities/test3/results_page3.dart';
+import 'package:lexininos/activities/test4/results_page4.dart'; // Agrega esta línea
 
 class MenuPage extends StatelessWidget {
   @override
@@ -80,6 +81,17 @@ class MenuPage extends StatelessWidget {
                                 builder: (context) => ResultsPage3()),
                           ),
                           textColor: Colors.green,
+                        ),
+                        _buildInfoTile(
+                          'Ver Resultados de Prueba 4',
+                          Icons.assessment,
+                          context,
+                          route: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResultsPage4()),
+                          ),
+                          textColor: Colors.orange,
                         ),
                       ],
                     ),

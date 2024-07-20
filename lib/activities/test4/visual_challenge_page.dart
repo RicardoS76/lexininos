@@ -66,6 +66,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
   bool _isCorrect = false;
   String _selectedOption = '';
   int correctAnswers = 0;
+  int errors = 0;
   DateTime startTime = DateTime.now();
 
   void checkAnswer(String selectedImage) {
@@ -76,6 +77,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
         correctAnswers++;
         _showFeedbackDialog();
       } else {
+        errors++;
         _showIncorrectNotification();
       }
     });
@@ -279,13 +281,8 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  setState(() {
-                    showInstructions = true;
-                    currentTestIndex = 0;
-                    _selectedOption = '';
-                    correctAnswers = 0;
-                  });
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop(); // Go back to the previous page
                 },
               ),
             ),
@@ -298,21 +295,23 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
   void _saveResults() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     bool resultsMode = prefs.getBool('resultsMode') ?? false;
+    int timeTaken = DateTime.now().difference(startTime).inSeconds;
 
     if (resultsMode) {
       final dbHelper = DatabaseHelper();
       int userId = await _getCurrentUserId();
       await dbHelper.insertResult({
         'id_usuario': userId,
-        'prueba': 4, // Representa la prueba de desafío visual
-        'resultado': correctAnswers.toString()
+        'prueba': 6, // Representa la prueba de desafío visual
+        'tiempo': timeTaken,
+        'errores': errors,
       });
     }
   }
 
   Future<int> _getCurrentUserId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('user_id') ?? 0; // Ajustar según sea necesario
+    return prefs.getInt('user_id') ?? 0;
   }
 
   void startGame() {
