@@ -219,4 +219,20 @@ class DatabaseHelper {
     Database db = await database;
     return await db.delete('resultados_pruebas');
   }
+
+  Future<int> getTotalTimeByUser(int userId) async {
+    Database db = await database;
+    var result = await db.rawQuery(
+        'SELECT SUM(tiempo) as totalTime FROM resultados_pruebas WHERE id_usuario = ?',
+        [userId]);
+    return (result.first['totalTime'] as int?) ?? 0;
+  }
+
+  Future<int> getCompletedTestsCountByUser(int userId) async {
+    Database db = await database;
+    var result = await db.rawQuery(
+        'SELECT COUNT(DISTINCT prueba) as completedTests FROM resultados_pruebas WHERE id_usuario = ?',
+        [userId]);
+    return (result.first['completedTests'] as int?) ?? 0;
+  }
 }

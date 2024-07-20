@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lexininos/activities/test1/result_page1.dart';
 import 'package:lexininos/activities/test2/result_page2.dart';
 import 'package:lexininos/activities/test3/results_page3.dart';
-import 'package:lexininos/activities/test4/results_page4.dart'; // Agrega esta línea
+import 'package:lexininos/activities/test4/results_page4.dart';
+import 'package:lexininos/user/evaluation_page.dart'; // Importa la nueva pantalla
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '/baseDatos/database_helper.dart';
 
 class MenuPage extends StatelessWidget {
   @override
@@ -93,6 +97,13 @@ class MenuPage extends StatelessWidget {
                           ),
                           textColor: Colors.orange,
                         ),
+                        _buildInfoTile(
+                          'Evaluar Desempeño',
+                          Icons.assessment,
+                          context,
+                          route: () => _evaluatePerformance(context),
+                          textColor: Colors.red,
+                        ),
                       ],
                     ),
                   ),
@@ -101,6 +112,24 @@ class MenuPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Future<void> _evaluatePerformance(BuildContext context) async {
+    final dbHelper = DatabaseHelper();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt('user_id') ?? 0;
+    int totalTime = await dbHelper.getTotalTimeByUser(userId);
+    int completedTests = await dbHelper.getCompletedTestsCountByUser(userId);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetailedEvaluationPage(
+          totalTime: totalTime,
+          completedTests: completedTests,
+        ),
       ),
     );
   }
