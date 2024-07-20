@@ -235,4 +235,10 @@ class DatabaseHelper {
         [userId]);
     return (result.first['completedTests'] as int?) ?? 0;
   }
+
+  Future<int> deleteResultsByUser(int userId) async {
+    Database db = await database;
+    return await db.delete('resultados_pruebas',
+        where: 'id_usuario = ?', whereArgs: [userId]);
+  }
 }

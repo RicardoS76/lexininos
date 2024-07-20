@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Importa el paquete shared_preferences
 
 import 'about_us_page.dart'; //importación para AboutUsPage
-import 'activities/test1/rhyme_game.dart';
 import 'activities/test1/result_page1.dart';
+import 'activities/test1/rhyme_game.dart';
 import 'activities/test2/connect_learn_page.dart';
 import 'activities/test2/fruits_page.dart';
 import 'activities/test2/objects_page.dart';
@@ -41,7 +41,8 @@ void main() async {
 
   runApp(MyApp(
     isFirstRun: isFirstRun,
-    initialRoute: isFirstRun ? '/welcome' : (credentials != null ? '/main' : '/register'),
+    initialRoute:
+        isFirstRun ? '/welcome' : (credentials != null ? '/main' : '/register'),
     initialCredentials: credentials,
   ));
 }
@@ -68,6 +69,8 @@ class MyApp extends StatelessWidget {
         '/main': (context) => MainPage(
               authenticatedUserPassword: initialCredentials?['password'] ?? '',
               name: initialCredentials?['name'] ?? '',
+              avatarPath: initialCredentials?['avatar'] ??
+                  'assets/avatares/avatar1.png', // Pasar avatarPath
             ),
         '/settings': (context) => SettingsPage(),
         '/user': (context) => UserPage(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lexininos/user/shared_preferences.dart';
 
 import '/baseDatos/database_helper.dart';
 
@@ -11,9 +11,10 @@ class ResultsPage1 extends StatefulWidget {
 class _ResultsPage1State extends State<ResultsPage1> {
   Future<List<Map<String, dynamic>>> _fetchResults() async {
     final dbHelper = DatabaseHelper();
-    final userId = await _getCurrentUserId();
+    final userId = await SharedPreferencesHelper.getUserId() ?? 0;
     print('Fetching results for user ID: $userId');
-    List<Map<String, dynamic>> results = await dbHelper.getResultsByUser(userId);
+    List<Map<String, dynamic>> results =
+        await dbHelper.getResultsByUser(userId);
 
     // Filtra resultados para la prueba 1
     results = results.where((result) {
@@ -24,16 +25,10 @@ class _ResultsPage1State extends State<ResultsPage1> {
     return results;
   }
 
-  Future<int> _getCurrentUserId() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getInt('user_id') ?? 0;
-    print('Current User ID: $userId');  // Añadido para depuración
-    return userId;
-  }
-
   Future<void> _deleteAllResults() async {
     final dbHelper = DatabaseHelper();
-    await dbHelper.deleteAllResults();
+    final userId = await SharedPreferencesHelper.getUserId() ?? 0;
+    await dbHelper.deleteResultsByUser(userId);
     setState(() {});
   }
 

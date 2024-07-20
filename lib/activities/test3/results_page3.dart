@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lexininos/user/shared_preferences.dart';
 
 import '/baseDatos/database_helper.dart';
 
@@ -11,7 +11,7 @@ class ResultsPage3 extends StatefulWidget {
 class _ResultsPage3State extends State<ResultsPage3> {
   Future<List<Map<String, dynamic>>> _fetchResults() async {
     final dbHelper = DatabaseHelper();
-    final userId = await _getCurrentUserId();
+    final userId = await SharedPreferencesHelper.getUserId() ?? 0;
     List<Map<String, dynamic>> results =
         await dbHelper.getResultsByUser(userId);
 
@@ -23,14 +23,10 @@ class _ResultsPage3State extends State<ResultsPage3> {
     return results;
   }
 
-  Future<int> _getCurrentUserId() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('user_id') ?? 0;
-  }
-
   Future<void> _deleteAllResults() async {
     final dbHelper = DatabaseHelper();
-    await dbHelper.deleteAllResults();
+    final userId = await SharedPreferencesHelper.getUserId() ?? 0;
+    await dbHelper.deleteResultsByUser(userId);
     setState(() {});
   }
 

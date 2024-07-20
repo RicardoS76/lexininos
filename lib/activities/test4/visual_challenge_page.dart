@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lexininos/user/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '/baseDatos/database_helper.dart';
 
 class VisualChallengePage extends StatefulWidget {
@@ -299,7 +301,7 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
 
     if (resultsMode) {
       final dbHelper = DatabaseHelper();
-      int userId = await _getCurrentUserId();
+      int userId = await SharedPreferencesHelper.getUserId() ?? 0;
       await dbHelper.insertResult({
         'id_usuario': userId,
         'prueba': 6, // Representa la prueba de desafío visual

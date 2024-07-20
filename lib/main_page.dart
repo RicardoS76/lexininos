@@ -7,20 +7,25 @@ import 'user/shared_preferences.dart';
 class MainPage extends StatefulWidget {
   final String authenticatedUserPassword;
   final String name;
+  final String avatarPath;
 
-  MainPage({required this.authenticatedUserPassword, required this.name});
+  MainPage({
+    required this.authenticatedUserPassword,
+    required this.name,
+    required this.avatarPath,
+  });
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  late String avatarPath =
-      'assets/avatares/avatar1.png'; // Valor predeterminado inicial
+  late String avatarPath;
 
   @override
   void initState() {
     super.initState();
+    avatarPath = widget.avatarPath;
     loadAvatar();
   }
 
@@ -38,7 +43,6 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Fondo difuminado
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -53,14 +57,12 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
           ),
-          // Contenido
           SafeArea(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.center, // Centra los elementos
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 40.0), // Espacio desde la parte superior
+                  SizedBox(height: 40.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
@@ -68,8 +70,7 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         IconButton(
                           icon: Icon(Icons.settings,
-                              size: 40.0,
-                              color: Colors.white), // Icono de configuración
+                              size: 40.0, color: Colors.white),
                           onPressed: () => _showSecurityDialog(
                               context,
                               'Ajuste',
@@ -77,8 +78,10 @@ class _MainPageState extends State<MainPage> {
                               widget.authenticatedUserPassword),
                         ),
                         GestureDetector(
-                          onTap: () => _showSecurityDialog(context, 'Usuario',
-                              '/user', widget.authenticatedUserPassword),
+                          onTap: () async {
+                            await Navigator.pushNamed(context, '/user_data');
+                            loadAvatar(); // Cargar avatar después de regresar de UserDataPage
+                          },
                           child: CircleAvatar(
                             backgroundImage: AssetImage(avatarPath),
                             radius: 40.0,
@@ -92,8 +95,7 @@ class _MainPageState extends State<MainPage> {
                     child: AutoSizeText(
                       'HOLA ${widget.name}',
                       style: TextStyle(
-                        fontSize: screenWidth *
-                            0.09, // Ajuste dinámico del tamaño de fuente
+                        fontSize: screenWidth * 0.09,
                         fontFamily: 'Cocogoose',
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -110,7 +112,7 @@ class _MainPageState extends State<MainPage> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  SizedBox(height: 20.0), // Espacio adicional
+                  SizedBox(height: 20.0),
                   Center(
                     child: ShaderMask(
                       shaderCallback: (bounds) => LinearGradient(
@@ -124,8 +126,7 @@ class _MainPageState extends State<MainPage> {
                       child: Text(
                         '¡¡A JUGAR!!',
                         style: TextStyle(
-                          fontSize: screenWidth *
-                              0.1, // Tamaño de fuente más grande ajustado dinámicamente
+                          fontSize: screenWidth * 0.1,
                           fontFamily: 'Cocogoose',
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -140,9 +141,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                      height:
-                          40.0), // Espacio adicional para bajar los elementos
+                  SizedBox(height: 40.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: LayoutBuilder(
@@ -151,8 +150,7 @@ class _MainPageState extends State<MainPage> {
                         final containerHeight = containerWidth * 1.2;
 
                         return SizedBox(
-                          height: containerHeight +
-                              60, // Ajusta el tamaño del carrusel
+                          height: containerHeight + 60,
                           child: PageView(
                             controller: PageController(viewportFraction: 0.8),
                             children: [
@@ -232,8 +230,8 @@ class _MainPageState extends State<MainPage> {
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),
-                  blurRadius: 5.0,
-                  spreadRadius: 1.0,
+                  blurRadius: 10.0,
+                  spreadRadius: 2.0,
                 ),
               ],
               image: DecorationImage(
@@ -246,10 +244,10 @@ class _MainPageState extends State<MainPage> {
           Text(
             title,
             style: TextStyle(
-              fontSize: width * 0.06, // Ajuste dinámico del tamaño de fuente
+              fontSize: width * 0.06,
               fontWeight: FontWeight.bold,
               color: Colors.purple,
-              fontFamily: 'Cocogoose', // Aplicar la fuente Cocogoose
+              fontFamily: 'Cocogoose',
             ),
             textAlign: TextAlign.center,
           ),

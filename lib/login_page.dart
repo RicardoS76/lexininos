@@ -163,11 +163,16 @@ class _LoginPageState extends State<LoginPage> {
                           await _dbHelper.getUser(_usernameController.text);
                       if (user != null &&
                           user['contrasena_hash'] == _passwordController.text) {
-                        // Guardar las credenciales
+                        // Guardar las credenciales y el identificador de usuario
                         await SharedPreferencesHelper.saveUserCredentials(
                             _usernameController.text,
                             _passwordController.text,
                             user['nombre']);
+                        await SharedPreferencesHelper.saveUserId(
+                            user['id_usuario']); // Guardar user_id
+                        await SharedPreferencesHelper.saveUserAvatar(
+                            user['avatar']); // Guardar avatar
+
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -175,10 +180,11 @@ class _LoginPageState extends State<LoginPage> {
                               authenticatedUserPassword:
                                   _passwordController.text,
                               name: user['nombre'],
+                              avatarPath:
+                                  user['avatar'], // Pasar el avatarPath aquí
                             ),
                           ),
                         );
-
                         print('Inicio de sesión exitoso. Datos: $user');
                       } else {
                         setState(() {

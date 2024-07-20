@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../baseDatos/database_helper.dart';
 import '../user/shared_preferences.dart';
 
@@ -31,7 +32,7 @@ class _UserDataPageState extends State<UserDataPage> {
     if (username != null) {
       DatabaseHelper dbHelper = DatabaseHelper();
       Map<String, dynamic>? userData = await dbHelper.getUser(username);
-      String? avatar = await SharedPreferencesHelper.getUserAvatar();
+      String? avatar = userData?['avatar'];
       if (userData != null) {
         setState(() {
           emailController.text = userData['correo_electronico'];

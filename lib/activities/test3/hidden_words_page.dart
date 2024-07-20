@@ -1,6 +1,9 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:lexininos/user/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '/baseDatos/database_helper.dart';
 
 class HiddenWordsPage extends StatefulWidget {
@@ -170,7 +173,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
 
     if (resultsMode) {
       final dbHelper = DatabaseHelper();
-      int userId = await _getCurrentUserId();
+      int userId = await SharedPreferencesHelper.getUserId() ?? 0;
       int completionTime = DateTime.now().difference(startTime).inSeconds;
       await dbHelper.insertResult({
         'id_usuario': userId,
@@ -196,11 +199,6 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
         ],
       ),
     );
-  }
-
-  Future<int> _getCurrentUserId() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('user_id') ?? 0; // Ajustar según sea necesario
   }
 
   List<Shadow> _createShadows() {
@@ -487,7 +485,8 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                                 style: TextStyle(
                                   fontSize: 24.0,
                                   fontWeight: FontWeight.bold,
-                                  color: isCorrect ? Colors.white : Colors.black,
+                                  color:
+                                      isCorrect ? Colors.white : Colors.black,
                                 ),
                               ),
                             ),

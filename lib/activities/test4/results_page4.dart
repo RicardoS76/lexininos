@@ -30,7 +30,9 @@ class _ResultsPage4State extends State<ResultsPage4> {
 
   Future<void> _deleteAllResults() async {
     final dbHelper = DatabaseHelper();
-    await dbHelper.deleteAllResults();
+    final userId = await _getCurrentUserId(); // Obtén el ID del usuario actual
+    await dbHelper.deleteResultsByUser(
+        userId); // Elimina solo los resultados del usuario actual
     setState(() {});
   }
 

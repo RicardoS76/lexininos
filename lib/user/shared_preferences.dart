@@ -69,7 +69,8 @@ class SharedPreferencesHelper {
   }
 
   // Métodos para almacenar el estado de completitud de cada prueba
-  static Future<void> setTestCompletionStatus(int testNumber, bool isCompleted) async {
+  static Future<void> setTestCompletionStatus(
+      int testNumber, bool isCompleted) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('test${testNumber}Completed', isCompleted);
   }
