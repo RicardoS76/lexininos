@@ -58,10 +58,11 @@ class DetailedEvaluationPage extends StatelessWidget {
     final evaluation = getEvaluation();
     final evaluationMessage = getEvaluationMessage();
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showWarningDialog(context);
+    });
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Evaluación de Desempeño'),
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -69,10 +70,22 @@ class DetailedEvaluationPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
+                'PRE-DIAGNÓSTICO',
+                style: TextStyle(
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal.shade700,
+                  fontFamily: 'Arial',
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
                 'Resultado de Evaluación',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.teal.shade700,
+                  fontFamily: 'Cocogoose',
                 ),
               ),
               SizedBox(height: 20),
@@ -90,6 +103,7 @@ class DetailedEvaluationPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.0,
                   color: completedTests < 4 ? Colors.red : Colors.black,
+                  fontFamily: 'Cocogoose',
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -99,11 +113,17 @@ class DetailedEvaluationPage extends StatelessWidget {
                   'Tiempo Total: $totalTime segundos',
                   style: TextStyle(
                     fontSize: 18.0,
+                    fontFamily: 'Cocogoose',
                   ),
                 ),
               ],
               SizedBox(height: 40),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  textStyle: TextStyle(fontSize: 18),
+                  minimumSize: Size(200, 50), // Hacer el botón más grande
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -113,6 +133,94 @@ class DetailedEvaluationPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showWarningDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Evita que se pueda cerrar el diálogo haciendo clic fuera de él
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          title: Center(
+            child: Text(
+              'IMPORTANTE',
+              style: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+                fontFamily: 'Arial',
+              ),
+            ),
+          ),
+          content: Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: SingleChildScrollView(
+              child: Text(
+                'El resultado del desempeño mostrado a continuación es un pre-diagnóstico realizado con un sistema de ponderación basado en diferentes pruebas de diagnóstico de la dislexia. Para una mayor certeza, acuda a un especialista en tratar la dislexia o un centro especializado los cuales podrá ubicar en el apartado de ayuda especializada en la opción usuarios.',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontFamily: 'Arial',
+                ),
+                textAlign: TextAlign.justify,
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            Center(
+              child: Column(
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.teal.shade700,
+                      minimumSize: Size(200, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                    child: Text(
+                      'Continuar',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context); // Cierra el diálogo y continúa
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      minimumSize: Size(150, 40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                    child: Text(
+                      'Regresar',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context); // Cierra el diálogo y regresa al menú
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -33,29 +33,35 @@ class MenuPage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.menu, color: Colors.teal.shade700, size: 40.0),
-                      SizedBox(width: 10),
-                      Text(
-                        'Menú de Resultados',
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal.shade700,
-                          fontFamily: 'Cocogoose',
-                        ),
+                  Center(
+                    child: Text(
+                      'Resultados de las Pruebas',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal.shade700,
+                        fontFamily: 'Cocogoose',
                       ),
-                    ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'De clic en "Ver Detalles" para saber individualmente el desempeño en cada prueba y en "Evaluar Desempeño" para un pre-diagnóstico.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.teal.shade500,
+                      fontFamily: 'Cocogoose',
+                    ),
                   ),
                   SizedBox(height: 40),
                   Expanded(
                     child: ListView(
                       children: [
                         _buildInfoTile(
-                          'Ver Resultados de Prueba 1',
-                          Icons.assessment,
+                          'Rimas',
+                          'assets/rima.jpg',
                           context,
                           route: () => Navigator.push(
                             context,
@@ -65,8 +71,8 @@ class MenuPage extends StatelessWidget {
                           textColor: Colors.purple,
                         ),
                         _buildInfoTile(
-                          'Ver Resultados de Prueba 2',
-                          Icons.assessment,
+                          'Conecta y Aprende',
+                          'assets/palabras.jpg',
                           context,
                           route: () => Navigator.push(
                             context,
@@ -76,8 +82,8 @@ class MenuPage extends StatelessWidget {
                           textColor: Colors.blue,
                         ),
                         _buildInfoTile(
-                          'Ver Resultados de Prueba 3',
-                          Icons.assessment,
+                          'Palabras Escondidas',
+                          'assets/sopa.png',
                           context,
                           route: () => Navigator.push(
                             context,
@@ -87,8 +93,8 @@ class MenuPage extends StatelessWidget {
                           textColor: Colors.green,
                         ),
                         _buildInfoTile(
-                          'Ver Resultados de Prueba 4',
-                          Icons.assessment,
+                          'Desafío Visual',
+                          'assets/figuras.jpg',
                           context,
                           route: () => Navigator.push(
                             context,
@@ -97,9 +103,8 @@ class MenuPage extends StatelessWidget {
                           ),
                           textColor: Colors.orange,
                         ),
-                        _buildInfoTile(
+                        _buildInfoTileNoIcon(
                           'Evaluar Desempeño',
-                          Icons.assessment,
                           context,
                           route: () => _evaluatePerformance(context),
                           textColor: Colors.red,
@@ -134,7 +139,7 @@ class MenuPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoTile(String title, IconData icon, BuildContext context,
+  Widget _buildInfoTile(String title, String iconPath, BuildContext context,
       {required Function route, required Color textColor}) {
     return GestureDetector(
       onTap: () {
@@ -142,7 +147,7 @@ class MenuPage extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10.0),
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(20.0), // Aumenta el padding para mayor altura
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.9),
           borderRadius: BorderRadius.circular(12.0),
@@ -156,7 +161,14 @@ class MenuPage extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, color: textColor, size: 30.0),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12.0), // Esquinas redondeadas
+              child: Image.asset(
+                iconPath,
+                width: 70.0, // Aumenta el tamaño del logo
+                height: 70.0, // Aumenta el tamaño del logo
+              ),
+            ),
             SizedBox(width: 20),
             Expanded(
               child: Text(
@@ -167,6 +179,63 @@ class MenuPage extends StatelessWidget {
                   color: textColor,
                   fontFamily: 'Cocogoose',
                 ),
+              ),
+            ),
+            Text(
+              'Ver Detalles',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: textColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios, color: textColor, size: 20.0),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoTileNoIcon(String title, BuildContext context,
+      {required Function route, required Color textColor}) {
+    return GestureDetector(
+      onTap: () {
+        route();
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10.0),
+        padding: EdgeInsets.all(20.0), // Aumenta el padding para mayor altura
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 5.0,
+              spreadRadius: 1.0,
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            SizedBox(width: 20),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: textColor,
+                  fontFamily: 'Cocogoose',
+                ),
+              ),
+            ),
+            Text(
+              'Evaluar',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: textColor,
+                fontWeight: FontWeight.bold,
               ),
             ),
             Icon(Icons.arrow_forward_ios, color: textColor, size: 20.0),
