@@ -170,8 +170,6 @@ class _LoginPageState extends State<LoginPage> {
                             user['nombre']);
                         await SharedPreferencesHelper.saveUserId(
                             user['id_usuario']); // Guardar user_id
-                        await SharedPreferencesHelper.saveUserAvatar(
-                            user['avatar']); // Guardar avatar
 
                         Navigator.pushReplacement(
                           context,
@@ -180,8 +178,6 @@ class _LoginPageState extends State<LoginPage> {
                               authenticatedUserPassword:
                                   _passwordController.text,
                               name: user['nombre'],
-                              avatarPath:
-                                  user['avatar'], // Pasar el avatarPath aquí
                             ),
                           ),
                         );
