@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lexininos/user/shared_preferences.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '/baseDatos/database_helper.dart';
 
 class ResultsPage1 extends StatefulWidget {
@@ -11,8 +10,7 @@ class ResultsPage1 extends StatefulWidget {
 class _ResultsPage1State extends State<ResultsPage1> {
   Future<List<Map<String, dynamic>>> _fetchResults() async {
     final dbHelper = DatabaseHelper();
-    final userId = await SharedPreferencesHelper.getUserId() ?? 0;
-    print('Fetching results for user ID: $userId');
+    final userId = await _getCurrentUserId();
     List<Map<String, dynamic>> results =
         await dbHelper.getResultsByUser(userId);
 
@@ -21,14 +19,29 @@ class _ResultsPage1State extends State<ResultsPage1> {
       return result['prueba'] == 1;
     }).toList();
 
-    print('Fetched results: $results');
-    return results;
+    // Agrupa resultados por intento
+    Map<int, Map<String, dynamic>> groupedResults = {};
+    for (var result in results) {
+      int attempt = result['intento'];
+      if (!groupedResults.containsKey(attempt)) {
+        groupedResults[attempt] = {'tiempo': 0, 'errores': 0, 'intento': attempt};
+      }
+      groupedResults[attempt]!['tiempo'] += result['tiempo'];
+      groupedResults[attempt]!['errores'] += result['errores'];
+    }
+
+    return groupedResults.values.toList();
+  }
+
+  Future<int> _getCurrentUserId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('user_id') ?? 0;
   }
 
   Future<void> _deleteAllResults() async {
     final dbHelper = DatabaseHelper();
-    final userId = await SharedPreferencesHelper.getUserId() ?? 0;
-    await dbHelper.deleteResultsByUser(userId);
+    final userId = await _getCurrentUserId(); // Obtén el ID del usuario actual
+    await dbHelper.deleteResultsByUser(userId); // Elimina solo los resultados del usuario actual
     setState(() {});
   }
 
@@ -60,7 +73,7 @@ class _ResultsPage1State extends State<ResultsPage1> {
     );
   }
 
-  Widget _buildResultCard(Map<String, dynamic> result, int nivel) {
+  Widget _buildResultCard(Map<String, dynamic> result, int index) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Padding(
@@ -69,32 +82,16 @@ class _ResultsPage1State extends State<ResultsPage1> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Nivel $nivel',
+              'Intento ${result['intento']}',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),
-            Text('Tiempo: ${result['tiempo']} segundos'),
-            Text('Errores: ${result['errores']}'),
+            Text('Tiempo Total: ${result['tiempo']} segundos'),
+            SizedBox(height: 8.0),
+            Text('Errores Totales: ${result['errores']}'),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildResultsSection(
-      List<Map<String, dynamic>> results, int pruebaNumber) {
-    final filteredResults =
-        results.where((result) => result['prueba'] == pruebaNumber).toList();
-
-    if (filteredResults.isEmpty) return SizedBox.shrink();
-
-    return ExpansionTile(
-      title: Text('Prueba $pruebaNumber'),
-      children: filteredResults
-          .asMap()
-          .entries
-          .map((entry) => _buildResultCard(entry.value, entry.key + 1))
-          .toList(),
     );
   }
 
@@ -121,13 +118,11 @@ class _ResultsPage1State extends State<ResultsPage1> {
             return Center(child: Text('No hay resultados disponibles'));
           } else {
             final results = snapshot.data!;
-            return ListView(
-              children: [
-                _buildResultsSection(results, 1),
-                _buildResultsSection(results, 2),
-                _buildResultsSection(results, 3),
-                _buildResultsSection(results, 4),
-              ],
+            return ListView.builder(
+              itemCount: results.length,
+              itemBuilder: (context, index) {
+                return _buildResultCard(results[index], index);
+              },
             );
           }
         },

@@ -85,7 +85,7 @@ class DetailedEvaluationPage extends StatelessWidget {
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.teal.shade700,
-                  fontFamily: 'Cocogoose',
+                  fontFamily: 'Arial',
                 ),
               ),
               SizedBox(height: 20),
@@ -95,6 +95,7 @@ class DetailedEvaluationPage extends StatelessWidget {
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
                   color: completedTests < 4 ? Colors.red : Colors.black,
+                  fontFamily: 'Arial',
                 ),
               ),
               SizedBox(height: 20),
@@ -103,7 +104,7 @@ class DetailedEvaluationPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.0,
                   color: completedTests < 4 ? Colors.red : Colors.black,
-                  fontFamily: 'Cocogoose',
+                  fontFamily: 'Arial',
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -113,7 +114,8 @@ class DetailedEvaluationPage extends StatelessWidget {
                   'Tiempo Total: $totalTime segundos',
                   style: TextStyle(
                     fontSize: 18.0,
-                    fontFamily: 'Cocogoose',
+                    fontFamily: 'Arial',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
@@ -164,6 +166,7 @@ class DetailedEvaluationPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.0,
                   fontFamily: 'Arial',
+                  fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.justify,
               ),

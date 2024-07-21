@@ -1,32 +1,39 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+// Clase para manejar la base de datos
 class DatabaseHelper {
+  // Singleton de DatabaseHelper
   static final DatabaseHelper _instance = DatabaseHelper._internal();
   static Database? _database;
 
+  // Constructor factory para obtener la instancia única de DatabaseHelper
   factory DatabaseHelper() {
     return _instance;
   }
 
+  // Constructor privado para el singleton
   DatabaseHelper._internal();
 
+  // Getter para obtener la base de datos, inicializándola si es necesario
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDatabase();
     return _database!;
   }
 
+  // Método para inicializar la base de datos
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), 'users.db');
     return await openDatabase(
       path,
-      version: 5, // Asegúrate de que la versión sea 5
+      version: 6, // Asegúrate de que la versión sea 6
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
   }
 
+  // Método para crear las tablas en la base de datos
   Future _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE usuarios (
@@ -46,23 +53,23 @@ class DatabaseHelper {
         prueba INTEGER,
         tiempo INTEGER,
         errores INTEGER,
+        intento INTEGER,
         FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario)
       )
     ''');
   }
 
+  // Método para actualizar la base de datos cuando se cambia la versión
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       var tableInfo = await db.rawQuery('PRAGMA table_info(usuarios)');
       var columnExists = tableInfo.any((column) => column['name'] == 'nombre');
       if (!columnExists) {
-        await db
-            .execute('ALTER TABLE usuarios ADD COLUMN nombre TEXT NOT NULL');
+        await db.execute('ALTER TABLE usuarios ADD COLUMN nombre TEXT NOT NULL');
       }
     }
     if (oldVersion < 3) {
-      await db.execute(
-          'ALTER TABLE usuarios ADD COLUMN avatar TEXT DEFAULT "assets/avatares/avatar1.png"');
+      await db.execute('ALTER TABLE usuarios ADD COLUMN avatar TEXT DEFAULT "assets/avatares/avatar1.png"');
     }
     if (oldVersion < 4) {
       await db.execute('''
@@ -77,21 +84,22 @@ class DatabaseHelper {
       ''');
     }
     if (oldVersion < 5) {
-      var tableInfo =
-          await db.rawQuery('PRAGMA table_info(resultados_pruebas)');
+      var tableInfo = await db.rawQuery('PRAGMA table_info(resultados_pruebas)');
       var columnExists = tableInfo.any((column) => column['name'] == 'tiempo');
       if (!columnExists) {
-        await db.execute(
-            'ALTER TABLE resultados_pruebas ADD COLUMN tiempo INTEGER');
+        await db.execute('ALTER TABLE resultados_pruebas ADD COLUMN tiempo INTEGER');
       }
       columnExists = tableInfo.any((column) => column['name'] == 'errores');
       if (!columnExists) {
-        await db.execute(
-            'ALTER TABLE resultados_pruebas ADD COLUMN errores INTEGER');
+        await db.execute('ALTER TABLE resultados_pruebas ADD COLUMN errores INTEGER');
       }
+    }
+    if (oldVersion < 6) {
+      await db.execute('ALTER TABLE resultados_pruebas ADD COLUMN intento INTEGER DEFAULT 1');
     }
   }
 
+  // Métodos CRUD para la tabla "usuarios"
   Future<int> insertUser(Map<String, dynamic> row) async {
     Database db = await database;
     return await db.insert('usuarios', row);
@@ -171,6 +179,7 @@ class DatabaseHelper {
         .update('usuarios', row, where: 'id_usuario = ?', whereArgs: [id]);
   }
 
+  // Métodos CRUD para la tabla "resultados_pruebas"
   Future<int> insertResult(Map<String, dynamic> row) async {
     Database db = await database;
     int id = await db.insert('resultados_pruebas', row);
@@ -240,5 +249,14 @@ class DatabaseHelper {
     Database db = await database;
     return await db.delete('resultados_pruebas',
         where: 'id_usuario = ?', whereArgs: [userId]);
+  }
+
+  Future<int?> getMaxAttempt(int userId) async {
+    Database db = await database;
+    var result = await db.rawQuery(
+      'SELECT MAX(intento) as maxAttempt FROM resultados_pruebas WHERE id_usuario = ?',
+      [userId]
+    );
+    return result.first['maxAttempt'] as int?;
   }
 }

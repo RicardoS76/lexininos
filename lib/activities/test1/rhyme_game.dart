@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lexininos/user/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/baseDatos/database_helper.dart';
@@ -17,6 +16,9 @@ class _RhymeGameState extends State<RhymeGame> {
   bool allLevelsComplete = false;
   DateTime startTime = DateTime.now();
   int errores = 0;
+  int totalErrores = 0;
+  int totalTime = 0;
+  int currentAttempt = 0; // Variable para el intento actual
 
   final List<List<String>> topWordsLevels = [
     ['pan', 'rey', 'mar', 'voz'],
@@ -69,7 +71,17 @@ class _RhymeGameState extends State<RhymeGame> {
   @override
   void initState() {
     super.initState();
+    _initializeAttempt();
     _loadLevel(1);
+  }
+
+  void _initializeAttempt() async {
+    final dbHelper = DatabaseHelper();
+    int userId = await _getCurrentUserId();
+    final maxAttempt = await dbHelper.getMaxAttempt(userId) ?? 0;
+    setState(() {
+      currentAttempt = maxAttempt + 1; // Incrementamos el intento actual
+    });
   }
 
   void _loadLevel(int level) {
@@ -83,7 +95,7 @@ class _RhymeGameState extends State<RhymeGame> {
       correctCount = 0;
       feedbackMessage = '';
       feedbackColor = Colors.transparent;
-      showInstructions = true;
+      showInstructions = level == 1;
       showLevelComplete = false;
       showFeedback = false;
       allLevelsComplete = false;
@@ -115,11 +127,17 @@ class _RhymeGameState extends State<RhymeGame> {
       setState(() {
         showFeedback = false;
         if (correctCount == correctPairs.length) {
+          _saveLevelResults();
           if (currentLevel < 4) {
             showLevelComplete = true;
-            _saveLevelResults();
+            Future.delayed(Duration(milliseconds: 500), () {
+              setState(() {
+                showLevelComplete = false;
+                nextLevel();
+              });
+            });
           } else {
-            _saveLevelResults();
+            _saveTotalResults();
             allLevelsComplete = true;
           }
         }
@@ -127,22 +145,28 @@ class _RhymeGameState extends State<RhymeGame> {
     });
   }
 
-  void _saveLevelResults() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  void _saveLevelResults() {
     final int endTime = DateTime.now().difference(startTime).inSeconds;
+    totalTime += endTime;
+    totalErrores += errores;
+  }
+
+  void _saveTotalResults() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool resultsMode = prefs.getBool('resultsMode') ?? false;
     print('Results Mode: $resultsMode');
     if (resultsMode) {
       final dbHelper = DatabaseHelper();
-      int userId = await SharedPreferencesHelper.getUserId() ?? 0;
-      print(
-          'Saving results for user ID: $userId, Time: $endTime, Errors: $errores');
+      int userId = await _getCurrentUserId();
+
+      print('Saving results for user ID: $userId, Total Time: $totalTime, Total Errors: $totalErrores, Attempt: $currentAttempt');
       await dbHelper.insertResult({
         'id_usuario': userId,
-        'prueba': currentLevel, // Asegúrate de que se guarde el nivel actual
-        'tiempo': endTime,
-        'errores': errores,
+        'prueba': 1, // Aquí "prueba" se usa para identificar el tipo de prueba, no el nivel
+        'tiempo': totalTime,
+        'errores': totalErrores,
+        'intento': currentAttempt,
       });
     }
   }
@@ -150,13 +174,15 @@ class _RhymeGameState extends State<RhymeGame> {
   Future<int> _getCurrentUserId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final userId = prefs.getInt('user_id') ?? 0;
-    print('Current User ID: $userId'); // Añadido para depuración
+    print('Current User ID: $userId');  // Añadido para depuración
     return userId;
   }
 
   void startGame() {
     setState(() {
       showInstructions = false;
+      totalTime = 0; // Reiniciar el tiempo total al iniciar el juego
+      totalErrores = 0; // Reiniciar los errores totales al iniciar el juego
     });
   }
 
@@ -164,6 +190,11 @@ class _RhymeGameState extends State<RhymeGame> {
     if (currentLevel < 4) {
       _loadLevel(currentLevel + 1);
     }
+  }
+
+  void restartGame() {
+    _initializeAttempt();
+    _loadLevel(1);
   }
 
   void goToMainPage() {
@@ -270,48 +301,15 @@ class _RhymeGameState extends State<RhymeGame> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '¡Felicidades!',
+              '¡Nivel $currentLevel completado!',
               style: TextStyle(
                 fontSize: 36.0,
-                fontFamily: 'Cocogoose',
+                fontFamily: 'Arial',
                 fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20.0),
-            Text(
-              'Has completado el nivel $currentLevel.',
-              style: TextStyle(fontSize: 24.0),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20.0),
-            Text(
-              currentLevel < 4
-                  ? 'Iniciar nivel ${currentLevel + 1}'
-                  : 'Has completado todos los niveles',
-              style: TextStyle(fontSize: 24.0),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20.0),
-            if (currentLevel < 4)
-              ElevatedButton(
-                onPressed: nextLevel,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
-                  textStyle: TextStyle(
-                    fontSize: 24,
-                    fontFamily: 'Cocogoose',
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-                child: Text(
-                  'Iniciar',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
           ],
         ),
       ),
@@ -354,9 +352,27 @@ class _RhymeGameState extends State<RhymeGame> {
             ),
             SizedBox(height: 20.0),
             ElevatedButton(
-              onPressed: goToMainPage,
+              onPressed: restartGame,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
+                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                textStyle: TextStyle(
+                  fontSize: 24,
+                  fontFamily: 'Cocogoose',
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              child: Text(
+                'Volver a jugar',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: goToMainPage,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
                 padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
                 textStyle: TextStyle(
                   fontSize: 24,
@@ -458,18 +474,10 @@ class _RhymeGameState extends State<RhymeGame> {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Image.asset('assets/señal.png', height: 50.0),
-                    SizedBox(width: 10.0),
-                    Expanded(
-                      child: Text(
-                        'Empareja las palabras que riman',
-                        style: TextStyle(fontSize: 24.0),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  'Nivel $currentLevel',
+                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
               ),
               Expanded(

@@ -13,8 +13,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final DatabaseHelper _dbHelper = DatabaseHelper();
   final _formKey = GlobalKey<FormState>();
 
@@ -123,7 +122,18 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none,
                         ),
+                        suffixIcon: Icon(
+                          _formKey.currentState != null &&
+                                  _formKey.currentState!.validate()
+                              ? Icons.check_circle
+                              : Icons.error,
+                          color: _formKey.currentState != null &&
+                                  _formKey.currentState!.validate()
+                              ? Colors.green
+                              : Colors.red,
+                        ),
                       ),
+                      autofillHints: [AutofillHints.username],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Por favor ingresa un nombre de usuario';
@@ -161,45 +171,55 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none,
                         ),
+                        suffixIcon: Icon(
+                          _formKey.currentState != null &&
+                                  _formKey.currentState!.validate()
+                              ? Icons.check_circle
+                              : Icons.error,
+                          color: _formKey.currentState != null &&
+                                  _formKey.currentState!.validate()
+                              ? Colors.green
+                              : Colors.red,
+                        ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor ingresa un correo electrónico';
-                        }
-                        return null;
-                      },
+                      keyboardType: TextInputType.emailAddress,
+                      autofillHints: [AutofillHints.email],
+                      validator: validateEmail,
                     ),
                     SizedBox(height: 20.0),
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: _obscurePassword,
-                      decoration: InputDecoration(
-                        hintText: 'Contraseña',
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.3),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
+                    Column(
+                      children: [
+                        TextFormField(
+                          controller: _passwordController,
+                          obscureText: _obscurePassword,
+                          decoration: InputDecoration(
+                            hintText: 'Contraseña',
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.3),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _obscurePassword = !_obscurePassword;
-                            });
+                          validator: validatePassword,
+                          onChanged: (value) {
+                            setState(() {});
                           },
                         ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor ingresa una contraseña';
-                        }
-                        return null;
-                      },
+                        PasswordStrengthBar(password: _passwordController.text),
+                      ],
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
@@ -299,8 +319,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 Map<String, dynamic> row = {
                                   'nombre_usuario': _usernameController.text,
                                   'nombre': _nameController.text,
-                                  'contrasena_hash': _passwordController
-                                      .text, // En producción, asegura de hacer hashing de la contraseña
+                                  'contrasena_hash': _passwordController.text, // Sin hashing de contraseña
                                   'correo_electronico': _emailController.text,
                                 };
                                 final id = await _dbHelper.insertUser(row);
@@ -354,5 +373,63 @@ class _RegisterPageState extends State<RegisterPage> {
         color: Colors.black,
       ),
     ];
+  }
+
+  String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor ingresa un correo electrónico';
+    }
+    String pattern =
+        r'^[^@]+@[^@]+\.[^@]+$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Por favor ingresa un correo electrónico válido';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor ingresa una contraseña';
+    }
+    if (value.length < 8) {
+      return 'La contraseña debe tener al menos 8 caracteres';
+    }
+    if (!RegExp(r'[A-Z]').hasMatch(value)) {
+      return 'La contraseña debe tener al menos una letra mayúscula';
+    }
+    if (!RegExp(r'[a-z]').hasMatch(value)) {
+      return 'La contraseña debe tener al menos una letra minúscula';
+    }
+    if (!RegExp(r'[0-9]').hasMatch(value)) {
+      return 'La contraseña debe tener al menos un número';
+    }
+    return null;
+  }
+}
+
+class PasswordStrengthBar extends StatelessWidget {
+  final String password;
+  PasswordStrengthBar({required this.password});
+
+  int _calculateStrength(String password) {
+    int strength = 0;
+    if (password.length >= 8) strength++;
+    if (RegExp(r'[A-Z]').hasMatch(password)) strength++;
+    if (RegExp(r'[a-z]').hasMatch(password)) strength++;
+    if (RegExp(r'[0-9]').hasMatch(password)) strength++;
+    return strength;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    int strength = _calculateStrength(password);
+    return LinearProgressIndicator(
+      value: strength / 4,
+      backgroundColor: Colors.grey[300],
+      valueColor: AlwaysStoppedAnimation<Color>(
+        strength < 2 ? Colors.red : (strength < 3 ? Colors.yellow : Colors.green),
+      ),
+    );
   }
 }
