@@ -64,6 +64,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'LEXINIÑOS',
+      debugShowCheckedModeBanner: false, // Aquí se desactiva la etiqueta de debug
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

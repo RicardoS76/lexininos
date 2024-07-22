@@ -4,8 +4,7 @@ class DetailedEvaluationPage extends StatelessWidget {
   final int totalTime;
   final int completedTests;
 
-  DetailedEvaluationPage(
-      {required this.totalTime, required this.completedTests});
+  DetailedEvaluationPage({required this.totalTime, required this.completedTests});
 
   String getEvaluation() {
     if (completedTests < 4) {
@@ -53,10 +52,17 @@ class DetailedEvaluationPage extends StatelessWidget {
     }
   }
 
+  String formatTime(int totalSeconds) {
+    int minutes = totalSeconds ~/ 60;
+    int seconds = totalSeconds % 60;
+    return '$minutes minutos y $seconds segundos';
+  }
+
   @override
   Widget build(BuildContext context) {
     final evaluation = getEvaluation();
     final evaluationMessage = getEvaluationMessage();
+    final formattedTime = formatTime(totalTime);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showWarningDialog(context);
@@ -111,7 +117,7 @@ class DetailedEvaluationPage extends StatelessWidget {
               if (completedTests >= 4) ...[
                 SizedBox(height: 20),
                 Text(
-                  'Tiempo Total: $totalTime segundos',
+                  'Tiempo Total: $formattedTime',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontFamily: 'Arial',

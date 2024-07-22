@@ -54,7 +54,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     child: ListView(
                       children: [
-                        _buildInfoTile('Seguridad', Icons.security, context, route: '/manage_accounts', color: Colors.blue),
                         _buildInfoTile('Ayuda y soporte', Icons.contact_support, context, route: '/contacts', color: Colors.green),
                         _buildInfoTile('Cerrar sesión', Icons.logout, context, onTap: _logout, color: Colors.red),
                       ],
