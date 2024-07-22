@@ -12,6 +12,16 @@ class VisualChallengePage extends StatefulWidget {
 class _VisualChallengePageState extends State<VisualChallengePage> {
   final List<Map<String, dynamic>> tests = [
     {
+      'questionImage': 'assets/test4/p.png',
+      'options': [
+        'assets/test4/c.png',
+        'assets/test4/p1.png',
+        'assets/test4/p2.png',
+        'assets/test4/p4.png',
+      ],
+      'correctAnswer': 'assets/test4/c.png',
+    },
+    {
       'questionImage': 'assets/test4/test1.png',
       'options': [
         'assets/test4/correcta.png',
@@ -436,7 +446,8 @@ class _VisualChallengePageState extends State<VisualChallengePage> {
                     children: [
                       IconButton(
                         icon: Icon(Icons.arrow_back,
-                            size: 36.0, color: Colors.white),
+                            size: 36.0,
+                            color: const Color.fromARGB(0, 255, 255, 255)),
                         onPressed: () {
                           Navigator.pop(context);
                         },

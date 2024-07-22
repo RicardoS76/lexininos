@@ -159,7 +159,7 @@ class _MainPageState extends State<MainPage> {
                               _buildFeatureContainer(
                                   context,
                                   'Rimas',
-                                  '/rhyme',
+                                  '/help_rhyme',
                                   'assets/rima.jpg',
                                   containerWidth,
                                   containerHeight),
@@ -180,7 +180,7 @@ class _MainPageState extends State<MainPage> {
                               _buildFeatureContainer(
                                   context,
                                   'Desafío Visual: Figuras',
-                                  '/visual_challenge',
+                                  '/help_visual',
                                   'assets/figuras.jpg',
                                   containerWidth,
                                   containerHeight),

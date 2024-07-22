@@ -65,11 +65,13 @@ class DatabaseHelper {
       var tableInfo = await db.rawQuery('PRAGMA table_info(usuarios)');
       var columnExists = tableInfo.any((column) => column['name'] == 'nombre');
       if (!columnExists) {
-        await db.execute('ALTER TABLE usuarios ADD COLUMN nombre TEXT NOT NULL');
+        await db
+            .execute('ALTER TABLE usuarios ADD COLUMN nombre TEXT NOT NULL');
       }
     }
     if (oldVersion < 3) {
-      await db.execute('ALTER TABLE usuarios ADD COLUMN avatar TEXT DEFAULT "assets/avatares/avatar1.png"');
+      await db.execute(
+          'ALTER TABLE usuarios ADD COLUMN avatar TEXT DEFAULT "assets/avatares/avatar1.png"');
     }
     if (oldVersion < 4) {
       await db.execute('''
@@ -84,18 +86,22 @@ class DatabaseHelper {
       ''');
     }
     if (oldVersion < 5) {
-      var tableInfo = await db.rawQuery('PRAGMA table_info(resultados_pruebas)');
+      var tableInfo =
+          await db.rawQuery('PRAGMA table_info(resultados_pruebas)');
       var columnExists = tableInfo.any((column) => column['name'] == 'tiempo');
       if (!columnExists) {
-        await db.execute('ALTER TABLE resultados_pruebas ADD COLUMN tiempo INTEGER');
+        await db.execute(
+            'ALTER TABLE resultados_pruebas ADD COLUMN tiempo INTEGER');
       }
       columnExists = tableInfo.any((column) => column['name'] == 'errores');
       if (!columnExists) {
-        await db.execute('ALTER TABLE resultados_pruebas ADD COLUMN errores INTEGER');
+        await db.execute(
+            'ALTER TABLE resultados_pruebas ADD COLUMN errores INTEGER');
       }
     }
     if (oldVersion < 6) {
-      await db.execute('ALTER TABLE resultados_pruebas ADD COLUMN intento INTEGER DEFAULT 1');
+      await db.execute(
+          'ALTER TABLE resultados_pruebas ADD COLUMN intento INTEGER DEFAULT 1');
     }
   }
 
@@ -254,9 +260,22 @@ class DatabaseHelper {
   Future<int?> getMaxAttempt(int userId) async {
     Database db = await database;
     var result = await db.rawQuery(
-      'SELECT MAX(intento) as maxAttempt FROM resultados_pruebas WHERE id_usuario = ?',
-      [userId]
-    );
+        'SELECT MAX(intento) as maxAttempt FROM resultados_pruebas WHERE id_usuario = ?',
+        [userId]);
     return result.first['maxAttempt'] as int?;
+  }
+
+  Future<String?> getUsernameByEmail(String email) async {
+    final db = await database;
+    var result = await db.query(
+      'usuarios',
+      columns: ['nombre_usuario'],
+      where: 'correo_electronico = ?',
+      whereArgs: [email],
+    );
+    if (result.isNotEmpty) {
+      return result.first['nombre_usuario'] as String?;
+    }
+    return null;
   }
 }

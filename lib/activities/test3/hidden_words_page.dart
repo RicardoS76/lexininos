@@ -33,6 +33,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
   Offset? endPosition;
   bool showInstructions = true;
   DateTime startTime = DateTime.now();
+  String selectedWord = '';
 
   @override
   void initState() {
@@ -98,14 +99,15 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
   }
 
   void checkWord() {
-    String selectedWord =
+    String currentWord =
         selectedCells.map((index) => grid[index ~/ 10][index % 10]).join('');
-    int wordIndex = words.indexOf(selectedWord);
+    int wordIndex = words.indexOf(currentWord);
     if (wordIndex != -1 && !foundWords[wordIndex]) {
       setState(() {
         correctCells.addAll(selectedCells);
         foundWords[wordIndex] = true;
         selectedCells.clear();
+        selectedWord = '';
       });
 
       if (foundWords.every((found) => found)) {
@@ -114,6 +116,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
     } else {
       setState(() {
         selectedCells.clear();
+        selectedWord = '';
       });
     }
   }
@@ -157,6 +160,8 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
     }
     setState(() {
       selectedCells = newSelectedCells;
+      selectedWord =
+          selectedCells.map((index) => grid[index ~/ 10][index % 10]).join('');
     });
   }
 
@@ -451,6 +456,18 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                             ))
                         .values
                         .toList(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Palabra seleccionada: $selectedWord',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 Expanded(

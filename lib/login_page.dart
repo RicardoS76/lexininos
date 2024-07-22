@@ -146,14 +146,28 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: 20.0),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/reset_password');
-                      },
-                      child: Text(
-                        '¿Olvidaste tu contraseña?',
-                        style: TextStyle(color: Colors.grey.shade600),
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/reset_password');
+                          },
+                          child: Text(
+                            '¿Olvidaste tu contraseña?',
+                            style: TextStyle(color: Colors.grey.shade600),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/recover_username');
+                          },
+                          child: Text(
+                            '¿Olvidaste tu nombre de usuario?',
+                            style: TextStyle(color: Colors.grey.shade600),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 20.0),

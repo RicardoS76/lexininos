@@ -160,10 +160,12 @@ class _RhymeGameState extends State<RhymeGame> {
       final dbHelper = DatabaseHelper();
       int userId = await _getCurrentUserId();
 
-      print('Saving results for user ID: $userId, Total Time: $totalTime, Total Errors: $totalErrores, Attempt: $currentAttempt');
+      print(
+          'Saving results for user ID: $userId, Total Time: $totalTime, Total Errors: $totalErrores, Attempt: $currentAttempt');
       await dbHelper.insertResult({
         'id_usuario': userId,
-        'prueba': 1, // Aquí "prueba" se usa para identificar el tipo de prueba, no el nivel
+        'prueba':
+            1, // Aquí "prueba" se usa para identificar el tipo de prueba, no el nivel
         'tiempo': totalTime,
         'errores': totalErrores,
         'intento': currentAttempt,
@@ -174,7 +176,7 @@ class _RhymeGameState extends State<RhymeGame> {
   Future<int> _getCurrentUserId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final userId = prefs.getInt('user_id') ?? 0;
-    print('Current User ID: $userId');  // Añadido para depuración
+    print('Current User ID: $userId'); // Añadido para depuración
     return userId;
   }
 

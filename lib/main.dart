@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lexininos/activities/test4/help_screen_page4.dart';
+import 'package:lexininos/reover_usser_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'about_us_page.dart'; // Importación para AboutUsPage
+import 'activities/test1/help_screen_page.dart';
 import 'activities/test1/result_page1.dart';
 import 'activities/test1/rhyme_game.dart';
 import 'activities/test2/connect_learn_page.dart';
@@ -96,7 +99,12 @@ class MyApp extends StatelessWidget {
         '/atoyatempan': (context) => AtoyatempanPage(),
         '/tochtepec': (context) => TochtepecPage(),
         '/molcaxac': (context) => MolcaxacPage(),
-        '/results': (context) => MenuPage(), // Nueva ruta
+        '/results': (context) => MenuPage(),
+        '/recover_username': (context) => RecoverUsernamePage(),
+        '/help_rhyme': (context) =>
+            HelpScreen(), // Pantalla de ayuda para el juego
+        '/help_visual': (context) =>
+            HelpScreen4(), // Pantalla de ayuda para el juego
       },
     );
   }

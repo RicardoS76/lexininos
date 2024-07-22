@@ -13,7 +13,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final DatabaseHelper _dbHelper = DatabaseHelper();
   final _formKey = GlobalKey<FormState>();
 
@@ -122,23 +123,26 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none,
                         ),
-                        suffixIcon: Icon(
-                          _formKey.currentState != null &&
-                                  _formKey.currentState!.validate()
-                              ? Icons.check_circle
-                              : Icons.error,
-                          color: _formKey.currentState != null &&
-                                  _formKey.currentState!.validate()
-                              ? Colors.green
-                              : Colors.red,
-                        ),
+                        suffixIcon: _usernameController.text.isNotEmpty
+                            ? (_formKey.currentState != null &&
+                                    _formKey.currentState!.validate()
+                                ? Icon(Icons.check_circle, color: Colors.green)
+                                : Icon(Icons.error, color: Colors.red))
+                            : null,
                       ),
                       autofillHints: [AutofillHints.username],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Por favor ingresa un nombre de usuario';
                         }
+                        if (value.contains('.') || value.contains(',')) {
+                          return 'El nombre de usuario no debe contener puntos ni comas';
+                        }
                         return null;
+                      },
+                      onChanged: (value) {
+                        setState(
+                            () {}); // Para que se actualice el ícono de validación
                       },
                     ),
                     SizedBox(height: 20.0),
@@ -157,6 +161,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (value == null || value.isEmpty) {
                           return 'Por favor ingresa un nombre';
                         }
+                        if (value.contains('.') || value.contains(',')) {
+                          return 'El nombre no debe contener puntos ni comas';
+                        }
                         return null;
                       },
                     ),
@@ -171,20 +178,20 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none,
                         ),
-                        suffixIcon: Icon(
-                          _formKey.currentState != null &&
-                                  _formKey.currentState!.validate()
-                              ? Icons.check_circle
-                              : Icons.error,
-                          color: _formKey.currentState != null &&
-                                  _formKey.currentState!.validate()
-                              ? Colors.green
-                              : Colors.red,
-                        ),
+                        suffixIcon: _emailController.text.isNotEmpty
+                            ? (_formKey.currentState != null &&
+                                    _formKey.currentState!.validate()
+                                ? Icon(Icons.check_circle, color: Colors.green)
+                                : Icon(Icons.error, color: Colors.red))
+                            : null,
                       ),
                       keyboardType: TextInputType.emailAddress,
                       autofillHints: [AutofillHints.email],
                       validator: validateEmail,
+                      onChanged: (value) {
+                        setState(
+                            () {}); // Para que se actualice el ícono de validación
+                      },
                     ),
                     SizedBox(height: 20.0),
                     Column(
@@ -319,7 +326,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 Map<String, dynamic> row = {
                                   'nombre_usuario': _usernameController.text,
                                   'nombre': _nameController.text,
-                                  'contrasena_hash': _passwordController.text, // Sin hashing de contraseña
+                                  'contrasena_hash': _passwordController
+                                      .text, // Sin hashing de contraseña
                                   'correo_electronico': _emailController.text,
                                 };
                                 final id = await _dbHelper.insertUser(row);
@@ -379,8 +387,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (value == null || value.isEmpty) {
       return 'Por favor ingresa un correo electrónico';
     }
-    String pattern =
-        r'^[^@]+@[^@]+\.[^@]+$';
+    String pattern = r'^[^@]+@[^@]+\.[^@]+$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Por favor ingresa un correo electrónico válido';
@@ -428,7 +435,9 @@ class PasswordStrengthBar extends StatelessWidget {
       value: strength / 4,
       backgroundColor: Colors.grey[300],
       valueColor: AlwaysStoppedAnimation<Color>(
-        strength < 2 ? Colors.red : (strength < 3 ? Colors.yellow : Colors.green),
+        strength < 2
+            ? Colors.red
+            : (strength < 3 ? Colors.yellow : Colors.green),
       ),
     );
   }
