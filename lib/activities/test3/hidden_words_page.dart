@@ -190,19 +190,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('¡Felicidades!'),
-        content: Text('Has completado la prueba. ¡Buen trabajo!'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Cierra el diálogo
-              Navigator.of(context).pop(); // Regresa a la página anterior
-            },
-            child: Text('OK'),
-          ),
-        ],
-      ),
+      builder: (context) => buildCompletionDialog(context),
     );
   }
 
@@ -281,6 +269,53 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
     );
   }
 
+  Widget buildCompletionDialog(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.white.withOpacity(0.9),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      title: Text(
+        '¡Felicidades!',
+        style: TextStyle(
+          fontSize: 36.0,
+          fontFamily: 'Cocogoose',
+          fontWeight: FontWeight.bold,
+          shadows: _createShadows(),
+        ),
+        textAlign: TextAlign.center,
+      ),
+      content: Text(
+        'Has completado la prueba. ¡Buen trabajo!',
+        style: TextStyle(fontSize: 24.0),
+        textAlign: TextAlign.center,
+      ),
+      actions: [
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el diálogo
+              Navigator.of(context).pop(); // Regresa a la página anterior
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              padding: EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+              textStyle: TextStyle(
+                fontSize: 24,
+                fontFamily: 'Cocogoose',
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+            ),
+            child: Text(
+              'OK',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -301,219 +336,157 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
             ),
           ),
           SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back,
-                            size: 36.0, color: Colors.white),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Expanded(
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: TextStyle(
-                              fontSize: 36.0,
-                              fontFamily: 'Cocogoose',
-                              fontWeight: FontWeight.bold,
-                              shadows: [
-                                Shadow(
-                                  offset: Offset(2.0, 2.0),
-                                  blurRadius: 3.0,
-                                  color: Colors.black,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                double cellSize = min(constraints.maxWidth / 10, constraints.maxHeight / 12);
+
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.arrow_back, size: 36.0, color: Colors.white),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          Expanded(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                'Sopa de Letras',
+                                style: TextStyle(
+                                  fontSize: 36.0,
+                                  fontFamily: 'Cocogoose',
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange,
+                                  shadows: _createShadows(),
                                 ),
-                              ],
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            children: [
-                              TextSpan(
-                                  text: 'S',
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 'o',
-                                  style: TextStyle(
-                                      color: Colors.orange,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 'p',
-                                  style: TextStyle(
-                                      color: Colors.yellow,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 'a',
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: ' ',
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 'd',
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 'e',
-                                  style: TextStyle(
-                                      color: Colors.orange,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: ' ',
-                                  style: TextStyle(
-                                      color: Colors.yellow,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 'L',
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 'e',
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 't',
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 'r',
-                                  style: TextStyle(
-                                      color: Colors.orange,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 'a',
-                                  style: TextStyle(
-                                      color: Colors.yellow,
-                                      shadows: _createShadows())),
-                              TextSpan(
-                                  text: 's',
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      shadows: _createShadows())),
-                            ],
+                          ),
+                          SizedBox(width: 36.0),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'Encuentra las siguientes palabras:',
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Wrap(
+                        spacing: 8.0,
+                        runSpacing: 4.0,
+                        children: words
+                            .asMap()
+                            .map((index, word) => MapEntry(
+                                  index,
+                                  Chip(
+                                    label: Text(
+                                      word,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.black,
+                                        shadows: foundWords[index]
+                                            ? [
+                                                Shadow(
+                                                    color: Colors.green,
+                                                    blurRadius: 3)
+                                              ]
+                                            : [
+                                                Shadow(
+                                                    color: Colors.red,
+                                                    blurRadius: 3)
+                                              ],
+                                      ),
+                                    ),
+                                    backgroundColor: Colors.white,
+                                  ),
+                                ))
+                            .values
+                            .toList(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Palabra seleccionada: $selectedWord',
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTapDown: handleTapDown,
+                        onPanUpdate: handlePanUpdate,
+                        onPanEnd: handlePanEnd,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 10,
+                              crossAxisSpacing: 2.0,
+                              mainAxisSpacing: 2.0,
+                              childAspectRatio: 1,
+                            ),
+                            itemCount: 100,
+                            itemBuilder: (context, index) {
+                              bool isSelected = selectedCells.contains(index);
+                              bool isCorrect = correctCells.contains(index);
+                              return Container(
+                                width: cellSize,
+                                height: cellSize,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                  color: isCorrect
+                                      ? Colors.green
+                                      : (isSelected
+                                          ? Colors.yellow
+                                          : Colors.white),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    grid[index ~/ 10][index % 10],
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: isCorrect
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
-                      SizedBox(width: 36.0),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Encuentra las siguientes palabras:',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Wrap(
-                    spacing: 8.0,
-                    runSpacing: 4.0,
-                    children: words
-                        .asMap()
-                        .map((index, word) => MapEntry(
-                              index,
-                              Chip(
-                                label: Text(
-                                  word,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.black,
-                                    shadows: foundWords[index]
-                                        ? [
-                                            Shadow(
-                                                color: Colors.green,
-                                                blurRadius: 3)
-                                          ]
-                                        : [
-                                            Shadow(
-                                                color: Colors.red,
-                                                blurRadius: 3)
-                                          ],
-                                  ),
-                                ),
-                                backgroundColor: Colors.white,
-                              ),
-                            ))
-                        .values
-                        .toList(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Palabra seleccionada: $selectedWord',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTapDown: handleTapDown,
-                    onPanUpdate: handlePanUpdate,
-                    onPanEnd: handlePanEnd,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 10,
-                          crossAxisSpacing: 4.0,
-                          mainAxisSpacing: 4.0,
-                        ),
-                        itemCount: 100,
-                        itemBuilder: (context, index) {
-                          bool isSelected = selectedCells.contains(index);
-                          bool isCorrect = correctCells.contains(index);
-                          return Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                              color: isCorrect
-                                  ? Colors.green
-                                  : (isSelected ? Colors.yellow : Colors.white),
-                            ),
-                            child: Center(
-                              child: Text(
-                                grid[index ~/ 10][index % 10],
-                                style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      isCorrect ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                  ],
+                );
+              },
             ),
           ),
           if (showInstructions) buildInstructions(context),
