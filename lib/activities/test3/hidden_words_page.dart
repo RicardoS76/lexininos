@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:lexininos/user/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -340,45 +339,124 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
               builder: (context, constraints) {
                 double cellSize = min(constraints.maxWidth / 10, constraints.maxHeight / 12);
 
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.arrow_back, size: 36.0, color: Colors.white),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          Expanded(
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                'Sopa de Letras',
-                                style: TextStyle(
-                                  fontSize: 36.0,
-                                  fontFamily: 'Cocogoose',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.deepOrange,
-                                  shadows: _createShadows(),
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.arrow_back, size: 36.0, color: Colors.white),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'Sopa de Letras',
+                                  style: TextStyle(
+                                    fontSize: 36.0,
+                                    fontFamily: 'Cocogoose',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange,
+                                    shadows: _createShadows(),
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
-                          ),
-                          SizedBox(width: 36.0),
-                        ],
+                            SizedBox(width: 36.0),
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            'Encuentra las siguientes palabras:',
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: words.sublist(0, 5).map((word) {
+                                int index = words.indexOf(word);
+                                return Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+                                  padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: foundWords[index]
+                                            ? Colors.green
+                                            : Colors.red,
+                                        blurRadius: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Text(
+                                    word,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: words.sublist(5, 10).map((word) {
+                                int index = words.indexOf(word);
+                                return Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+                                  padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: foundWords[index]
+                                            ? Colors.green
+                                            : Colors.red,
+                                        blurRadius: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Text(
+                                    word,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Encuentra las siguientes palabras:',
+                          'Palabra seleccionada: $selectedWord',
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.bold,
@@ -387,56 +465,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Wrap(
-                        spacing: 8.0,
-                        runSpacing: 4.0,
-                        children: words
-                            .asMap()
-                            .map((index, word) => MapEntry(
-                                  index,
-                                  Chip(
-                                    label: Text(
-                                      word,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        color: Colors.black,
-                                        shadows: foundWords[index]
-                                            ? [
-                                                Shadow(
-                                                    color: Colors.green,
-                                                    blurRadius: 3)
-                                              ]
-                                            : [
-                                                Shadow(
-                                                    color: Colors.red,
-                                                    blurRadius: 3)
-                                              ],
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.white,
-                                  ),
-                                ))
-                            .values
-                            .toList(),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Palabra seleccionada: $selectedWord',
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
+                      GestureDetector(
                         onTapDown: handleTapDown,
                         onPanUpdate: handlePanUpdate,
                         onPanEnd: handlePanEnd,
@@ -444,6 +473,7 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                           padding: const EdgeInsets.all(16.0),
                           child: GridView.builder(
                             physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 10,
@@ -483,8 +513,8 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
             ),
