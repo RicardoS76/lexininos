@@ -142,10 +142,14 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
   void selectCells() {
     if (startPosition == null || endPosition == null) return;
 
-    int startRow = (startPosition!.dy ~/ 40).clamp(0, 9);
-    int startCol = (startPosition!.dx ~/ 40).clamp(0, 9);
-    int endRow = (endPosition!.dy ~/ 40).clamp(0, 9);
-    int endCol = (endPosition!.dx ~/ 40).clamp(0, 9);
+    RenderBox renderBox = context.findRenderObject() as RenderBox;
+    double gridWidth = renderBox.size.width - 32; // Adjust for padding
+    double cellSize = gridWidth / 10;
+
+    int startRow = (startPosition!.dy ~/ cellSize).clamp(0, 9);
+    int startCol = (startPosition!.dx ~/ cellSize).clamp(0, 9);
+    int endRow = (endPosition!.dy ~/ cellSize).clamp(0, 9);
+    int endCol = (endPosition!.dx ~/ cellSize).clamp(0, 9);
 
     List<int> newSelectedCells = [];
     if (startRow == endRow) {
@@ -390,77 +394,98 @@ class _HiddenWordsPageState extends State<HiddenWordsPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: words.sublist(0, 5).map((word) {
-                                int index = words.indexOf(word);
-                                return Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-                                  padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: foundWords[index]
-                                            ? Colors.green
-                                            : Colors.red,
-                                        blurRadius: 3,
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            double maxWidth = constraints.maxWidth;
+                            double chipWidth = (maxWidth - 32) / 5; // Ajustar para 5 chips por fila
+
+                            return Column(
+                              children: [
+                                Wrap(
+                                  alignment: WrapAlignment.center,
+                                  spacing: 4.0,
+                                  runSpacing: 4.0,
+                                  children: words.sublist(0, 5).map((word) {
+                                    int index = words.indexOf(word);
+                                    return Container(
+                                      width: chipWidth,
+                                      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: foundWords[index]
+                                                ? Colors.green
+                                                : Colors.red,
+                                            blurRadius: 3,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: Text(
-                                    word,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: words.sublist(5, 10).map((word) {
-                                int index = words.indexOf(word);
-                                return Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-                                  padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: foundWords[index]
-                                            ? Colors.green
-                                            : Colors.red,
-                                        blurRadius: 3,
+                                      child: Center(
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            word,
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                  child: Text(
-                                    word,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
+                                    );
+                                  }).toList(),
+                                ),
+                                Wrap(
+                                  alignment: WrapAlignment.center,
+                                  spacing: 4.0,
+                                  runSpacing: 4.0,
+                                  children: words.sublist(5, 10).map((word) {
+                                    int index = words.indexOf(word);
+                                    return Container(
+                                      width: chipWidth,
+                                      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: foundWords[index]
+                                                ? Colors.green
+                                                : Colors.red,
+                                            blurRadius: 3,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            word,
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Palabra seleccionada: $selectedWord',
+                          selectedWord,
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Colors.green,
                           ),
                           textAlign: TextAlign.center,
                         ),
